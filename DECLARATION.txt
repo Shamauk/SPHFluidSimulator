@@ -1,0 +1,9 @@
+SEISMICITY OF COASTAL WATER WAYS USING SPH TECHNIQUES
+
+The desired outcome is to have a simulation of how earth quakes affect water. The way to undergo is first 
+by creating an SPH fluid simulator.
+https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=1739fd145ef1d327ab301cacc017af2a87f33086
+https://diglib.eg.org/handle/10.2312/egst.20141034.021-042
+Once the particle based simulator is complete and working well, then it is the task of creating the scene
+https://www.usgs.gov/programs/earthquake-hazards/earthquake-magnitude-energy-release-and-shaking-intensity
+https://academic.oup.com/jge/article/20/1/49/6991332?login=false

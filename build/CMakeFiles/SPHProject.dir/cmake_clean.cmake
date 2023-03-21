@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SPHProject.dir/src/main.cpp.o"
   "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
+  "CMakeFiles/SPHProject.dir/src/particle.cpp.o"
+  "CMakeFiles/SPHProject.dir/src/particle.cpp.o.d"
   "SPHProject"
   "SPHProject.pdb"
 )
