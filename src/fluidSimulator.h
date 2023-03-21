@@ -14,11 +14,6 @@ public:
     double SMOOTHING_LENGTH = 1.0;
     double dt = 0.001;
     double viscosity;
-
-    // Implicit solve
-    double MAX_ITERATIONS = 100;
-    double TOLERANCE = 0.0001;
-
     
     std::vector<Particle::Particle> particles;
 
@@ -27,11 +22,20 @@ public:
     std::vector<Particle::Particle>& getParticles() { return particles; }
 
 private:
+    // Boundary
+    double boundaryDamping = 0.8;
+    double minX = -5;
+    double maxX = 5;
+    double minY = -5;
+    double maxY = 5;
+    double minZ = -5;
+    double maxZ = 5;
+
     glm::vec<3,double> computeForceFromGravity(Particle::Particle& particle);
     glm::vec<3,double> computeForceFromViscosity(Particle::Particle& particle);
-    std::vector<Particle::Particle*> findNeighbors(Particle::Particle& particle);
+    void findNeighbors(Particle::Particle& particle);
     glm::vec<3,double> computeForceFromPressure(Particle::Particle& particle);
-    void getNeighbors();
+    void findAndSetNeighborsForAllParticles();
     void computePartialVelocities();
     void computePartialDensity(Particle::Particle& particle);
     void computeDensity(Particle::Particle& particle);
@@ -40,5 +44,6 @@ private:
     void computePressureForceOnParticle(Particle::Particle& particle);
     void computePressureForces();
     void updateFinalVelocityAndPosition();
+    void handleBoundaryCollision(Particle::Particle& particle);
 };
 #endif

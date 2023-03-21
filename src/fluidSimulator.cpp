@@ -2,59 +2,53 @@
 
 #include <iostream>
 
-// void FluidSimulator::updateParticles() {
-//     for (Particle::Particle particle : particles) {
-//         findNeighbors(particle);
-//     }
-//     for (Particle::Particle particle : particles) {
-//         computeDensity(particle);
-//     }
-//     for (Particle::Particle particle : particles) {
-//         glm::vec<3,double> force = computeForceFromViscosity(particle) + computeForceFromGravity(particle);
-//         particle.partialVelocity = particle.velocity + dt * force / particle.mass;
-//         // what is dii??
-//     }
-//     for (Particle::Particle particle : particles) {
-//         computePartialDensity(particle);
-//         particle.pressure *= 0.5; // Guess
-//     }
-// }
-
-void FluidSimulator::computeDensity(Particle::Particle& particle) {
-    int sum = 0;
-    for (Particle::Particle *neighbor : particle.neighbors) {
-        sum += neighbor->mass * Kernel::getKernelValue(particle.position, neighbor->position, SMOOTHING_LENGTH);
-    }
-    particle.density = sum;
-}
-
-// Attempted ISPH
-// void FluidSimulator::updateParticles() {
-//     getNeighbors();
-//     computePartialVelocities();
-//     computePartialDensities();
-//     computePressuresFromPoisson();
-//     computePressureForces();
-//     updateFinalVelocityAndPosition();
-// }
 
 void FluidSimulator::updateParticles() {
-    getNeighbors();
+    findAndSetNeighborsForAllParticles();
     for (Particle::Particle& particle : particles) {
+       // std::cout << particle.position.x << "," << particle.position.y << "," << particle.position.z << std::endl;
         computeDensity(particle);
+      //  std::cout << particle.density << std::endl;
         double tmp = particle.density / particle.restDensity;
-        particle.pressure = 0.5 * (tmp*tmp*tmp*tmp*tmp*tmp*tmp-1);
+        particle.pressure = 0.05 * (tmp*tmp*tmp*tmp*tmp*tmp*tmp-1);
     }
     for (Particle::Particle& particle : particles) {
         particle.forceAccumulator = computeForceFromGravity(particle) + 
             computeForceFromViscosity(particle) + computeForceFromPressure(particle);
-        std::cout << "fx,fy,fz" << particle.forceAccumulator.x << ","  << particle.forceAccumulator.y << "," << particle.forceAccumulator.z << std::endl;
+       // glm::vec<3,double> tmp = computeForceFromViscosity(particle);
+      //  std::cout << tmp.x << "," << tmp.y << "," << tmp.z << std::endl;
+       // std::cout << particle.forceAccumulator.x << "," << particle.forceAccumulator.y << "," << particle.forceAccumulator.z << std::endl;
     }
     for (Particle::Particle& particle : particles) {
-        std::cout << "fx,fy,fz" << particle.forceAccumulator.x << ","  << particle.forceAccumulator.y << "," << particle.forceAccumulator.z << std::endl;
         particle.velocity += dt * particle.forceAccumulator / particle.mass;
         particle.position += dt * particle.velocity;
+       // std::cout << particle.position.x << "," << particle.position.y << "," << particle.position.z << std::endl;
+        handleBoundaryCollision(particle);
     }
+}
+
+void FluidSimulator::handleBoundaryCollision(Particle::Particle& particle) {
+    if (particle.position.x <= minX || particle.position.x >= maxX) {
+        particle.velocity *= -boundaryDamping;
+        particle.position.x = glm::clamp(particle.position.x, minX, maxX);
+    }
+    if (particle.position.y <= minY || particle.position.y >= maxY) {
+        particle.velocity *= -boundaryDamping;
+        particle.position.x = glm::clamp(particle.position.x, minX, maxX);
+    }
+    if (particle.position.z <= minZ || particle.position.z >= maxZ) {
+        particle.velocity *= -boundaryDamping;
+        particle.position.x = glm::clamp(particle.position.x, minX, maxX);
+    }
+}
+
+void FluidSimulator::computeDensity(Particle::Particle& particle) {
+    double sum = 0;
+    for (Particle::Particle *neighbor : particle.neighbors) {
+        sum += neighbor->mass * Kernel::getKernelValue(particle.position, neighbor->position, SMOOTHING_LENGTH);
+    }
+    std::cout << sum << std::endl;
+    particle.density = sum;
 }
 
 glm::vec<3,double> FluidSimulator::computeForceFromPressure(Particle::Particle& particle) {
@@ -88,21 +82,20 @@ glm::vec<3,double> FluidSimulator::computeForceFromViscosity(Particle::Particle&
     return 2.0 * result;
 }
 
-std::vector<Particle::Particle*> FluidSimulator::findNeighbors(Particle::Particle& particle) {
-    std::vector<Particle::Particle*> neighbors;
+void FluidSimulator::findNeighbors(Particle::Particle& particle) {
+    particle.neighbors.clear();
     for (const Particle::Particle& pj : particles) {
         if (&pj == &particle) continue;  // skip
         double dist = glm::distance(particle.position, pj.position);
         if (dist <= 2 * SMOOTHING_LENGTH) {
-            neighbors.push_back(const_cast<Particle::Particle*>(&pj));  // store the pointer to the neighbor particle
+            particle.neighbors.push_back(const_cast<Particle::Particle*>(&pj));  // store the pointer to the neighbor particle
         }
     }
-    return neighbors;
 }
 
-void FluidSimulator::getNeighbors() {
+void FluidSimulator::findAndSetNeighborsForAllParticles() {
     for (Particle::Particle& particle : particles) {
-        particle.neighbors = findNeighbors(particle);
+        findNeighbors(particle);
     }
 }
 

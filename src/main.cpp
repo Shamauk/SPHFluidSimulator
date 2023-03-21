@@ -67,7 +67,7 @@ int main() {
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create OpenGL window and context
-    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "SPH Fluid Simulator", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     // Check for window creation failure
@@ -82,9 +82,9 @@ int main() {
     glewExperimental = GL_TRUE; glewInit();
 
     // Creating particles
-    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, -5.0, 0.1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.5, 6.0, 0.1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(1.0, -0.5, -7.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, 0.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.0, 0.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(1.5, 0.0, 0.0, 0.1);
 
     // Generate sphere vertex and index data
     float sphereRadius = 0.1f;
@@ -138,7 +138,7 @@ int main() {
     glUseProgram(shaderProgram);
 
     // Camera settings
-    glm::vec3 cameraPosition(0.0f, 0.0f, 3.0f);
+    glm::vec3 cameraPosition(0.0f, 0.0f, 25.0f);
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
     glm::vec3 upVector(0.0f, 1.0f, 0.0f);
 
