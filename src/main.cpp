@@ -159,7 +159,7 @@ int main() {
     // Event loop
     while (!glfwWindowShouldClose(window)) {
         // Take time step
-        // fluidSimulator.updateParticles();
+        fluidSimulator.updateParticles();
 
         // Clear the screen to black
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

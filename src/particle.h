@@ -11,13 +11,14 @@ namespace Particle {
         double density;
         double restDensity;
         double pressure;
-        double radius;
         glm::vec<3,double> position = glm::vec<3,double>(0.0);
         glm::vec<3,double> velocity = glm::vec<3,double>(0.0);
 
         glm::vec<3,double> partialVelocity;
+        glm::vec<3,double> forceAccumulator;
         glm::vec<3,double> forcePressure;
         double partialDensity;
+        double aii;
 
         std::vector<Particle*> neighbors;
     };

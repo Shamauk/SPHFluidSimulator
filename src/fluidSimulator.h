@@ -12,7 +12,7 @@ class FluidSimulator {
 public:
     glm::vec<3,double> ACCELERATION_DUE_TO_GRAVITY = glm::vec<3,double>(0.0,-9.8,0.0);
     double SMOOTHING_LENGTH = 1.0;
-    double dt = 1;
+    double dt = 0.001;
     double viscosity;
 
     // Implicit solve
@@ -28,11 +28,13 @@ public:
 
 private:
     glm::vec<3,double> computeForceFromGravity(Particle::Particle& particle);
-    glm::vec<3,double> computeForceFromViscosity(Particle::Particle& particle, double viscosity, double h);
+    glm::vec<3,double> computeForceFromViscosity(Particle::Particle& particle);
     std::vector<Particle::Particle*> findNeighbors(Particle::Particle& particle);
-    void setNeighbors();
+    glm::vec<3,double> computeForceFromPressure(Particle::Particle& particle);
+    void getNeighbors();
     void computePartialVelocities();
     void computePartialDensity(Particle::Particle& particle);
+    void computeDensity(Particle::Particle& particle);
     void computePartialDensities();
     void computePressuresFromPoisson();
     void computePressureForceOnParticle(Particle::Particle& particle);
