@@ -613,4 +613,6 @@ CMakeFiles/SPHProject.dir/src/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/os/availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
   /usr/local/lib/glfw-3.3.8/include/GLFW/glfw3.h \
-  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.cpp
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/fluidSimulator.h \
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.h \
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.h

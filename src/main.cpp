@@ -7,7 +7,9 @@
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
 
-#include "particle.cpp"
+#include "fluidSimulator.h"
+
+FluidSimulator fluidSimulator;
 
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
 glm::mat4 createViewMatrix(const glm::vec3& cameraPosition, const glm::vec3& target, const glm::vec3& upVector);
@@ -79,12 +81,10 @@ int main() {
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
 
-    // Create particles
-    std::vector<Particle> particles = {
-        Particle::fromXYZ(0.0f, 0.0f, -5.0f),
-        Particle::fromXYZ(-1.5f, 0.5f, -6.0f),
-        Particle::fromXYZ(1.0f, -0.5f, -7.0f),
-    };
+    // Creating particles
+    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, -5.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.5, 6.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(1.0, -0.5, -7.0, 0.1);
 
     // Generate sphere vertex and index data
     float sphereRadius = 0.1f;
@@ -158,6 +158,9 @@ int main() {
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {
+        // Take time step
+        // fluidSimulator.updateParticles();
+
         // Clear the screen to black
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -169,9 +172,9 @@ int main() {
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
 
-        for (const Particle& p : particles) {
+        for (const Particle::Particle& p : fluidSimulator.particles) {
             // Create model matrix for the particle
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(p.x, p.y, p.z));
+            glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), p.position);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
             // Draw the sphere
@@ -220,8 +223,4 @@ glm::mat4 createViewMatrix(const glm::vec3& cameraPosition, const glm::vec3& tar
 
 glm::mat4 createPerspectiveMatrix(float fieldOfView, float aspectRatio, float nearPlane, float farPlane) {
     return glm::perspective(glm::radians(fieldOfView), aspectRatio, nearPlane, farPlane);
-}
-
-void initialize() {
-    
 }

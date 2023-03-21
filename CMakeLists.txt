@@ -3,7 +3,7 @@ project("SPHProject")
 
 FILE(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.hpp")
 FILE(GLOB_RECURSE HEADERS "src/*.h")
-FILE(GLOB_RECURSE GLSL "resources/*.glsl")
+#FILE(GLOB_RECURSE GLSL "resources/*.glsl")
 
 ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS} ${GLSL})
 

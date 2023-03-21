@@ -213,6 +213,54 @@ glfw/fast:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
+src/fluidSimulator.o: src/fluidSimulator.cpp.o
+.PHONY : src/fluidSimulator.o
+
+# target to build an object file
+src/fluidSimulator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o
+.PHONY : src/fluidSimulator.cpp.o
+
+src/fluidSimulator.i: src/fluidSimulator.cpp.i
+.PHONY : src/fluidSimulator.i
+
+# target to preprocess a source file
+src/fluidSimulator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.i
+.PHONY : src/fluidSimulator.cpp.i
+
+src/fluidSimulator.s: src/fluidSimulator.cpp.s
+.PHONY : src/fluidSimulator.s
+
+# target to generate assembly for a file
+src/fluidSimulator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.s
+.PHONY : src/fluidSimulator.cpp.s
+
+src/kernel.o: src/kernel.cpp.o
+.PHONY : src/kernel.o
+
+# target to build an object file
+src/kernel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.o
+.PHONY : src/kernel.cpp.o
+
+src/kernel.i: src/kernel.cpp.i
+.PHONY : src/kernel.i
+
+# target to preprocess a source file
+src/kernel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.i
+.PHONY : src/kernel.cpp.i
+
+src/kernel.s: src/kernel.cpp.s
+.PHONY : src/kernel.s
+
+# target to generate assembly for a file
+src/kernel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.s
+.PHONY : src/kernel.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -277,6 +325,12 @@ help:
 	@echo "... update_mappings"
 	@echo "... SPHProject"
 	@echo "... glfw"
+	@echo "... src/fluidSimulator.o"
+	@echo "... src/fluidSimulator.i"
+	@echo "... src/fluidSimulator.s"
+	@echo "... src/kernel.o"
+	@echo "... src/kernel.i"
+	@echo "... src/kernel.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
