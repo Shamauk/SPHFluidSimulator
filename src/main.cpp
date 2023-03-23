@@ -81,16 +81,22 @@ int main() {
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
 
-    // Creating particles
-    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, 0.0, 1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.0, 0.0, 1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(1.5, 0.0, 0.0, 1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(1.0, 0.25, 0.0, 1);
+
+    for (int i = 0; i < 100; i++) {
+        fluidSimulator.addParticleFromXYZ(-5 + i * 0.1,0.0,0.0);
+    }
+
+    // Add a blob above
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 25; j++) {
+            fluidSimulator.addParticleFromXYZ(-1.5+j*0.1, 2+i*0.1, 0);
+        }
+    }
 
     // Generate sphere vertex and index data
     float sphereRadius = 0.1f;
-    int sphereSegments = 16;
-    std::vector<float> sphereVertices = generateSphereVertices(sphereRadius, sphereSegments);
+    int sphereSegments = 12;
+    std::vector<float> sphereVertices = generateSphereVertices(fluidSimulator.SMOOTHING_LENGTH, sphereSegments);
     std::vector<unsigned int> sphereIndices = generateSphereIndices(sphereSegments);
 
     // Create VAO, VBO, and EBO

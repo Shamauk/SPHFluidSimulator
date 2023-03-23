@@ -18,7 +18,10 @@ namespace Particle {
         glm::vec<3,double> forceAccumulator;
         glm::vec<3,double> forcePressure;
         double partialDensity;
+        double iterationPressure;
         double aii;
+        glm::vec<3,double> dii;
+        glm::vec<3,double> sumdijpj;
 
         std::vector<Particle*> neighbors;
     };

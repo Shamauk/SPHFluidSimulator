@@ -11,19 +11,22 @@
 class FluidSimulator {
 public:
     const glm::vec<3,double> ACCELERATION_DUE_TO_GRAVITY = glm::vec<3,double>(0.0,-9.8,0.0);
-    const double SMOOTHING_LENGTH = 1.0;
-    const double dt = 0.001;
+    const double SMOOTHING_LENGTH = 0.1;
+    const double dt = 0.005;
     const double VISCOSITY = 1;
+    double REST_DENSITY = 1;
+    double THRESHOLD = 0.0001;
+    double RELAXATION_FACTOR = 0.4;
     
     std::vector<Particle::Particle> particles;
 
     void updateParticles();
-    void addParticleFromXYZWithRestDensity(double x, double y, double z, double restDensity);
+    void addParticleFromXYZ(double x, double y, double z);
     std::vector<Particle::Particle>& getParticles() { return particles; }
 
 private:
     // Boundary
-    double boundaryDamping = 0.8;
+    double BOUNDARY_DAMPING = 0.15;
     double minX = -5;
     double maxX = 5;
     double minY = -5;
@@ -45,5 +48,10 @@ private:
     void computePressureForces();
     void updateFinalVelocityAndPosition();
     void handleBoundaryCollision(Particle::Particle& particle);
+    void calculateDii(Particle::Particle& particle);
+    void calculateAii(Particle::Particle& particle);
+    double getAverageIterationalDensity();
+    void calculateSumDijPj(Particle::Particle& particle);
+    void computeNextIterationPressure(Particle::Particle& particle);
 };
 #endif
