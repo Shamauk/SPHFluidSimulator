@@ -10,10 +10,10 @@
 
 class FluidSimulator {
 public:
-    glm::vec<3,double> ACCELERATION_DUE_TO_GRAVITY = glm::vec<3,double>(0.0,-9.8,0.0);
-    double SMOOTHING_LENGTH = 1.0;
-    double dt = 0.001;
-    double viscosity;
+    const glm::vec<3,double> ACCELERATION_DUE_TO_GRAVITY = glm::vec<3,double>(0.0,-9.8,0.0);
+    const double SMOOTHING_LENGTH = 1.0;
+    const double dt = 0.001;
+    const double VISCOSITY = 1;
     
     std::vector<Particle::Particle> particles;
 

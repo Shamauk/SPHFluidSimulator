@@ -82,9 +82,10 @@ int main() {
     glewExperimental = GL_TRUE; glewInit();
 
     // Creating particles
-    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, 0.0, 0.1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.0, 0.0, 0.1);
-    fluidSimulator.addParticleFromXYZWithRestDensity(1.5, 0.0, 0.0, 0.1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(0.0, 0.0, 0.0, 1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(-1.5, 0.0, 0.0, 1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(1.5, 0.0, 0.0, 1);
+    fluidSimulator.addParticleFromXYZWithRestDensity(1.0, 0.25, 0.0, 1);
 
     // Generate sphere vertex and index data
     float sphereRadius = 0.1f;

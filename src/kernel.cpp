@@ -13,7 +13,7 @@ namespace Kernel {
         if (q < 1) {
             result *= ((2/3) - q*q + 0.5*q*q*q);
         } else if (q < 2) {
-            result *= (((2-q) * (2-q) * (2-q)) / 6);
+            result *= (((2-q)*(2-q)*(2-q)) / 6);
         } else {
             result *= 0;
         }
@@ -29,9 +29,9 @@ namespace Kernel {
     double gradCubicSpline(double q) {
         double result = 3 / (2 * M_PI);
         if (q < 1) {
-            result *= (-2 * q  +  1.5 * q * q);
+            result *= (-2*q + 1.5*q*q);
         } else if (q < 2) {
-            result *= (-0.5 * (2-q) * (2-q));
+            result *= (-0.5*(2-q)*(2-q));
         } else {
             result = 0;
         }
