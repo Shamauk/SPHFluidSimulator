@@ -12,7 +12,7 @@ class FluidSimulator {
 public:
     const glm::dvec3 ACCELERATION_DUE_TO_GRAVITY = glm::dvec3(0.0,-9.8,0.0);
     const double SMOOTHING_LENGTH = 0.1;
-    const double dt = 0.001;
+    const double dt = 0.05;
     const double VISCOSITY = 0.0001; // m^2/s
     const double REST_DENSITY = 1000; // kg/m^3 (for water)
     const double THRESHOLD = 0.0001;
