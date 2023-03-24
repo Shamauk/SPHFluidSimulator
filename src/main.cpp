@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -73,6 +74,7 @@ int main() {
     // Check for window creation failure
     if (!window) 
     {
+        std::cout << "Failed to create window" << std::endl;
         // Terminate GLFW
         glfwTerminate();
         return 1;
@@ -81,22 +83,25 @@ int main() {
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
 
-
-    for (int i = 0; i < 100; i++) {
-        fluidSimulator.addParticleFromXYZ(-5 + i * 0.1,0.0,0.0);
+    // Make ocean level
+    for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < fluidSimulator.numXGrids; i++) {
+            fluidSimulator.addParticleFromXYZ(-5 + i * fluidSimulator.SMOOTHING_LENGTH, 
+                fluidSimulator.minY + j * (fluidSimulator.SMOOTHING_LENGTH + 0.01) ,0.0);
+        }
     }
 
     // Add a blob above
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 25; j++) {
-            fluidSimulator.addParticleFromXYZ(-1.5+j*0.1, 2+i*0.1, 0);
+            fluidSimulator.addParticleFromXYZ(-1.5+j*0.15, 2+i*0.15, 0);
         }
     }
 
     // Generate sphere vertex and index data
-    float sphereRadius = 0.1f;
+    float sphereRadius = fluidSimulator.SMOOTHING_LENGTH / 2.0;
     int sphereSegments = 12;
-    std::vector<float> sphereVertices = generateSphereVertices(fluidSimulator.SMOOTHING_LENGTH, sphereSegments);
+    std::vector<float> sphereVertices = generateSphereVertices(sphereRadius, sphereSegments);
     std::vector<unsigned int> sphereIndices = generateSphereIndices(sphereSegments);
 
     // Create VAO, VBO, and EBO

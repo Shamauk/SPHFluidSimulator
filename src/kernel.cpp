@@ -37,4 +37,31 @@ namespace Kernel {
         }
         return result;
     }
+
+    double poly6Kernel(glm::dvec3& r, double h) {
+        double rNorm = glm::length(r);
+        if (rNorm > h) {
+            return 0.0;
+        }
+        double term = h*h - rNorm*rNorm;
+        return (315/(64 * M_PI * h*h*h*h*h*h*h*h*h)) * term*term*term;
+    }
+
+    glm::dvec3 spikyKernelGradient(glm::dvec3& r, double h) {
+        double rNorm = glm::length(r);
+        if (rNorm > h || rNorm < 1e-10) {
+            return glm::dvec3(0.0);
+        }
+        double term = h - rNorm;
+        return -(45/(M_PI * h*h*h*h*h*h))* term*term * r/rNorm;
+    }
+
+    double viscosityKernelLaplacian(glm::dvec3& r, double h) {
+        double rNorm = glm::length(r);
+        if (rNorm > h) {
+            return 0.0;
+        }
+
+        return (45/(M_PI * h*h*h*h*h*h)) * (h - rNorm);
+    }
 }
