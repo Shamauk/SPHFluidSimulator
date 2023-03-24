@@ -3,7 +3,7 @@
 #include <iostream>
 
 void FluidSimulator::updateParticles() {
-    //assignParticlesToGrid();
+    assignParticlesToGrid();
     findAndSetNeighborsForAllParticles();
     computeDensityPressureForAllParticles();
     computeForcesForAllParticles();
@@ -21,9 +21,9 @@ void FluidSimulator::assignParticlesToGrid() {
     }
 
     for (Particle::Particle& particle : particles) {
-        int x_pos = (int) ((particle.position.x - minX) / SMOOTHING_LENGTH);
-        int y_pos = (int) ((particle.position.y - minY) / SMOOTHING_LENGTH);
-        int z_pos = (int) ((particle.position.z - minZ) / SMOOTHING_LENGTH);
+        int x_pos = glm::clamp((int) ((particle.position.x - minX) / SMOOTHING_LENGTH), 0, numXGrids-1);
+        int y_pos = glm::clamp((int) ((particle.position.y - minY) / SMOOTHING_LENGTH), 0, numYGrids-1);
+        int z_pos = glm::clamp((int) ((particle.position.z - minZ) / SMOOTHING_LENGTH), 0, numZGrids-1);
         grid[x_pos][y_pos][z_pos].push_back(&particle);
     }
 }
@@ -34,42 +34,43 @@ void FluidSimulator::findAndSetNeighborsForAllParticles() {
     }
 }
 
-// void FluidSimulator::findNeighbors(Particle::Particle& particle) {
-//     particle.neighbors.clear();
-//     int x_pos = (int) ((particle.position.x - minX) / SMOOTHING_LENGTH);
-//     int y_pos = (int) ((particle.position.y - minY) / SMOOTHING_LENGTH);
-//     int z_pos = (int) ((particle.position.z - minZ) / SMOOTHING_LENGTH);
-
-//     int minIIndex = x_pos - 1 < 0 ? 0 : -1;
-//     int minJIndex = y_pos - 1 < 0 ? 0 : -1;
-//     int minKIndex = z_pos - 1 < 0 ? 0 : -1;
-//     int maxIIndex = x_pos + 1 >= numXGrids ? 0 : 1;
-//     int maxJIndex = y_pos + 1 >= numYGrids ? 0 : 1;
-//     int maxKIndex = z_pos + 1 >= numZGrids ? 0 : 1;
-//     for (int i = minIIndex; i <= maxIIndex; i++) {
-//         for (int j = minJIndex; j <= maxJIndex; j++) {
-//             for (int k = minKIndex; k <= maxKIndex; k++) {
-//                 for (Particle::Particle* potentialParticle : grid[i+x_pos][j+y_pos][k+z_pos]) {
-//                     if (potentialParticle == &particle) continue;
-//                     if (glm::distance(particle.position, potentialParticle->position) <= SMOOTHING_LENGTH) {
-//                         particle.neighbors.push_back(potentialParticle);
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
 void FluidSimulator::findNeighbors(Particle::Particle& particle) {
     particle.neighbors.clear();
-    for (const Particle::Particle& pj : particles) {
-        if (&pj == &particle) continue;
-        double dist = glm::distance(particle.position, pj.position);
-        if (dist <= SMOOTHING_LENGTH) {
-            particle.neighbors.push_back(const_cast<Particle::Particle*>(&pj));
+    int x_pos = (int) ((particle.position.x - minX) / SMOOTHING_LENGTH);
+    int y_pos = (int) ((particle.position.y - minY) / SMOOTHING_LENGTH);
+    int z_pos = (int) ((particle.position.z - minZ) / SMOOTHING_LENGTH);
+
+    // int minIIndex = x_pos - 1 < 0 ? 0 : -1;
+    // int minJIndex = y_pos - 1 < 0 ? 0 : -1;
+    // int minKIndex = z_pos - 1 < 0 ? 0 : -1;
+    // int maxIIndex = x_pos + 1 >= numXGrids ? 0 : 1;
+    // int maxJIndex = y_pos + 1 >= numYGrids ? 0 : 1;
+    // int maxKIndex = z_pos + 1 >= numZGrids ? 0 : 1;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            for (int k = -1; k <= 1; k++) {
+                if (i+x_pos < 0 || i+x_pos >= numXGrids || j+y_pos < 0 || j+y_pos >= numYGrids || k+z_pos < 0 || k+z_pos >= numZGrids) continue;
+                for (Particle::Particle* potentialParticle : grid[i+x_pos][j+y_pos][k+z_pos]) {
+                    if (potentialParticle == &particle) continue;
+                    if (glm::distance(particle.position, potentialParticle->position) <= SMOOTHING_LENGTH) {
+                        particle.neighbors.push_back(potentialParticle);
+                    }
+                }
+            }
         }
     }
 }
+
+// void FluidSimulator::findNeighbors(Particle::Particle& particle) {
+//     particle.neighbors.clear();
+//     for (const Particle::Particle& pj : particles) {
+//         if (&pj == &particle) continue;
+//         double dist = glm::distance(particle.position, pj.position);
+//         if (dist <= SMOOTHING_LENGTH) {
+//             particle.neighbors.push_back(const_cast<Particle::Particle*>(&pj));
+//         }
+//     }
+// }
 
 
 

@@ -132,6 +132,7 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
+	ulimit -c unlimited
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles /Users/lovelace/Documents/McGill/sem6/COMP559/project/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles 0
