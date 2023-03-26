@@ -42,27 +42,11 @@ public:
 
 private:
     
-
-    glm::vec<3,double> computeForceFromGravity(Particle::Particle& particle);
-    glm::vec<3,double> computeForceFromViscosity(Particle::Particle& particle);
+    bool isIndexOutOfBoundsOfGrid(int x_index, int y_index, int z_index);
     void findNeighbors(Particle::Particle& particle);
-    glm::vec<3,double> computeForceFromPressure(Particle::Particle& particle);
     void assignParticlesToGrid();
     void findAndSetNeighborsForAllParticles();
-    void computePartialVelocities();
-    void computePartialDensity(Particle::Particle& particle);
-    void computeDensity(Particle::Particle& particle);
-    void computePartialDensities();
-    void computePressuresFromPoisson();
-    void computePressureForceOnParticle(Particle::Particle& particle);
-    void computePressureForces();
-    void updateFinalVelocityAndPosition();
     void handleBoundaryCollision(Particle::Particle& particle);
-    void calculateDii(Particle::Particle& particle);
-    void calculateAii(Particle::Particle& particle);
-    double getAverageIterationalDensity();
-    void calculateSumDijPj(Particle::Particle& particle);
-    void computeNextIterationPressure(Particle::Particle& particle);
     void computeDensityPressureForAllParticles();
     void computeForcesForAllParticles();
     void integrateAllParticles();

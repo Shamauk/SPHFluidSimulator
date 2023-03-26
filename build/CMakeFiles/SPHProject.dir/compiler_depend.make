@@ -1832,7 +1832,8 @@ CMakeFiles/SPHProject.dir/src/main.cpp.o: /Users/lovelace/Documents/McGill/sem6/
   /usr/local/lib/glfw-3.3.8/include/GLFW/glfw3.h \
   /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/fluidSimulator.h \
   /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.h \
-  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.h
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.h \
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/light.h
 
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.cpp \
   /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.h \
@@ -3422,6 +3423,8 @@ CMakeFiles/SPHProject.dir/src/particle.cpp.o: /Users/lovelace/Documents/McGill/s
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__iterator/common_iterator.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/sys/_types/_va_list.h:
+
+/Users/lovelace/Documents/McGill/sem6/COMP559/project/src/light.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__config:
 

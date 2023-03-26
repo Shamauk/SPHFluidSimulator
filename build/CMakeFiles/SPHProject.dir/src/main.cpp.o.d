@@ -680,4 +680,5 @@ CMakeFiles/SPHProject.dir/src/main.cpp.o: \
   /usr/local/lib/glfw-3.3.8/include/GLFW/glfw3.h \
   /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/fluidSimulator.h \
   /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.h \
-  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.h
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.h \
+  /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/light.h
