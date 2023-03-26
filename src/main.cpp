@@ -62,85 +62,84 @@ std::vector<unsigned int> generateSphereIndices(int segments) {
     return indices;
 }
 
-// void drawRectangle(const glm::vec3& min, const glm::vec3& max, GLuint shaderProgram) {
-//     float rectangleVertices[] = {
-//         min.x, min.y, min.z,
-//         min.x, max.y, min.z,
-//         min.x, min.y, max.z,
-//         min.x, max.y, max.z,
-//         max.x, min.y, min.z,
-//         max.x, max.y, min.z,
-//     };
+std::vector<float> generateBoundaryVertices(glm::vec3 min, glm::vec3 max) {
+    std::vector<float> vertices;
 
-//     GLuint rectangleIndices[] = {
-//         0, 3, 2,
-//         0, 1, 3,
-//         0, 4, 5,
-//         0, 5, 1
-//     };
+    // Left boundary
+    vertices.push_back(min.x);
+    vertices.push_back(min.y);
+    vertices.push_back(min.z);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(min.x);
+    vertices.push_back(max.y);
+    vertices.push_back(min.z);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(min.x);
+    vertices.push_back(min.y);
+    vertices.push_back(max.z);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(min.x);
+    vertices.push_back(max.y);
+    vertices.push_back(max.z);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
 
-//     // Create VAO, VBO, and EBO
-//     GLuint VAO, VBO, EBO;
-//     glGenVertexArrays(1, &VAO);
-//     glGenBuffers(1, &VBO);
-//     glGenBuffers(1, &EBO);
+    // Right boundary
+    vertices.push_back(min.x);
+    vertices.push_back(min.y);
+    vertices.push_back(min.z);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(1.0f);
+    vertices.push_back(min.x);
+    vertices.push_back(max.y);
+    vertices.push_back(min.z);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(1.0f);
+    vertices.push_back(max.x);
+    vertices.push_back(min.y);
+    vertices.push_back(min.z);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(1.0f);
+    vertices.push_back(max.x);
+    vertices.push_back(max.y);
+    vertices.push_back(min.z);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(1.0f);
 
-//     glBindVertexArray(VAO);
-//     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//     glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW);
-
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectangleIndices), rectangleIndices, GL_STATIC_DRAW);
-
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//     glEnableVertexAttribArray(0);
-
-//     // Draw the rectangle
-//     glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-
-//     // Clean up
-//     glDeleteVertexArrays(1, &VAO);
-//     glDeleteBuffers(1, &VBO);
-//     glDeleteBuffers(1, &EBO);
-// }
-
-void drawRectangle(const glm::vec3& min, const glm::vec3& max, GLuint shaderProgram) {
-    float rectangleVertices[] = {
-        min.x, min.y, max.z,  // left-back-top vertex
-        min.x, min.y, min.z,  // left-front-top vertex
-        min.x, max.y, max.z,  // left-back-bottom vertex
-        min.x, max.y, min.z   // left-front-bottom vertex
-    };
-
-    GLuint rectangleIndices[] = {
-        0, 2, 1,  // left side triangle 1
-        1, 2, 3   // left side triangle 2
-    };
-
-    // Create VAO, VBO, and EBO
-    GLuint VAO, VBO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), rectangleVertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectangleIndices), rectangleIndices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // Draw the rectangle
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-    // Clean up
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+    return vertices;
 }
+
+std::vector<unsigned int> generateBoundaryIndices() {
+    std::vector<unsigned int> indices;
+    // Left boundary
+    indices.push_back(0);
+    indices.push_back(3);
+    indices.push_back(2);
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(3);
+
+    indices.push_back(4);
+    indices.push_back(6);
+    indices.push_back(7);
+    indices.push_back(4);
+    indices.push_back(7);
+    indices.push_back(5);
+
+    return indices;
+}
+
 
 int main() {
     // Initialize GLFW
@@ -169,28 +168,28 @@ int main() {
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
 
-    // Make ocean level
-    for (int j = 0; j < 5; j++) {
-        for (int i = 0; i < fluidSimulator.numXGrids; i++) {
-            for (int k = 0; k < fluidSimulator.numZGrids; k++) {
-                fluidSimulator.addParticleFromXYZ(fluidSimulator.minX + i * fluidSimulator.SMOOTHING_LENGTH, 
-                    fluidSimulator.minY + j * (fluidSimulator.SMOOTHING_LENGTH + 0.001), fluidSimulator.minZ + k * fluidSimulator.SMOOTHING_LENGTH);
-            }
-        }
-    }
 
-    // Add a blob above
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 25; j++) {
-            fluidSimulator.addParticleFromXYZ(-1.5+j*0.15, 2+i*0.15, 0);
-        }
-    }
+    // Let us add force to the bottom back layer
+
+
+    // Add a large water drop
+    // for (int i = 0; i < 5; i++) {
+    //     for (int j = 0; j < 5; j++) {
+    //         for (int k = 0; k < 5; k++) {
+    //             fluidSimulator.addParticleFromXYZ(i*fluidSimulator.SMOOTHING_LENGTH, 
+    //                 j*fluidSimulator.SMOOTHING_LENGTH, k*fluidSimulator.SMOOTHING_LENGTH);
+    //         }
+    //     }
+    // }
 
     // Generate sphere vertex and index data
-    float sphereRadius = fluidSimulator.SMOOTHING_LENGTH / 2.0;
+    float sphereDiameter = fluidSimulator.SMOOTHING_LENGTH / 2.0;
+    float sphereRadius = sphereDiameter / 2.0;
     int sphereSegments = 12;
     std::vector<float> sphereVertices = generateSphereVertices(sphereRadius, sphereSegments);
     std::vector<unsigned int> sphereIndices = generateSphereIndices(sphereSegments);
+
+    
 
     // Create VAO, VBO, and EBO
     GLuint VAO, VBO, EBO;
@@ -216,8 +215,37 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    // Same thing for boundary
+    glm::vec3 boundaryMin = glm::vec3(fluidSimulator.minX, fluidSimulator.minY, fluidSimulator.minZ);
+    glm::vec3 boundaryMax = glm::vec3(fluidSimulator.maxX, fluidSimulator.maxY, fluidSimulator.maxZ);
+    std::vector<float> boundaryVertices = generateBoundaryVertices(boundaryMin, boundaryMax);
+    std::vector<unsigned int> boundaryIndices = generateBoundaryIndices();
+
+    GLuint boundaryVAO, boundaryVBO, boundaryEBO;
+    glGenVertexArrays(1, &boundaryVAO);
+    glGenBuffers(1, &boundaryVBO);
+    glGenBuffers(1, &boundaryEBO);
+
+    glBindVertexArray(boundaryVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, boundaryVBO);
+    glBufferData(GL_ARRAY_BUFFER, boundaryVertices.size() * sizeof(float), boundaryVertices.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, boundaryEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, boundaryIndices.size() * sizeof(unsigned int), boundaryIndices.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Unbind the VAO and VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
      // Camera settings
-    glm::vec3 cameraPosition(26.0f, 0.0f, 15.0f);
+    glm::vec3 cameraPosition(4.0f, 0.0f, 3.5f);
     glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
     glm::vec3 upVector(0.0f, 1.0f, 0.0f);
 
@@ -230,39 +258,6 @@ int main() {
     // Create view and projection matrices
     glm::mat4 viewMatrix = createViewMatrix(cameraPosition, cameraTarget, upVector);
     glm::mat4 projectionMatrix = createPerspectiveMatrix(fieldOfView, aspectRatio, nearPlane, farPlane);
-
-    const char* rectangleVertexShaderSrc = R"(
-        #version 330 core
-        layout (location = 0) in vec3 aPos;
-
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-
-        void main() {
-            gl_Position = projection * view * model * vec4(aPos, 1.0);
-        }
-    )";
-
-    const char* rectangleFragmentShaderSrc = R"(
-        #version 330 core
-        out vec4 FragColor;
-
-        uniform vec3 objectColor;
-
-        void main() {
-            FragColor = vec4(objectColor, 1.0);
-        }
-    )";
-
-    GLuint rectangleShaderProgram = createShaderProgram(rectangleVertexShaderSrc, rectangleFragmentShaderSrc);
-    glUseProgram(rectangleShaderProgram);
-
-    // Set the model matrix for the rectangle
-    glm::mat4 model = glm::mat4(1.0f);
-    glUniformMatrix4fv(glGetUniformLocation(rectangleShaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(rectangleShaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
-    glUniformMatrix4fv(glGetUniformLocation(rectangleShaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
     const char* vertexShaderSrc = R"(
         #version 330 core
@@ -345,7 +340,7 @@ int main() {
     // Ligh creation
     Light light;
     light.color = glm::vec3(255.0f, 235.0f, 235.0f);
-    light.position = cameraPosition;
+    light.position = glm::vec3(26.0f, 15.0f, 30.0f);
     
     // Attenuation
     GLuint constantLoc = glGetUniformLocation(shaderProgram, "constant");
@@ -364,16 +359,46 @@ int main() {
     glUniform3fv(glGetUniformLocation(shaderProgram, "viewPos"), 1, glm::value_ptr(cameraPosition));
 
     glm::vec3 particleColor = glm::vec3(0.0f, 0.1f, 1.0f);
-    glm::vec3 boundaryColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 boundaryColor = glm::vec3(0.25f, 0.25f, 0.25f);
 
-    glm::vec3 boundaryMin(fluidSimulator.minX, fluidSimulator.minY, fluidSimulator.minZ);
-    glm::vec3 boundaryMax(fluidSimulator.maxX, fluidSimulator.maxY, fluidSimulator.maxZ);
+    glm::mat4 identityMatrix = glm::mat4(1.0f);
 
-    glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(particleColor));
-    glUniform3fv(glGetUniformLocation(rectangleShaderProgram, "objectColor"), 1, glm::value_ptr(boundaryColor));
+
+    // Generate scene
+    // Make ocean level
+    for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < fluidSimulator.numXGrids; i++) {
+            for (int k = 0; k < fluidSimulator.numZGrids; k++) {
+                Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.SMOOTHING_LENGTH, 
+                    fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * fluidSimulator.SMOOTHING_LENGTH);
+                if (k == 0 && j == 0) {
+                    particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
+                }
+                fluidSimulator.addParticle(particle);
+            }
+        }
+    }
+
+    // int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / sphereDiameter;
+    // int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / sphereDiameter;
+    // for (int j = 0; j < 5; j++) {
+    //     for (int i = 0; i < numInX; i++) {
+    //         for (int k = 0; k < numInZ; k++) {
+    //             Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * sphereDiameter, 
+    //                 fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * sphereDiameter);
+    //             if (k == 0 && j == 0) {
+    //                 particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
+    //             }
+    //             fluidSimulator.addParticle(particle);
+    //         }
+    //     }
+    // }
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {
+        // Fountain
+        // fluidSimulator.addParticleFromXYZ((fluidSimulator.maxX - fluidSimulator.minX) / 2, fluidSimulator.minY + 1, fluidSimulator.minZ + 1);
+
         // Take time step
         fluidSimulator.updateParticles();
 
@@ -386,10 +411,9 @@ int main() {
         glEnable(GL_DEPTH_TEST);
 
         // Draw particles
-        glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
 
-
+        glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(particleColor));
         for (const Particle::Particle& p : fluidSimulator.particles) {
             // Create model matrix for the particle
             glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), p.position);
@@ -399,9 +423,10 @@ int main() {
             glDrawElements(GL_TRIANGLES, sphereIndices.size(), GL_UNSIGNED_INT, 0);
         }
 
-        // glUseProgram(rectangleShaderProgram);
-        // drawRectangle(boundaryMin, boundaryMax, rectangleShaderProgram);
-        // glUseProgram(shaderProgram);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(boundaryColor));
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(identityMatrix));
+        glBindVertexArray(boundaryVAO);
+        glDrawElements(GL_TRIANGLES, boundaryIndices.size(), GL_UNSIGNED_INT, 0);
 
         // Swap buffers and poll events
         glfwSwapBuffers(window);

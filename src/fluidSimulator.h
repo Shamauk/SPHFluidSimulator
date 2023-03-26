@@ -11,22 +11,22 @@
 class FluidSimulator {
 public:
     const glm::dvec3 ACCELERATION_DUE_TO_GRAVITY = glm::dvec3(0.0,-9.8,0.0);
-    const double SMOOTHING_LENGTH = 0.1;
-    const double dt = 0.05;
+    const double SMOOTHING_LENGTH = 0.02;
+    const double dt = 0.005;
     const double VISCOSITY = 0.0001; // m^2/s
     const double REST_DENSITY = 1000; // kg/m^3 (for water)
     const double THRESHOLD = 0.0001;
     const double RELAXATION_FACTOR = 0.5;
-    const double STIFFNESS = 0.3;
+    const double STIFFNESS = 0.03;
 
     // Boundary
     const float BOUNDARY_RESTITUTION = 0.5;
-    const int minX = -5;
-    const int maxX = 5;
-    const int minY = -5;
-    const int maxY = 5;
-    const int minZ = -5;
-    const int maxZ = 5;
+    const int minX = -1;
+    const int maxX = 1;
+    const int minY = -1;
+    const int maxY = 1;
+    const int minZ = -1;
+    const int maxZ = 1;
     
     std::vector<Particle::Particle> particles;
 
@@ -37,6 +37,7 @@ public:
 
     void updateParticles();
     void addParticleFromXYZ(double x, double y, double z);
+    void addParticle(Particle::Particle& particle);
     std::vector<Particle::Particle>& getParticles() { return particles; }
     FluidSimulator();
 

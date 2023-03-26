@@ -88,7 +88,8 @@ void FluidSimulator::computeForcesForAllParticles() {
         viscosityForce *= VISCOSITY;
 
         glm::dvec3 gravityForce = particle.mass * ACCELERATION_DUE_TO_GRAVITY;
-        particle.forceAccumulator = pressureForce + viscosityForce + gravityForce;
+        particle.forceAccumulator = pressureForce + viscosityForce + gravityForce + particle.initialForce;
+        particle.initialForce = glm::dvec3(0.0);
     }
 }
 
@@ -113,6 +114,14 @@ void FluidSimulator::enforceBoundaryConditionOnAllParticles() {
 void FluidSimulator::addParticleFromXYZ(double x, double y, double z) {
     if (x < minX || x > maxX || y < minY || y > maxY || z < minZ || z > maxZ) return;
     Particle::Particle particle = Particle::ParticlefromXYZ(x, y, z);
+    particle.mass = SMOOTHING_LENGTH*SMOOTHING_LENGTH*SMOOTHING_LENGTH*REST_DENSITY;
+    particles.push_back(particle);
+}
+
+void FluidSimulator::addParticle(Particle::Particle& particle) {
+    if (particle.position.x < minX || particle.position.x > maxX || 
+        particle.position.y < minY || particle.position.y > maxY || 
+        particle.position.z < minZ || particle.position.z > maxZ) return;
     particle.mass = SMOOTHING_LENGTH*SMOOTHING_LENGTH*SMOOTHING_LENGTH*REST_DENSITY;
     particles.push_back(particle);
 }
