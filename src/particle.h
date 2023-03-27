@@ -7,11 +7,12 @@
 
 namespace Particle {
     struct Particle {
-        double mass = 1;
+        double mass = 18;
         double density;
         double pressure;
         glm::dvec3 position = glm::dvec3(0.0);
         glm::dvec3 velocity = glm::dvec3(0.0);
+        glm::dvec3 interVelocity = glm::dvec3(0.0);
 
         glm::dvec3 forceAccumulator;
 

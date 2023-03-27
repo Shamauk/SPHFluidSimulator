@@ -11,13 +11,14 @@
 class FluidSimulator {
 public:
     const glm::dvec3 ACCELERATION_DUE_TO_GRAVITY = glm::dvec3(0.0,-9.8,0.0);
-    const double SMOOTHING_LENGTH = 0.02;
-    const double dt = 0.005;
-    const double VISCOSITY = 0.0001; // m^2/s
-    const double REST_DENSITY = 1000; // kg/m^3 (for water)
+    const double PARTICLE_RADIUS = 0.075;
+    const double SMOOTHING_LENGTH = 4 * PARTICLE_RADIUS;
+    const double dt = 0.0005;
+    const double VISCOSITY = 0.0001;
+    const double REST_DENSITY = 300; 
     const double THRESHOLD = 0.0001;
     const double RELAXATION_FACTOR = 0.5;
-    const double STIFFNESS = 0.03;
+    const double STIFFNESS = 55.0;
 
     // Boundary
     const float BOUNDARY_RESTITUTION = 0.5;
@@ -42,7 +43,8 @@ public:
     FluidSimulator();
 
 private:
-    
+    Kernel kernel = Kernel(SMOOTHING_LENGTH);
+
     bool isIndexOutOfBoundsOfGrid(int x_index, int y_index, int z_index);
     void findNeighbors(Particle::Particle& particle);
     void assignParticlesToGrid();
@@ -52,5 +54,8 @@ private:
     void computeForcesForAllParticles();
     void integrateAllParticles();
     void enforceBoundaryConditionOnAllParticles();
+    void computeDensityForAllParticles();
+    void setIntermediateVelocityForAllParticles();
+    void setAllPressuresAndSetPressureForce();
 };
 #endif

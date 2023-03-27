@@ -176,20 +176,18 @@ int main() {
     // for (int i = 0; i < 5; i++) {
     //     for (int j = 0; j < 5; j++) {
     //         for (int k = 0; k < 5; k++) {
-    //             fluidSimulator.addParticleFromXYZ(i*fluidSimulator.SMOOTHING_LENGTH, 
-    //                 j*fluidSimulator.SMOOTHING_LENGTH, k*fluidSimulator.SMOOTHING_LENGTH);
+    //             fluidSimulator.addParticleFromXYZ(i*fluidSimulator.SMOOTHING_LENGTH/2, 
+    //                 j*fluidSimulator.SMOOTHING_LENGTH/2, k*fluidSimulator.SMOOTHING_LENGTH/2);
     //         }
     //     }
     // }
 
     // Generate sphere vertex and index data
-    float sphereDiameter = fluidSimulator.SMOOTHING_LENGTH / 2.0;
-    float sphereRadius = sphereDiameter / 2.0;
-    int sphereSegments = 12;
-    std::vector<float> sphereVertices = generateSphereVertices(sphereRadius, sphereSegments);
+    float sphereDiameter = fluidSimulator.PARTICLE_RADIUS * 2.0;
+    int sphereSegments = 6;
+    std::vector<float> sphereVertices = generateSphereVertices(fluidSimulator.PARTICLE_RADIUS, sphereSegments);
     std::vector<unsigned int> sphereIndices = generateSphereIndices(sphereSegments);
 
-    
 
     // Create VAO, VBO, and EBO
     GLuint VAO, VBO, EBO;
@@ -366,26 +364,11 @@ int main() {
 
     // Generate scene
     // Make ocean level
-    for (int j = 0; j < 5; j++) {
-        for (int i = 0; i < fluidSimulator.numXGrids; i++) {
-            for (int k = 0; k < fluidSimulator.numZGrids; k++) {
-                Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.SMOOTHING_LENGTH, 
-                    fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * fluidSimulator.SMOOTHING_LENGTH);
-                if (k == 0 && j == 0) {
-                    particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
-                }
-                fluidSimulator.addParticle(particle);
-            }
-        }
-    }
-
-    // int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / sphereDiameter;
-    // int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / sphereDiameter;
     // for (int j = 0; j < 5; j++) {
-    //     for (int i = 0; i < numInX; i++) {
-    //         for (int k = 0; k < numInZ; k++) {
-    //             Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * sphereDiameter, 
-    //                 fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * sphereDiameter);
+    //     for (int i = 0; i < fluidSimulator.numXGrids; i++) {
+    //         for (int k = 0; k < fluidSimulator.numZGrids; k++) {
+    //             Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.SMOOTHING_LENGTH, 
+    //                 fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * fluidSimulator.SMOOTHING_LENGTH);
     //             if (k == 0 && j == 0) {
     //                 particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
     //             }
@@ -394,10 +377,41 @@ int main() {
     //     }
     // }
 
+    int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / fluidSimulator.PARTICLE_RADIUS;
+    int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / fluidSimulator.PARTICLE_RADIUS;
+    for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < numInX; i++) {
+            for (int k = 0; k < numInZ; k++) {
+                Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
+                    fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
+                if (k == 0 && j == 0) {
+                    particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
+                }
+                fluidSimulator.addParticle(particle);
+            }
+        }
+    }
+
+    // int iteration = 0;
+    // int spewRate = 100;
     // Event loop
     while (!glfwWindowShouldClose(window)) {
         // Fountain
-        // fluidSimulator.addParticleFromXYZ((fluidSimulator.maxX - fluidSimulator.minX) / 2, fluidSimulator.minY + 1, fluidSimulator.minZ + 1);
+        // if (iteration % spewRate == 0) {
+        //     Particle::Particle particle = Particle::ParticlefromXYZ(0.0,0.0,0.0);
+        //     if (iteration % (4 * spewRate) == 0) {
+        //         particle.velocity = glm::dvec3(3.0,0.0,0.0);
+        //     } else if (iteration % (3 * spewRate) == 0) {
+        //         particle.velocity = glm::dvec3(0.0,0.0,-3.0);
+        //     } else if (iteration % (2 * spewRate) == 0) {
+        //         particle.velocity = glm::dvec3(-3.0,0.0,0.0);
+        //     } else {
+        //         particle.velocity = glm::dvec3(0.0,0.0,3.0);
+        //     }
+        //     fluidSimulator.addParticle(particle);
+        // }
+        //  iteration++;
+
 
         // Take time step
         fluidSimulator.updateParticles();
@@ -415,6 +429,7 @@ int main() {
 
         glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(particleColor));
         for (const Particle::Particle& p : fluidSimulator.particles) {
+           // std::cout << "Particle at: (" << p.position.x << "," << p.position.y << "," << p.position.z << ")" << std::endl;
             // Create model matrix for the particle
             glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), p.position);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
