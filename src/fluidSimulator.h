@@ -13,12 +13,12 @@ public:
     const glm::dvec3 ACCELERATION_DUE_TO_GRAVITY = glm::dvec3(0.0,-9.8,0.0);
     const double PARTICLE_RADIUS = 0.075;
     const double SMOOTHING_LENGTH = 4 * PARTICLE_RADIUS;
-    const double dt = 0.0005;
-    const double VISCOSITY = 0.0001;
-    const double REST_DENSITY = 300; 
+    const double dt = 0.0008;
+    const double VISCOSITY = 1;
+    const double REST_DENSITY = 1000; 
     const double THRESHOLD = 0.0001;
     const double RELAXATION_FACTOR = 0.5;
-    const double STIFFNESS = 55.0;
+    const double STIFFNESS = 10.0;
 
     // Boundary
     const float BOUNDARY_RESTITUTION = 0.5;
@@ -57,5 +57,6 @@ private:
     void computeDensityForAllParticles();
     void setIntermediateVelocityForAllParticles();
     void setAllPressuresAndSetPressureForce();
+    void clearGrid();
 };
 #endif

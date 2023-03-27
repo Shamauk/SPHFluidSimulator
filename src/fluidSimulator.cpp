@@ -3,6 +3,7 @@
 #include <iostream>
 
 void FluidSimulator::updateParticles() {
+    clearGrid();
     assignParticlesToGrid();
     findAndSetNeighborsForAllParticles();
     computeDensityForAllParticles();
@@ -14,19 +15,21 @@ void FluidSimulator::updateParticles() {
 }
 
 void FluidSimulator::assignParticlesToGrid() {
+    for (auto& particle : particles) {
+        int x_pos = glm::clamp((int) ((particle.position.x - minX) / SMOOTHING_LENGTH), 0, numXGrids-1);
+        int y_pos = glm::clamp((int) ((particle.position.y - minY) / SMOOTHING_LENGTH), 0, numYGrids-1);
+        int z_pos = glm::clamp((int) ((particle.position.z - minZ) / SMOOTHING_LENGTH), 0, numZGrids-1);
+        grid[x_pos][y_pos][z_pos].push_back(&particle);
+    }
+}
+
+void FluidSimulator::clearGrid() {
     for (int x = 0; x < numXGrids; x++) {
         for (int y = 0; y < numYGrids; y++) {
             for (int z = 0; z < numZGrids; z++) {
                 grid[x][y][z].clear();
             }
         }
-    }
-
-    for (auto& particle : particles) {
-        int x_pos = glm::clamp((int) ((particle.position.x - minX) / SMOOTHING_LENGTH), 0, numXGrids-1);
-        int y_pos = glm::clamp((int) ((particle.position.y - minY) / SMOOTHING_LENGTH), 0, numYGrids-1);
-        int z_pos = glm::clamp((int) ((particle.position.z - minZ) / SMOOTHING_LENGTH), 0, numZGrids-1);
-        grid[x_pos][y_pos][z_pos].push_back(&particle);
     }
 }
 
@@ -64,10 +67,10 @@ inline bool FluidSimulator::isIndexOutOfBoundsOfGrid(int x_index, int y_index, i
 }
 
 void FluidSimulator::computeDensityForAllParticles() {
-    for (Particle::Particle& particle : particles) {
+    for (auto& particle : particles) {
         glm::dvec3 rr = glm::dvec3(0.0);
         double density = particle.mass * this->kernel.getKernelValue(rr);
-        for (Particle::Particle* neighbor : particle.neighbors) {
+        for (auto* neighbor : particle.neighbors) {
             glm::dvec3 r = particle.position - neighbor->position;
             density += neighbor->mass * this->kernel.getKernelValue(r);
         }
@@ -106,21 +109,50 @@ void FluidSimulator::setIntermediateVelocityForAllParticles() {
 // void FluidSimulator::setAllPressuresAndSetPressureForce() {
 //     for (Particle::Particle& particle : particles) {
 //         double ratio = particle.density / this->REST_DENSITY;
-//         particle.pressure = this->STIFFNESS * (ratio*ratio*ratio*ratio*ratio*ratio*ratio - 1);
-        
+//         particle.pressure = this->STIFFNESS * (ratio - 1);
+//         std::cout << particle.density << std::endl;
+//     }
+//     for (Particle::Particle& particle : particles) {        
 //         glm::dvec3 pressureForce = glm::dvec3(0.0);
 //         for (Particle::Particle* neighbor : particle.neighbors) {
 //             glm::dvec3 r = particle.position - neighbor->position;
-//             pressureForce += neighbor->mass * ((particle.pressure/(particle.density*particle.density)) + (neighbor->pressure/(neighbor->density*neighbor->density))) * this->kernel.getKernelGradient(r);
+//             pressureForce += neighbor->mass * ((particle.pressure/(particle.density*particle.density)) 
+//                 + (neighbor->pressure/(neighbor->density*neighbor->density))) * this->kernel.getKernelGradient(r);
 //         }
 //         particle.forceAccumulator = -pressureForce;
 //     }
 // }
 
-void FluidSimulator::setAllPressuresAndSetPressureForce() {
-    for (Particle::Particle& particle : particles) {
-        particle.pressure = this->STIFFNESS * (particle.density - this->REST_DENSITY);
+// void FluidSimulator::setAllPressuresAndSetPressureForce() {
+//     for (Particle::Particle& particle : particles) {
+//         std::cout << particle.density << std::endl;
+//         particle.pressure = this->STIFFNESS * (particle.density - this->REST_DENSITY);
         
+//         glm::dvec3 pressureForce = glm::dvec3(0.0);
+//         for (Particle::Particle* neighbor : particle.neighbors) {
+//             glm::dvec3 r = particle.position - neighbor->position;
+//             double lengthR = glm::length(r);
+//             if (lengthR == 0) continue;
+            
+//             // Monaghan artificial pressure term
+//             double epsilon = 0.1; // You can adjust this value (try values between 0.01 and 0.1)
+//             double artificialPressure = -epsilon * VISCOSITY * (particle.mass / (particle.density * particle.density)) * (neighbor->mass / (neighbor->density * neighbor->density)) * (1.0 / (lengthR * lengthR));
+            
+//             pressureForce += (particle.mass * (particle.pressure / (particle.density * particle.density)) + neighbor->mass * (neighbor->pressure / (neighbor->density * neighbor->density))) * this->kernel.getKernelGradient(r) + artificialPressure * this->kernel.getKernelGradient(r);
+//         }
+//         particle.forceAccumulator = pressureForce;
+//     }
+// }
+
+void FluidSimulator::setAllPressuresAndSetPressureForce() {
+    // First, calculate the pressure for all particles
+    for (Particle::Particle& particle : particles) {
+     //   std::cout << particle.density << std::endl;
+        particle.pressure = this->STIFFNESS * (particle.density - this->REST_DENSITY);
+    }
+
+    // Then, calculate the pressure force for all particles
+    for (Particle::Particle& particle : particles) {
         glm::dvec3 pressureForce = glm::dvec3(0.0);
         for (Particle::Particle* neighbor : particle.neighbors) {
             glm::dvec3 r = particle.position - neighbor->position;
@@ -133,9 +165,10 @@ void FluidSimulator::setAllPressuresAndSetPressureForce() {
             
             pressureForce += (particle.mass * (particle.pressure / (particle.density * particle.density)) + neighbor->mass * (neighbor->pressure / (neighbor->density * neighbor->density))) * this->kernel.getKernelGradient(r) + artificialPressure * this->kernel.getKernelGradient(r);
         }
-        particle.forceAccumulator = -pressureForce;
+        particle.forceAccumulator = pressureForce;
     }
 }
+
 
 void FluidSimulator::integrateAllParticles() {
     for (auto& particle : particles) {
@@ -165,7 +198,6 @@ void FluidSimulator::addParticle(Particle::Particle& particle) {
     if (particle.position.x < minX || particle.position.x > maxX || 
         particle.position.y < minY || particle.position.y > maxY || 
         particle.position.z < minZ || particle.position.z > maxZ) return;
-    particle.mass = SMOOTHING_LENGTH*SMOOTHING_LENGTH*SMOOTHING_LENGTH*REST_DENSITY;
     particles.push_back(particle);
 }
 

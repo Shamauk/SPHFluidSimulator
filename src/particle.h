@@ -7,7 +7,7 @@
 
 namespace Particle {
     struct Particle {
-        double mass = 18;
+        double mass = 2.0;
         double density;
         double pressure;
         glm::dvec3 position = glm::dvec3(0.0);

@@ -379,7 +379,7 @@ int main() {
 
     int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / fluidSimulator.PARTICLE_RADIUS;
     int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / fluidSimulator.PARTICLE_RADIUS;
-    for (int j = 0; j < 5; j++) {
+    for (int j = 0; j < 3; j++) {
         for (int i = 0; i < numInX; i++) {
             for (int k = 0; k < numInZ; k++) {
                 Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
