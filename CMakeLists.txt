@@ -3,9 +3,10 @@ project("SPHProject")
 
 FILE(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.hpp")
 FILE(GLOB_RECURSE HEADERS "src/*.h")
-#FILE(GLOB_RECURSE GLSL "resources/*.glsl")
 
-ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS} ${GLSL})
+list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS} ${GLSL} "src/main.cpp")
 
 if(UNIX)
     target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_DL_LIBS})
@@ -109,3 +110,13 @@ ELSE()
         TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "GL")
     ENDIF()
 ENDIF()
+
+# Testing
+add_library(my_project_lib ${SOURCES})
+include_directories(src)
+enable_testing()
+add_executable(kernel_tests tests/kernel_tests.cpp)
+target_link_libraries(kernel_tests my_project_lib)
+add_test(NAME kernel_tests COMMAND kernel_tests)
+
+

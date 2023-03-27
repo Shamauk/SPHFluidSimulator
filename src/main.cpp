@@ -167,20 +167,7 @@ int main() {
 
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
-
-
-    // Let us add force to the bottom back layer
-
-
-    // Add a large water drop
-    // for (int i = 0; i < 5; i++) {
-    //     for (int j = 0; j < 5; j++) {
-    //         for (int k = 0; k < 5; k++) {
-    //             fluidSimulator.addParticleFromXYZ(i*fluidSimulator.SMOOTHING_LENGTH/2, 
-    //                 j*fluidSimulator.SMOOTHING_LENGTH/2, k*fluidSimulator.SMOOTHING_LENGTH/2);
-    //         }
-    //     }
-    // }
+    
 
     // Generate sphere vertex and index data
     float sphereDiameter = fluidSimulator.PARTICLE_RADIUS * 2.0;
@@ -362,13 +349,14 @@ int main() {
     glm::mat4 identityMatrix = glm::mat4(1.0f);
 
 
-    // Generate scene
-    // Make ocean level
-    // for (int j = 0; j < 5; j++) {
-    //     for (int i = 0; i < fluidSimulator.numXGrids; i++) {
-    //         for (int k = 0; k < fluidSimulator.numZGrids; k++) {
-    //             Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.SMOOTHING_LENGTH, 
-    //                 fluidSimulator.minY + j * sphereDiameter, fluidSimulator.minZ + k * fluidSimulator.SMOOTHING_LENGTH);
+    // // Make ocean level
+    // int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / fluidSimulator.PARTICLE_RADIUS;
+    // int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / fluidSimulator.PARTICLE_RADIUS;
+    // for (int j = 0; j < 3; j++) {
+    //     for (int i = 0; i < numInX; i++) {
+    //         for (int k = 0; k < numInZ; k++) {
+    //             Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
+    //                 fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
     //             if (k == 0 && j == 0) {
     //                 particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
     //             }
@@ -377,40 +365,83 @@ int main() {
     //     }
     // }
 
+    // // Add a large water drop
+    // for (int i = 0; i < 3; i++) {
+    //     for (int j = 0; j < 3; j++) {
+    //         for (int k = 0; k < 3; k++) {
+    //             fluidSimulator.addParticleFromXYZ(i*fluidSimulator.PARTICLE_RADIUS, 
+    //                 j*fluidSimulator.PARTICLE_RADIUS, k*fluidSimulator.PARTICLE_RADIUS);
+    //         }
+    //     }
+    // }
+
+    // Create boundary floor and roof
     int numInX = (fluidSimulator.maxX - fluidSimulator.minX) / fluidSimulator.PARTICLE_RADIUS;
     int numInZ = (fluidSimulator.maxZ - fluidSimulator.minZ) / fluidSimulator.PARTICLE_RADIUS;
-    for (int j = 0; j < 3; j++) {
+    int numInY = (fluidSimulator.maxY - fluidSimulator.minY) / fluidSimulator.PARTICLE_RADIUS;
+    for (int j = 0; j < 2; j++) {
         for (int i = 0; i < numInX; i++) {
             for (int k = 0; k < numInZ; k++) {
-                Particle::Particle particle = Particle::ParticlefromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
+                fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
                     fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
-                if (k == 0 && j == 0) {
-                    particle.initialForce = glm::dvec3(0.0, 0.0, 1000.0); // Add sea floor force
-                }
-                fluidSimulator.addParticle(particle);
+                fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, 
+                    fluidSimulator.maxY - j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
             }
         }
     }
+    // Left and Right wall
+    for (int j = 0; j < numInY; j++) {
+        for (int k = 0; k < numInZ; k++) {
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.maxX, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.maxX - fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + k * fluidSimulator.PARTICLE_RADIUS);
+        }
+    }
+    // Front and back wall
+    for (int i = 0; i < numInX; i++) {
+        for (int j = 0; j < numInY; j++) {
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minZ + fluidSimulator.PARTICLE_RADIUS);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.maxZ);
+            fluidSimulator.addBoundaryFromXYZ(fluidSimulator.minX + i * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.minY + j * fluidSimulator.PARTICLE_RADIUS, fluidSimulator.maxZ - fluidSimulator.PARTICLE_RADIUS);
 
-    // int iteration = 0;
-    // int spewRate = 100;
+        }
+    }
+
+    int iteration = 0;
+    int spewRate = 1000;
+    //int waveRate = 100;
     // Event loop
     while (!glfwWindowShouldClose(window)) {
         // Fountain
+        if (iteration % spewRate == 0) {
+            Particle::Particle particle = Particle::ParticlefromXYZ(0.0,0.0,0.0);
+            if (iteration % (4 * spewRate) == 0) {
+                particle.velocity = glm::dvec3(3.0,0.0,0.0);
+            } else if (iteration % (3 * spewRate) == 0) {
+                particle.velocity = glm::dvec3(0.0,0.0,-3.0);
+            } else if (iteration % (2 * spewRate) == 0) {
+                particle.velocity = glm::dvec3(-3.0,0.0,0.0);
+            } else {
+                particle.velocity = glm::dvec3(0.0,0.0,3.0);
+            }
+            fluidSimulator.addParticle(particle);
+        }
+        iteration++;
+
+        // Dropper
         // if (iteration % spewRate == 0) {
-        //     Particle::Particle particle = Particle::ParticlefromXYZ(0.0,0.0,0.0);
-        //     if (iteration % (4 * spewRate) == 0) {
-        //         particle.velocity = glm::dvec3(3.0,0.0,0.0);
-        //     } else if (iteration % (3 * spewRate) == 0) {
-        //         particle.velocity = glm::dvec3(0.0,0.0,-3.0);
-        //     } else if (iteration % (2 * spewRate) == 0) {
-        //         particle.velocity = glm::dvec3(-3.0,0.0,0.0);
-        //     } else {
-        //         particle.velocity = glm::dvec3(0.0,0.0,3.0);
-        //     }
-        //     fluidSimulator.addParticle(particle);
+        //     fluidSimulator.addParticleFromXYZ(0.0, 0.0, 0.0);
         // }
-        //  iteration++;
+        // iteration++;
+
+
+        // Wave
+        // if (iteration % waveRate == 0) {
+        //     fluidSimulator.minZ = -0.95;
+        // }
+        //iteration++;
 
 
         // Take time step

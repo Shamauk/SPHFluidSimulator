@@ -97,24 +97,10 @@ CMakeFiles/SPHProject.dir/src/kernel.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/kernel.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/kernel.cpp -o CMakeFiles/SPHProject.dir/src/kernel.cpp.s
 
-CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/flags.make
-CMakeFiles/SPHProject.dir/src/main.cpp.o: /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp
-CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SPHProject.dir/src/main.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/main.cpp.o -MF CMakeFiles/SPHProject.dir/src/main.cpp.o.d -o CMakeFiles/SPHProject.dir/src/main.cpp.o -c /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp
-
-CMakeFiles/SPHProject.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SPHProject.dir/src/main.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp > CMakeFiles/SPHProject.dir/src/main.cpp.i
-
-CMakeFiles/SPHProject.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/main.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp -o CMakeFiles/SPHProject.dir/src/main.cpp.s
-
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: CMakeFiles/SPHProject.dir/flags.make
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.cpp
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SPHProject.dir/src/particle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SPHProject.dir/src/particle.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/particle.cpp.o -MF CMakeFiles/SPHProject.dir/src/particle.cpp.o.d -o CMakeFiles/SPHProject.dir/src/particle.cpp.o -c /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.cpp
 
 CMakeFiles/SPHProject.dir/src/particle.cpp.i: cmake_force
@@ -125,20 +111,34 @@ CMakeFiles/SPHProject.dir/src/particle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/particle.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/particle.cpp -o CMakeFiles/SPHProject.dir/src/particle.cpp.s
 
+CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/flags.make
+CMakeFiles/SPHProject.dir/src/main.cpp.o: /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp
+CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SPHProject.dir/src/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/main.cpp.o -MF CMakeFiles/SPHProject.dir/src/main.cpp.o.d -o CMakeFiles/SPHProject.dir/src/main.cpp.o -c /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp
+
+CMakeFiles/SPHProject.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SPHProject.dir/src/main.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp > CMakeFiles/SPHProject.dir/src/main.cpp.i
+
+CMakeFiles/SPHProject.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/main.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/sem6/COMP559/project/src/main.cpp -o CMakeFiles/SPHProject.dir/src/main.cpp.s
+
 # Object files for target SPHProject
 SPHProject_OBJECTS = \
 "CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o" \
 "CMakeFiles/SPHProject.dir/src/kernel.cpp.o" \
-"CMakeFiles/SPHProject.dir/src/main.cpp.o" \
-"CMakeFiles/SPHProject.dir/src/particle.cpp.o"
+"CMakeFiles/SPHProject.dir/src/particle.cpp.o" \
+"CMakeFiles/SPHProject.dir/src/main.cpp.o"
 
 # External object files for target SPHProject
 SPHProject_EXTERNAL_OBJECTS =
 
 SPHProject: CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/kernel.cpp.o
-SPHProject: CMakeFiles/SPHProject.dir/src/main.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/particle.cpp.o
+SPHProject: CMakeFiles/SPHProject.dir/src/main.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/build.make
 SPHProject: /usr/local/lib/glfw-3.3.8/debug/src/libglfw3.a
 SPHProject: /usr/local/lib/glew-2.1.0/lib/libGLEW.a

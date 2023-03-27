@@ -22,12 +22,12 @@ glm::dvec3 Kernel::getKernelGradient(glm::dvec3& r) {
     double q = lengthR / h;
     glm::dvec3 multiplier = glm::dvec3(0.0);
     if (q <= 0.5) {
-        multiplier = 6.0 * (3*q*q - 2*q) * (1/h) * (r / lengthR);
+        multiplier = (3*q*q - 2*q) * (r / lengthR);
     } else if (q <= 1) {
-        float tmp = q-1;
-        multiplier = 6 * tmp*tmp * (1/h) * (r / lengthR);
+        double tmp = 1 - q;
+        multiplier = -1 * tmp*tmp * (r / lengthR);
     }
-    return this->sigma * multiplier;
+    return ((6 * this->sigma) / h) * multiplier;
 }
 
 Kernel::Kernel(double h) {

@@ -1,4 +1,7 @@
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/SPHProject.dir
+/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/my_project_lib.dir
+/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/kernel_tests.dir
+/Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/test.dir
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/edit_cache.dir
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/rebuild_cache.dir
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/list_install_components.dir
@@ -6,6 +9,7 @@
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/install/local.dir
 /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles/install/strip.dir
 /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/uninstall.dir
+/usr/local/lib/glfw-3.3.8/debug/CMakeFiles/test.dir
 /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/edit_cache.dir
 /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/rebuild_cache.dir
 /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/list_install_components.dir
@@ -14,6 +18,7 @@
 /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/install/strip.dir
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir
+/usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/test.dir
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/edit_cache.dir
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/rebuild_cache.dir
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/list_install_components.dir

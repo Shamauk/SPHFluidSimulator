@@ -82,3 +82,43 @@ glUseProgram(shaderProgram);
 //     glDeleteBuffers(1, &VBO);
 //     glDeleteBuffers(1, &EBO);
 // }
+
+
+
+// void FluidSimulator::setAllPressuresAndSetPressureForce() {
+//     // First, calculate the pressure for all particles
+//     for (Particle::Particle& particle : particles) {
+//      //   std::cout << particle.density << std::endl;
+//         particle.pressure = this->STIFFNESS * (particle.density - this->REST_DENSITY);
+//     }
+
+//     // Then, calculate the pressure force for all particles
+//     for (Particle::Particle& particle : particles) {
+//         glm::dvec3 pressureForce = glm::dvec3(0.0);
+//         for (Particle::Particle* neighbor : particle.neighbors) {
+//             glm::dvec3 r = particle.position - neighbor->position;
+//             double lengthR = glm::length(r);
+//             if (lengthR == 0) continue;
+            
+//             // Monaghan artificial pressure term
+//             double epsilon = 0.01; // You can adjust this value (try values between 0.01 and 0.1)
+//             double artificialPressure = -epsilon * VISCOSITY * (particle.mass / (particle.density * particle.density)) * (neighbor->mass / (neighbor->density * neighbor->density)) * (1.0 / (lengthR * lengthR));
+            
+//             pressureForce += (particle.mass * (particle.pressure / (particle.density * particle.density)) + neighbor->mass * (neighbor->pressure / (neighbor->density * neighbor->density))) * this->kernel.getKernelGradient(r) + artificialPressure * this->kernel.getKernelGradient(r);
+//         }
+//         particle.forceAccumulator = -pressureForce;
+//     }
+// }
+
+
+    //enforceBoundaryConditionOnAllParticles();
+void FluidSimulator::enforceBoundaryConditionOnAllParticles() {
+    for (auto& particle : particles) {
+        if (particle.position.x < minX) { particle.velocity.x = BOUNDARY_RESTITUTION * (minX - particle.position.x) / dt; particle.position.x = minX; }
+        if (particle.position.x > maxX) { particle.velocity.x = BOUNDARY_RESTITUTION * (maxX - particle.position.x) / dt; particle.position.x = maxX; }
+        if (particle.position.y < minY) { particle.velocity.y = BOUNDARY_RESTITUTION * (minY - particle.position.y) / dt; particle.position.y = minY; }
+        if (particle.position.y > maxY) { particle.velocity.y = BOUNDARY_RESTITUTION * (maxY - particle.position.y) / dt; particle.position.y = maxY; }
+        if (particle.position.z < minZ) { particle.velocity.z = BOUNDARY_RESTITUTION * (minZ - particle.position.z) / dt; particle.position.z = minZ; }
+        if (particle.position.z > maxZ) { particle.velocity.z = BOUNDARY_RESTITUTION * (maxZ - particle.position.z) / dt; particle.position.z = maxZ; }
+    }
+}

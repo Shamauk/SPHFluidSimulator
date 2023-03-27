@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /Users/lovelace/Documents/McGill/sem6/COMP559/project/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/Applications/CMake.app/Contents/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -175,6 +185,32 @@ SPHProject/fast:
 .PHONY : SPHProject/fast
 
 #=============================================================================
+# Target rules for targets named my_project_lib
+
+# Build rule for target.
+my_project_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 my_project_lib
+.PHONY : my_project_lib
+
+# fast build rule for target.
+my_project_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/build
+.PHONY : my_project_lib/fast
+
+#=============================================================================
+# Target rules for targets named kernel_tests
+
+# Build rule for target.
+kernel_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kernel_tests
+.PHONY : kernel_tests
+
+# fast build rule for target.
+kernel_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/build
+.PHONY : kernel_tests/fast
+
+#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -219,6 +255,7 @@ src/fluidSimulator.o: src/fluidSimulator.cpp.o
 # target to build an object file
 src/fluidSimulator.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.o
 .PHONY : src/fluidSimulator.cpp.o
 
 src/fluidSimulator.i: src/fluidSimulator.cpp.i
@@ -227,6 +264,7 @@ src/fluidSimulator.i: src/fluidSimulator.cpp.i
 # target to preprocess a source file
 src/fluidSimulator.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.i
 .PHONY : src/fluidSimulator.cpp.i
 
 src/fluidSimulator.s: src/fluidSimulator.cpp.s
@@ -235,6 +273,7 @@ src/fluidSimulator.s: src/fluidSimulator.cpp.s
 # target to generate assembly for a file
 src/fluidSimulator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.s
 .PHONY : src/fluidSimulator.cpp.s
 
 src/kernel.o: src/kernel.cpp.o
@@ -243,6 +282,7 @@ src/kernel.o: src/kernel.cpp.o
 # target to build an object file
 src/kernel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.o
 .PHONY : src/kernel.cpp.o
 
 src/kernel.i: src/kernel.cpp.i
@@ -251,6 +291,7 @@ src/kernel.i: src/kernel.cpp.i
 # target to preprocess a source file
 src/kernel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.i
 .PHONY : src/kernel.cpp.i
 
 src/kernel.s: src/kernel.cpp.s
@@ -259,6 +300,7 @@ src/kernel.s: src/kernel.cpp.s
 # target to generate assembly for a file
 src/kernel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.s
 .PHONY : src/kernel.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -291,6 +333,7 @@ src/particle.o: src/particle.cpp.o
 # target to build an object file
 src/particle.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.o
 .PHONY : src/particle.cpp.o
 
 src/particle.i: src/particle.cpp.i
@@ -299,6 +342,7 @@ src/particle.i: src/particle.cpp.i
 # target to preprocess a source file
 src/particle.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.i
 .PHONY : src/particle.cpp.i
 
 src/particle.s: src/particle.cpp.s
@@ -307,7 +351,32 @@ src/particle.s: src/particle.cpp.s
 # target to generate assembly for a file
 src/particle.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.s
 .PHONY : src/particle.cpp.s
+
+tests/kernel_tests.o: tests/kernel_tests.cpp.o
+.PHONY : tests/kernel_tests.o
+
+# target to build an object file
+tests/kernel_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+.PHONY : tests/kernel_tests.cpp.o
+
+tests/kernel_tests.i: tests/kernel_tests.cpp.i
+.PHONY : tests/kernel_tests.i
+
+# target to preprocess a source file
+tests/kernel_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.i
+.PHONY : tests/kernel_tests.cpp.i
+
+tests/kernel_tests.s: tests/kernel_tests.cpp.s
+.PHONY : tests/kernel_tests.s
+
+# target to generate assembly for a file
+tests/kernel_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.s
+.PHONY : tests/kernel_tests.cpp.s
 
 # Help Target
 help:
@@ -321,10 +390,13 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... uninstall"
 	@echo "... update_mappings"
 	@echo "... SPHProject"
 	@echo "... glfw"
+	@echo "... kernel_tests"
+	@echo "... my_project_lib"
 	@echo "... src/fluidSimulator.o"
 	@echo "... src/fluidSimulator.i"
 	@echo "... src/fluidSimulator.s"
@@ -337,6 +409,9 @@ help:
 	@echo "... src/particle.o"
 	@echo "... src/particle.i"
 	@echo "... src/particle.s"
+	@echo "... tests/kernel_tests.o"
+	@echo "... tests/kernel_tests.i"
+	@echo "... tests/kernel_tests.s"
 .PHONY : help
 
 
