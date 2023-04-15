@@ -22,11 +22,12 @@ public:
 
     // Particle properties
     glm::dvec2 position;      
-    glm::dvec2 velocity;      
+    glm::dvec2 velocity;   
+    glm::dvec2 intermVelocity;   
     glm::dvec2 acceleration;  
     double pressure;          
     double density;    
-    double mass = 0.1;    
+    glm::dvec2 forceAccumulation;    
 };
 
 #endif

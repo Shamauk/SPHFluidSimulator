@@ -991,4 +991,5 @@ CMakeFiles/SPHProject.dir/src/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
   /usr/local/lib/glfw-3.3.8/include/GLFW/glfw3.h \
   /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/fluid.h \
-  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.h
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.h \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernel.h

@@ -169,12 +169,10 @@ int main() {
     glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(fluidSimulator.getParticleColor()));
 
 
-    fluidSimulator.createScene(0);
+    fluidSimulator.createScene(2);
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {
-        fluidSimulator.updateParticleStates();
-
         glUseProgram(shaderProgram);
         // Clear the screen to black
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -185,7 +183,6 @@ int main() {
         glBindVertexArray(VAO);
 
         for (const Particle& p : fluidSimulator.getParticles()) {
-            std::cout << "Particle" << std::endl;
             glm::dvec3 position3D(p.position.x, p.position.y, 0.0);
             glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), position3D);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
@@ -197,6 +194,9 @@ int main() {
         // Swap buffers and poll events
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        // Run a step
+        fluidSimulator.updateParticleStates();
     }
 
     // Clean up

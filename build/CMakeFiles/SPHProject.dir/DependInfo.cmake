@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/fluid.cpp" "CMakeFiles/SPHProject.dir/src/fluid.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/fluid.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernel.cpp" "CMakeFiles/SPHProject.dir/src/kernel.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/kernel.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/main.cpp" "CMakeFiles/SPHProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
   )
 

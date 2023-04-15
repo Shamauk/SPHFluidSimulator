@@ -276,6 +276,33 @@ src/fluid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.s
 .PHONY : src/fluid.cpp.s
 
+src/kernel.o: src/kernel.cpp.o
+.PHONY : src/kernel.o
+
+# target to build an object file
+src/kernel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.o
+.PHONY : src/kernel.cpp.o
+
+src/kernel.i: src/kernel.cpp.i
+.PHONY : src/kernel.i
+
+# target to preprocess a source file
+src/kernel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.i
+.PHONY : src/kernel.cpp.i
+
+src/kernel.s: src/kernel.cpp.s
+.PHONY : src/kernel.s
+
+# target to generate assembly for a file
+src/kernel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.s
+.PHONY : src/kernel.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -346,6 +373,9 @@ help:
 	@echo "... src/fluid.o"
 	@echo "... src/fluid.i"
 	@echo "... src/fluid.s"
+	@echo "... src/kernel.o"
+	@echo "... src/kernel.i"
+	@echo "... src/kernel.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
