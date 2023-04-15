@@ -12,22 +12,27 @@ void Fluid::createScene(short sceneNumber) {
         this->particles.push_back(Particle(glm::dvec2(this->getSmoothingLength() / 2.0, 0.0), glm::dvec2(0)));
         this->particles.push_back(Particle(glm::dvec2(-1 * (this->getSmoothingLength() / 2.0), 0.0), glm::dvec2(0)));
     } else if (sceneNumber == 1) { // DAM BREAK
-        // std::cout << "initializing dam break with " << this->DAM_PARTICLES << " particles" << std::endl;
-        // for (double y = this->minY; y < 0.5 * this->maxY; y += this->getSmoothingLength() / 2.0);
-        // {
-        //     for (double x = -0.2; x <= 0.2; x += this->getSmoothingLength() / 2.0)
-        //     {
-        //         if (particles.size() < DAM_PARTICLES)
-        //         {
-        //             double jitter = static_cast<float>(arc4random()) / static_cast<float>(RAND_MAX);
-        //             particles.push_back(Particle(glm::dvec2(x + jitter, y), glm::dvec2(0.0)));
-        //         }
-        //         else
-        //         {
-        //             return;
-        //         }
-        //     }
-        // }
+        std::cout << "initializing dam break" << std::endl;
+        // Temporarily change maxX 
+        this->setMaxX(this->getMinX() + 3 * this->getParticleRadius());
+
+        // Create all particles
+        maxNumParticlesInX = (this->maxX - this->minX) / this->PARTICLE_RADIUS;
+        for (int j = 0; j < maxNumParticlesInY; j++) {
+            for (int i = 0; i < maxNumParticlesInX; i++) {
+                this->particles.push_back(Particle(glm::dvec2(this->getMinX() + i * this->getParticleRadius(), 
+                    this->minY + j * this->getParticleRadius()), glm::dvec2(0.0)));
+            }
+        }
+
+        // Setup heartbeat
+        this->frameToHeartbeat = 500;
+        this->curFrame = 1;
+        this->heartbeat = [this]() {
+            std::cout << "dam breaking" << std::endl;
+            this->setMaxX(1.0);
+            this->frameToHeartbeat = 0;
+        };
     } else if (sceneNumber == 2) {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 25; i++) {
@@ -71,6 +76,7 @@ void Fluid::calculateDensity() {
             glm::dvec2 rij = pi.position - pj.position;
             pi.density += this->PARTICLE_MASS * this->kernel.getKernelValue(rij);
         }
+        std::cout << "Particle density: " << pi.density << std::endl;
     }
 }
 
@@ -108,7 +114,8 @@ void Fluid::calculatePressureAndPressureForce() {
 }
 
 void Fluid::calculatePressure(Particle &p) {
-    p.pressure = this->PRESSURE_STIFFNESS * ((p.density / this->REST_DENSITY) - 1);
+   // p.pressure = this->PRESSURE_STIFFNESS * ((p.density / this->REST_DENSITY) - 1);
+   p.pressure = this->PRESSURE_STIFFNESS * (p.density - this->REST_DENSITY);
 }
 
 void Fluid::updateParticleVelocityAndPosition() {

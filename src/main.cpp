@@ -169,7 +169,7 @@ int main() {
     glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(fluidSimulator.getParticleColor()));
 
 
-    fluidSimulator.createScene(3);
+    fluidSimulator.createScene(1);
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {

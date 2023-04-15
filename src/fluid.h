@@ -33,17 +33,19 @@ public:
 
     void setMinY(double y) { minY = y; }
     void setMaxY(double y) { maxY = y; }
+    void setMaxX(double x) { maxX = x; }
+    void setMinX(double x) { minX = x; }
 
     double getSmoothingLength() { return SMOOTHING_LENGTH; }
 
 private:
     const double PARTICLE_RADIUS = 0.05;
-    const double PARTICLE_MASS = 0.5;
+    const double PARTICLE_MASS = 1;
     const double VISCOSITY = 0.01;
-    const double PRESSURE_STIFFNESS = 500.0;
+    const double PRESSURE_STIFFNESS = 6.0;
     const double REST_DENSITY = 1000.0;
-    const double dt = 0.0009;
-    const double BOUNDARY_DAMPING = -0.4;
+    const double dt = 0.0005;
+    const double BOUNDARY_DAMPING = -0.2;
     glm::vec3 particleColor = glm::vec3(0.0f, 0.1f, 1.0f); 
     const double SMOOTHING_LENGTH = PARTICLE_RADIUS * 4;
     Kernel kernel = Kernel(SMOOTHING_LENGTH);
