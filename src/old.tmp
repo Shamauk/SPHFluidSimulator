@@ -1,0 +1,37 @@
+void Fluid::calculateIntermediateVelocity() {
+    for (auto &pi : this->particles) {
+        glm::dvec2 tmp = glm::dvec2(0.0);
+        for (auto &pj : this->particles) {
+            if (&pi == &pj) continue;
+            glm::dvec2 rij = pi.position - pj.position;
+            double lengthRij = glm::length(rij);
+            if (lengthRij == 0 || pj.density == 0) continue;
+            // tmp += (this->PARTICLE_MASS / pj.density) * (pi.velocity - pj.velocity) * 
+            //     (2 / glm::length(rij)) * glm::length(kernel.getKernelGradient(rij));
+            tmp += ((pj.velocity - pi.velocity) / pj.density) * kernel.laplacianViscosity(rij);
+        }
+        // glm::dvec2 forceViscosity = -1 * this->PARTICLE_MASS * this->VISCOSITY * tmp;
+        glm::dvec2 forceViscosity = this->VISCOSITY * this->PARTICLE_MASS * tmp;
+        glm::dvec2 forceGravity = glm::dvec2(0.0, (-9.8 * this->PARTICLE_MASS) / pi.density);
+
+        pi.intermVelocity = pi.velocity + (dt / this->PARTICLE_MASS) * (forceGravity + forceViscosity);
+    }
+}
+
+void Fluid::calculatePressureAndPressureForce() {
+    for (auto &pi : this->particles) {
+        calculatePressure(pi);
+
+        pi.forceAccumulation = glm::dvec2(0.0);
+        for (auto &pj : this->particles) {
+            if (&pi == &pj) continue;
+            glm::dvec2 rij = pi.position - pj.position;
+            if (pi.density == 0 || pj.density == 0) continue;
+            pi.forceAccumulation -= (rij / glm::length(rij)) * this->PARTICLE_MASS * 
+            ((pi.pressure + pj.pressure) / (2*pj.density)) * kernel.spiky(rij);
+
+            // pi.forceAccumulation -= this->PARTICLE_MASS * ((pi.pressure / (pi.density * pi.density)) 
+            //     + (pj.pressure / (pj.density * pj.density))) * kernel.getKernelGradient(rij);
+        }
+    }
+}

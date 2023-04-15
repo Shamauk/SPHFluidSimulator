@@ -44,6 +44,15 @@ void Fluid::createScene(short sceneNumber) {
         this->heartbeat = [this]() {
             this->particles.push_back(Particle(glm::dvec2((rand() % 10) / 50.0 ,0.0), glm::dvec2(0.0)));
         };
+    } else if (sceneNumber == 4) { // Drop
+        std::cout << "Initializing drop" << std::endl;
+        int sceneMinX = -5 * (this->SMOOTHING_LENGTH / 2.0);
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 10; i++) {
+                this->particles.push_back(Particle(glm::dvec2(sceneMinX + i * (this->SMOOTHING_LENGTH / 2.0 + 0.01), 
+                this->getMinY() + j * (this->SMOOTHING_LENGTH / 2.0 + 0.01)), glm::dvec2(0.0)));
+            }
+        }
     } else {
         std::cout << "NO SUCH SCENE" << std::endl;
         return;
@@ -53,8 +62,7 @@ void Fluid::createScene(short sceneNumber) {
 void Fluid::updateParticleStates() {
     this->addSceneUpdateParticles();
     this->calculateDensity();
-    this->calculateIntermediateVelocity();
-    this->calculatePressureAndPressureForce();
+    this->calculateForces();
     this->updateParticleVelocityAndPosition();
     this->handleBoundaryConditions();
 }
@@ -74,42 +82,38 @@ void Fluid::calculateDensity() {
         pi.density = 0;
         for (auto &pj : this->particles) {
             glm::dvec2 rij = pi.position - pj.position;
-            pi.density += this->PARTICLE_MASS * this->kernel.getKernelValue(rij);
+            pi.density += this->PARTICLE_MASS * this->kernel.poly6(rij);
         }
         std::cout << "Particle density: " << pi.density << std::endl;
     }
 }
 
-void Fluid::calculateIntermediateVelocity() {
-    for (auto &pi : this->particles) {
-        glm::dvec2 tmp = glm::dvec2(0.0);
-        for (auto &pj : this->particles) {
-            if (&pi == &pj) continue;
-            glm::dvec2 rij = pi.position - pj.position;
-            double lengthRij = glm::length(rij);
-            if (lengthRij == 0 || pj.density == 0) continue;
-            tmp += (this->PARTICLE_MASS / pj.density) * (pi.velocity - pj.velocity) * 
-                (2 / glm::length(rij)) * glm::length(kernel.getKernelGradient(rij));
-        }
-        glm::dvec2 forceViscosity = -1 * this->PARTICLE_MASS * this->VISCOSITY * tmp;
-        glm::dvec2 forceGravity = glm::dvec2(0.0, -9.8 * this->PARTICLE_MASS);
-
-        pi.intermVelocity = pi.velocity + (dt / this->PARTICLE_MASS) * (forceGravity + forceViscosity);
-    }
-}
-
-void Fluid::calculatePressureAndPressureForce() {
-    for (auto &pi : this->particles) {
+void Fluid::calculateForces() {
+    for (auto& pi : particles) {
         calculatePressure(pi);
+        std::cout << "Pressure: " << pi.pressure << std::endl;
+        glm::dvec2 fpres = glm::dvec2(0.0);
+        glm::dvec2 fvisc = glm::dvec2(0.0);
 
-        pi.forceAccumulation = glm::dvec2(0.0);
-        for (auto &pj : this->particles) {
-            if (&pi == &pj) continue;
-            glm::dvec2 rij = pi.position - pj.position;
-            if (pi.density == 0 || pj.density == 0) continue;
-            pi.forceAccumulation -= this->PARTICLE_MASS * ((pi.pressure / (pi.density * pi.density)) 
-                + (pj.pressure / (pj.density * pj.density))) * kernel.getKernelGradient(rij);
+        for (auto& pj : particles) {
+            if (&pi == &pj || pj.density == 0) continue;
+
+            glm::dvec2 rij = pj.position - pi.position;
+            double lengthR = glm::length(rij);
+            if (lengthR > this->SMOOTHING_LENGTH) continue;
+
+            std::cout << "rij: " << rij.x << "," << rij.y << std::endl;
+            std::cout << "pj density: " << pj.density << std::endl;
+            std::cout << "pi pressure: " << pi.pressure << std::endl;
+            std::cout << "pj pressure: " << pj.pressure << std::endl;
+            std::cout << "kernel spiky: " << kernel.spiky(rij) << std::endl;
+            fpres -= (rij / lengthR) * this->PARTICLE_MASS * (pi.pressure + pj.pressure) / (2.0 * pj.density) * kernel.spiky(rij);
+            std::cout << "Fpres: " << fpres.x << "," << fpres.y << std::endl;
+            fvisc += this->VISCOSITY * this->PARTICLE_MASS * (pj.velocity - pi.velocity) / pj.density * kernel.laplacianViscosity(rij);
         }
+        glm::dvec2 fgrav = glm::dvec2(0, -9.81 * this->PARTICLE_MASS / pi.density);
+        std::cout << "Pressure force: (" << fpres.x << "," << fpres.y << ")" << std::endl; 
+        pi.forceAccumulation = fpres + fvisc + fgrav;
     }
 }
 
@@ -120,7 +124,8 @@ void Fluid::calculatePressure(Particle &p) {
 
 void Fluid::updateParticleVelocityAndPosition() {
     for (auto &p: this->particles) {
-        p.velocity = p.intermVelocity + (this->dt / this->PARTICLE_MASS) * p.forceAccumulation;
+        // p.velocity = p.intermVelocity + (this->dt / this->PARTICLE_MASS) * p.forceAccumulation;
+        p.velocity = this->dt * p.forceAccumulation / p.density;
         p.position += this->dt * p.velocity;
     }
 }
