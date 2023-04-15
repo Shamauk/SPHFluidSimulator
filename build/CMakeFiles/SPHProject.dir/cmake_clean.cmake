@@ -1,12 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o"
-  "CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o.d"
-  "CMakeFiles/SPHProject.dir/src/kernel.cpp.o"
-  "CMakeFiles/SPHProject.dir/src/kernel.cpp.o.d"
+  "CMakeFiles/SPHProject.dir/src/fluid.cpp.o"
+  "CMakeFiles/SPHProject.dir/src/fluid.cpp.o.d"
   "CMakeFiles/SPHProject.dir/src/main.cpp.o"
   "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
-  "CMakeFiles/SPHProject.dir/src/particle.cpp.o"
-  "CMakeFiles/SPHProject.dir/src/particle.cpp.o.d"
   "SPHProject"
   "SPHProject.pdb"
 )

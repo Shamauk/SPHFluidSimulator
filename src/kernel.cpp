@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-double Kernel::getKernelValue(glm::dvec3& r) {
+double Kernel::getKernelValue(glm::dvec2& r) {
     double q = glm::length(r) / h;
     double multiplier = 0;
     if (q <= 0.5) {
@@ -14,13 +14,13 @@ double Kernel::getKernelValue(glm::dvec3& r) {
     return this->sigma * multiplier;
 }
 
-glm::dvec3 Kernel::getKernelGradient(glm::dvec3& r) {
+glm::dvec2 Kernel::getKernelGradient(glm::dvec2& r) {
     double lengthR = glm::length(r);
     if (lengthR == 0) {
         return glm::dvec3(0.0);
     }
     double q = lengthR / h;
-    glm::dvec3 multiplier = glm::dvec3(0.0);
+    glm::dvec2 multiplier = glm::dvec3(0.0);
     if (q <= 0.5) {
         multiplier = (3*q*q - 2*q) * (r / lengthR);
     } else if (q <= 1) {

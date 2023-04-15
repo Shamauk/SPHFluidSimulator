@@ -113,7 +113,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/Applications/CMake.app/Contents/share/cmake-3.24/Modules/Platform/Darwin.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.24/Modules/Platform/UnixPaths.cmake"
   "/Applications/CMake.app/Contents/share/cmake-3.24/Modules/WriteBasicConfigVersionFile.cmake"
-  "/Users/lovelace/Documents/McGill/sem6/COMP559/project/CMakeLists.txt"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/CMakeLists.txt"
   "CMakeFiles/3.24.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.24.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.24.1/CMakeSystem.cmake"

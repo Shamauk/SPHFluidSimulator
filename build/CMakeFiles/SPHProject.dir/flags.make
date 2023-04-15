@@ -4,9 +4,9 @@
 # compile CXX with /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/lib/glfw-3.3.8/include -I/usr/local/lib/glew-2.1.0/include -I/usr/local/lib/glm-0.9.9 -I/Users/lovelace/Documents/McGill/sem6/COMP559/project/src
+CXX_INCLUDES = -I/usr/local/lib/glfw-3.3.8/include -I/usr/local/lib/glew-2.1.0/include -I/usr/local/lib/glm-0.9.9 -I/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src
 
-CXX_FLAGSarm64 =  -Wall -pedantic -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -std=gnu++17
+CXX_FLAGSarm64 =  -Wall -pedantic -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -std=gnu++17
 
-CXX_FLAGS =  -Wall -pedantic -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -std=gnu++17
+CXX_FLAGS =  -Wall -pedantic -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -std=gnu++17
 

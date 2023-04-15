@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project("SPHProject")
 
+set (CMAKE_CXX_STANDARD 11)
+
 FILE(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.hpp")
 FILE(GLOB_RECURSE HEADERS "src/*.h")
 

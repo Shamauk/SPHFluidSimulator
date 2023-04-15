@@ -57,10 +57,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/lovelace/Documents/McGill/sem6/COMP559/project
+CMAKE_SOURCE_DIR = /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/lovelace/Documents/McGill/sem6/COMP559/project/build
+CMAKE_BINARY_DIR = /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles /Users/lovelace/Documents/McGill/sem6/COMP559/project/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/sem6/COMP559/project/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -249,59 +249,32 @@ glfw/fast:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
-src/fluidSimulator.o: src/fluidSimulator.cpp.o
-.PHONY : src/fluidSimulator.o
+src/fluid.o: src/fluid.cpp.o
+.PHONY : src/fluid.o
 
 # target to build an object file
-src/fluidSimulator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.o
-.PHONY : src/fluidSimulator.cpp.o
+src/fluid.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.o
+.PHONY : src/fluid.cpp.o
 
-src/fluidSimulator.i: src/fluidSimulator.cpp.i
-.PHONY : src/fluidSimulator.i
-
-# target to preprocess a source file
-src/fluidSimulator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.i
-.PHONY : src/fluidSimulator.cpp.i
-
-src/fluidSimulator.s: src/fluidSimulator.cpp.s
-.PHONY : src/fluidSimulator.s
-
-# target to generate assembly for a file
-src/fluidSimulator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluidSimulator.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluidSimulator.cpp.s
-.PHONY : src/fluidSimulator.cpp.s
-
-src/kernel.o: src/kernel.cpp.o
-.PHONY : src/kernel.o
-
-# target to build an object file
-src/kernel.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.o
-.PHONY : src/kernel.cpp.o
-
-src/kernel.i: src/kernel.cpp.i
-.PHONY : src/kernel.i
+src/fluid.i: src/fluid.cpp.i
+.PHONY : src/fluid.i
 
 # target to preprocess a source file
-src/kernel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.i
-.PHONY : src/kernel.cpp.i
+src/fluid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.i
+.PHONY : src/fluid.cpp.i
 
-src/kernel.s: src/kernel.cpp.s
-.PHONY : src/kernel.s
+src/fluid.s: src/fluid.cpp.s
+.PHONY : src/fluid.s
 
 # target to generate assembly for a file
-src/kernel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.s
-.PHONY : src/kernel.cpp.s
+src/fluid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.s
+.PHONY : src/fluid.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -326,33 +299,6 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
-
-src/particle.o: src/particle.cpp.o
-.PHONY : src/particle.o
-
-# target to build an object file
-src/particle.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.o
-.PHONY : src/particle.cpp.o
-
-src/particle.i: src/particle.cpp.i
-.PHONY : src/particle.i
-
-# target to preprocess a source file
-src/particle.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.i
-.PHONY : src/particle.cpp.i
-
-src/particle.s: src/particle.cpp.s
-.PHONY : src/particle.s
-
-# target to generate assembly for a file
-src/particle.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/particle.cpp.s
-.PHONY : src/particle.cpp.s
 
 tests/kernel_tests.o: tests/kernel_tests.cpp.o
 .PHONY : tests/kernel_tests.o
@@ -397,18 +343,12 @@ help:
 	@echo "... glfw"
 	@echo "... kernel_tests"
 	@echo "... my_project_lib"
-	@echo "... src/fluidSimulator.o"
-	@echo "... src/fluidSimulator.i"
-	@echo "... src/fluidSimulator.s"
-	@echo "... src/kernel.o"
-	@echo "... src/kernel.i"
-	@echo "... src/kernel.s"
+	@echo "... src/fluid.o"
+	@echo "... src/fluid.i"
+	@echo "... src/fluid.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/particle.o"
-	@echo "... src/particle.i"
-	@echo "... src/particle.s"
 	@echo "... tests/kernel_tests.o"
 	@echo "... tests/kernel_tests.i"
 	@echo "... tests/kernel_tests.s"

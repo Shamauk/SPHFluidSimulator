@@ -6,8 +6,8 @@
 class Kernel {
 public: 
     Kernel(double h);
-    double getKernelValue(glm::dvec3& r);
-    glm::dvec3 getKernelGradient(glm::dvec3& r);
+    double getKernelValue(glm::dvec2& r);
+    glm::dvec2 getKernelGradient(glm::dvec2& r);
 private:
     double h;
     double sigma;
