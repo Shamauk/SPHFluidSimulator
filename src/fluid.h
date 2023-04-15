@@ -2,6 +2,7 @@
 #define FLUID_H
 
 #include <vector>
+#include <functional>
 
 #include "particle.h"
 #include "kernel.h"
@@ -36,12 +37,12 @@ public:
     double getSmoothingLength() { return SMOOTHING_LENGTH; }
 
 private:
-    const double PARTICLE_RADIUS = 0.01;
-    const double PARTICLE_MASS = 0.00419;
-    const double VISCOSITY = 0.1;
-    const double PRESSURE_STIFFNESS = 100.0;
+    const double PARTICLE_RADIUS = 0.05;
+    const double PARTICLE_MASS = 0.5;
+    const double VISCOSITY = 0.01;
+    const double PRESSURE_STIFFNESS = 500.0;
     const double REST_DENSITY = 1000.0;
-    const double dt = 0.00005;
+    const double dt = 0.0009;
     const double BOUNDARY_DAMPING = -0.4;
     glm::vec3 particleColor = glm::vec3(0.0f, 0.1f, 1.0f); 
     const double SMOOTHING_LENGTH = PARTICLE_RADIUS * 4;
@@ -55,6 +56,9 @@ private:
 
     // Scenes
     const int DAM_PARTICLES = 100;
+    std::function<void()> heartbeat;
+    int frameToHeartbeat = 0;
+    int curFrame = 0;
 
     std::vector<Particle> particles;
     void handleBoundaryConditions();
@@ -63,6 +67,7 @@ private:
     void calculatePressureAndPressureForce();
     void calculatePressure(Particle &p);
     void updateParticleVelocityAndPosition();
+    void addSceneUpdateParticles();
 };
 
 #endif 
