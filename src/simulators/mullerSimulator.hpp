@@ -34,6 +34,7 @@ private:
     SolenthalerKernel solenthalerKernel;
 
     // METHODS
+    void GetNeighbors(ConstVectorWrapper<Particle>);
     void Integrate(ConstVectorWrapper<Particle>);
     void ComputeDensityPressure(ConstVectorWrapper<Particle>);
     void ComputeForces(ConstVectorWrapper<Particle>);

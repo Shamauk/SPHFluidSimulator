@@ -28,7 +28,6 @@ GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentS
 std::vector<float> generateCircleVertices(float radius, int segments);
 std::vector<unsigned int> generateCircleIndices(int segments);
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-// void processInput(GLFWwindow *window);
 
 int main() {
     // Initialize GLFW
@@ -229,39 +228,6 @@ GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentS
 
     return shaderProgram;
 }
-
-// void processInput(GLFWwindow *window)
-// {
-//     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-//         glfwSetWindowShouldClose(window, true);
-//     else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-//         runSimulation = !runSimulation;
-//     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-//         stepsToRun++;
-//     else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_REPEAT) {
-//         for (int i = 0; i < 9; i++)
-//         {
-//             int key = GLFW_KEY_1 + i;
-//             if (glfwGetKey(window, key) == GLFW_PRESS)
-//             {
-//                 runSimulation = false;
-//                 stepsToRun = 0;
-//                 simulatorManager.changeSimulator(i+1, sceneManager.getParticleRadius());
-//             }
-//         }
-//     } else {
-//         for (int i = 0; i < 9; i++)
-//         {
-//             int key = GLFW_KEY_1 + i;
-//             if (glfwGetKey(window, key) == GLFW_PRESS)
-//             {
-//                 runSimulation = false;
-//                 stepsToRun = 0;
-//                 sceneManager.changeScene(i+1);
-//             }
-//         }
-//     }
-// }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {

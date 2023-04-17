@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <vector>
 
 class Particle {
 public:
@@ -19,8 +20,13 @@ public:
     void setDensity(float density);
     void setPressure(float pressure);
 
+    std::vector<Particle*> &getNeigbors() {
+        return neighbors;
+    }
+
 private:
     glm::vec2 position, velocity, force;
     float density, pressure;
+    std::vector<Particle*> neighbors;
 
 };

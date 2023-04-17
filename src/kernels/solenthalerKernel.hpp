@@ -8,7 +8,7 @@ public:
     SolenthalerKernel() {
         SolenthalerKernel(16.f);
     }
-    
+
     SolenthalerKernel(float kernelRadius) {
         this->kernelRadius = kernelRadius;
         this->kernelRadiusSecondPower = this->kernelRadius * this->kernelRadius;
@@ -21,6 +21,9 @@ public:
     float laplacianViscosityKernel(glm::vec2) const;
     glm::vec2 gradientSpikyKernel(glm::vec2) const;
     float poly6Kernel(glm::vec2) const;
+    bool isWithinKernelSpace(glm::vec2 difference) {
+        return glm::length(difference) < this->kernelRadius;
+    }
 
 private:
     float kernelRadius;
