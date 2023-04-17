@@ -1,6 +1,7 @@
 #include "bleakfalls.hpp"
 
 void Bleakfalls::createScene() {
+	Scene::createScene();
 	for (float y = 2*particleRadius; y < this->viewHeight - 2*particleRadius * 2.f; y += 2*particleRadius)
 	{
 		for (float x = this->viewWidth / 4; x <= this->viewWidth / 2; x += 2*particleRadius)

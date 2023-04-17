@@ -10,58 +10,25 @@
 #include "sceneManager.hpp"
 #include "simulatorManager.hpp"
 
-// "Particle-Based Fluid Simulation for Interactive Applications" by Müller et al.
-
 // PROJECTION PARAMS
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const float VIEW_WIDTH = 1200;
 const float VIEW_HEIGHT = 900;
 
+// Play vars
+int stepsToRun = 0;
+bool runSimulation = false;
+
 // SceneManager
 SimulatorManager simulatorManager(VIEW_WIDTH, VIEW_HEIGHT);
 SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT);
 
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
-std::vector<float> generateCircleVertices(float radius, int segments) {
-    std::vector<float> vertices;
-
-    // Add the center vertex
-    vertices.push_back(0.0f); 
-    vertices.push_back(0.0f); 
-    vertices.push_back(0.0f); 
-
-    // Add vertices for the circle perimeter
-    for (int i = 0; i <= segments; ++i) {
-        float angle = (2.0f * M_PI * i) / static_cast<float>(segments);
-        float x = radius * cos(angle);
-        float y = radius * sin(angle);
-
-        vertices.push_back(x);       
-        vertices.push_back(y);       
-        vertices.push_back(0.0f);    
-    }
-
-    return vertices;
-}
-
-std::vector<unsigned int> generateCircleIndices(int segments) {
-    std::vector<unsigned int> indices;
-
-    for (int i = 0; i < segments; ++i) {
-        indices.push_back(0); 
-        indices.push_back(i + 1);
-        indices.push_back(i + 2);
-    }
-
-    // Close the last triangle
-    indices.push_back(0); 
-    indices.push_back(segments + 1);
-    indices.push_back(1);
-
-    return indices;
-}
-
+std::vector<float> generateCircleVertices(float radius, int segments);
+std::vector<unsigned int> generateCircleIndices(int segments);
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+// void processInput(GLFWwindow *window);
 
 int main() {
     // Initialize GLFW
@@ -77,6 +44,7 @@ int main() {
     // Create OpenGL window and context
     GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SPH Fluid Simulator", NULL, NULL);
     glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, keyCallback);
 
     // Check for window creation failure
     if (!window) 
@@ -91,8 +59,8 @@ int main() {
     glewExperimental = GL_TRUE; glewInit();
 
     // Setup managers
-    sceneManager.changeScene((short) 0);
-    simulatorManager.changeSimulator((short) 0, sceneManager.getParticleRadius());
+    sceneManager.changeScene((short) 1);
+    simulatorManager.changeSimulator((short) 1, sceneManager.getParticleRadius());
     
     // Generate circle vertex and index data
     int circleSegments = 5;
@@ -154,7 +122,7 @@ int main() {
     GLuint shaderProgram = createShaderProgram(vertexShaderSrc, fragmentShaderSrc);
     glUseProgram(shaderProgram);
 
-    glm::vec3 waterColor = glm::vec3(0.0,0.5,1.0);
+    glm::vec3 waterColor = glm::vec3(0.0,0.1,1.0);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
     glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(waterColor));
@@ -162,13 +130,18 @@ int main() {
     glEnable(GL_DEPTH_TEST);
 
     glBindVertexArray(VAO);
+    glUseProgram(shaderProgram);
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {
-        // Run a step
-        simulatorManager.update(sceneManager.getParticles());
+        
+        if (runSimulation || stepsToRun > 0) {
+            stepsToRun = stepsToRun < 1 ? 0 : stepsToRun - 1;
+            // Run a step
+            sceneManager.update();
+            simulatorManager.update(sceneManager.getParticles());
+        }
 
-        glUseProgram(shaderProgram);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -197,6 +170,46 @@ int main() {
     return 0;
 }
 
+std::vector<float> generateCircleVertices(float radius, int segments) {
+    std::vector<float> vertices;
+
+    // Add the center vertex
+    vertices.push_back(0.0f); 
+    vertices.push_back(0.0f); 
+    vertices.push_back(0.0f); 
+
+    // Add vertices for the circle perimeter
+    for (int i = 0; i <= segments; ++i) {
+        float angle = (2.0f * M_PI * i) / static_cast<float>(segments);
+        float x = radius * cos(angle);
+        float y = radius * sin(angle);
+
+        vertices.push_back(x);       
+        vertices.push_back(y);       
+        vertices.push_back(0.0f);    
+    }
+
+    return vertices;
+}
+
+std::vector<unsigned int> generateCircleIndices(int segments) {
+    std::vector<unsigned int> indices;
+
+    for (int i = 0; i < segments; ++i) {
+        indices.push_back(0); 
+        indices.push_back(i + 1);
+        indices.push_back(i + 2);
+    }
+
+    // Close the last triangle
+    indices.push_back(0); 
+    indices.push_back(segments + 1);
+    indices.push_back(1);
+
+    return indices;
+}
+
+
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource) {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
@@ -216,3 +229,62 @@ GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentS
 
     return shaderProgram;
 }
+
+// void processInput(GLFWwindow *window)
+// {
+//     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+//         glfwSetWindowShouldClose(window, true);
+//     else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+//         runSimulation = !runSimulation;
+//     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+//         stepsToRun++;
+//     else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_REPEAT) {
+//         for (int i = 0; i < 9; i++)
+//         {
+//             int key = GLFW_KEY_1 + i;
+//             if (glfwGetKey(window, key) == GLFW_PRESS)
+//             {
+//                 runSimulation = false;
+//                 stepsToRun = 0;
+//                 simulatorManager.changeSimulator(i+1, sceneManager.getParticleRadius());
+//             }
+//         }
+//     } else {
+//         for (int i = 0; i < 9; i++)
+//         {
+//             int key = GLFW_KEY_1 + i;
+//             if (glfwGetKey(window, key) == GLFW_PRESS)
+//             {
+//                 runSimulation = false;
+//                 stepsToRun = 0;
+//                 sceneManager.changeScene(i+1);
+//             }
+//         }
+//     }
+// }
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_ESCAPE)
+            glfwSetWindowShouldClose(window, true);
+        else if (key == GLFW_KEY_SPACE)
+            runSimulation = !runSimulation;
+        else if (key == GLFW_KEY_S)
+            stepsToRun++;
+        else if (key == GLFW_KEY_R) {
+            runSimulation = false;
+            stepsToRun = 0;
+            sceneManager.reset();
+       } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
+            runSimulation = false;
+            stepsToRun = 0;
+            sceneManager.reset();
+            simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getParticleRadius());
+        } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
+            runSimulation = false;
+            stepsToRun = 0;
+            sceneManager.changeScene(key - GLFW_KEY_1 + 1);
+        } 
+    }
+}
+

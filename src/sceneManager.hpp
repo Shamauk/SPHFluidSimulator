@@ -20,6 +20,12 @@ public:
     float getParticleRadius() {
         return activeScene->getParticleRadius();
     }
+    void update() {
+        activeScene->update();
+    }
+    void reset() {
+        activeScene->createScene();
+    }
 private:
     float viewWidth;
     float viewHeight;

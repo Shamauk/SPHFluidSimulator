@@ -14,7 +14,9 @@ public:
         this->viewHeight = viewHeight;
     }
 
-    virtual void createScene() = 0;
+    virtual void createScene() {
+        particles = std::vector<Particle>();
+    }
     virtual void update() = 0;
     ConstVectorWrapper<Particle> getParticles() {
         return ConstVectorWrapper(&particles);

@@ -7,7 +7,7 @@ float SolenthalerKernel::laplacianViscosityKernel(glm::vec2 difference) const {
 glm::vec2 SolenthalerKernel::gradientSpikyKernel(glm::vec2 difference) const {
     float length = glm::length(difference);
     float tmp = kernelRadius - length;
-    return (float)((-10.f / (M_PI * kernelRadiusFifthPower)) * tmp*tmp*tmp) * (difference / length);
+    return (float)((-30.f / (M_PI * kernelRadiusFifthPower)) * tmp*tmp) * (difference / length);
 }
 
 float SolenthalerKernel::poly6Kernel(glm::vec2 difference) const {

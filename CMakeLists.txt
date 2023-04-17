@@ -93,6 +93,10 @@ INCLUDE_DIRECTORIES(${GLM_DIR})
 SET(EIGEN_DIR $ENV{THIRDPARTY_DIR}/eigen-3.4.0)
 INCLUDE_DIRECTORIES(${EIGEN_DIR})
 
+# Get freetype
+SET(FREETYPE_DIR $ENV{THIRDPARTY_DIR}/freetype-2.12.1)
+INCLUDE_DIRECTORIES(${EIGEN_DIR})
+
 # Use c++17
 SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
@@ -117,25 +121,6 @@ ELSE()
         TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "GL")
     ENDIF()
 ENDIF()
-
-# GLUT
-# SET(GLUT_DIR $ENV{THIRDPARTY_DIR}/glut)
-# IF(NOT GLUT_DIR)
-#     SET(ERR_MSG "Please point the environment variable GLUT_DIR to the root directory of your GLUT installation.")
-#     IF(WIN32)
-#         # On Windows, try the default location
-#         MESSAGE(STATUS "Looking for GLUT in ${DEF_DIR_GLUT}")
-#         IF(IS_DIRECTORY ${DEF_DIR_GLUT})
-#             MESSAGE(STATUS "Found!")
-#             SET(GLUT_DIR ${DEF_DIR_GLUT})
-#         ELSE()
-#             MESSAGE(FATAL_ERROR ${ERR_MSG})
-#         ENDIF()
-#     ELSE()
-#         MESSAGE(FATAL_ERROR ${ERR_MSG})
-#     ENDIF()
-# ENDIF()
-# INCLUDE_DIRECTORIES(${GLUT_DIR}/include)
 
 # Testing
 # add_library(my_project_lib ${SOURCES})
