@@ -4,7 +4,7 @@
 
 class DummyScene : public Scene {
 public:
-    DummyScene() : Scene(800,600,1) {};
+    DummyScene() : Scene(800,600) {};
     void createScene() {};
     void update() {};
 };

@@ -8,125 +8,19 @@
 
 #include "particle.hpp"
 #include "sceneManager.hpp"
+#include "simulatorManager.hpp"
 
 // "Particle-Based Fluid Simulation for Interactive Applications" by Müller et al.
 
-// rendering projection parameters
-const static int WINDOW_WIDTH = 800;
-const static int WINDOW_HEIGHT = 600;
-const static float VIEW_WIDTH = 1200;
-const static float VIEW_HEIGHT = 900;
-
-// solver parameters
-const static glm::vec2 G(0.0, -9.81);          
-const static float REST_DENS = 300.f;          
-const static float PRESSURE_STIFFNESS = 2000.f;          
-const static float H = 16.f;
-const static float HSQ = H * H;		            
-const static float MASS = 2.5f;		           
-const static float VISC = 200.f;	           
-const static float DT = 0.0007f;	           
-
-// smoothing kernels defined in Müller and their gradients
-// adapted to 2D per "SPH Based Shallow Water Simulation" by Solenthaler et al.
-const static float POLY6 = 4.f / (M_PI * pow(H, 8.f));
-const static float SPIKY_GRAD = -10.f / (M_PI * pow(H, 5.f));
-const static float VISC_LAP = 40.f / (M_PI * pow(H, 5.f));
-
-// simulation parameters
-const static float EPS = H; // boundary epsilon
-const static float BOUND_DAMPING = -0.5f;
+// PROJECTION PARAMS
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
+const float VIEW_WIDTH = 1200;
+const float VIEW_HEIGHT = 900;
 
 // SceneManager
-SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT, H);
-
-void Integrate(void)
-{
-	for (auto &p : sceneManager.getParticles())
-	{
-		// forward Euler integration
-        p.setVelocity(p.getVelocity() + DT * p.getForce() / p.getDensity());
-        p.setPosition(p.getPosition() + DT * p.getVelocity());
-
-        if (p.getPosition().x - EPS < 0.f)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
-            p.setPosition(glm::vec2(EPS, p.getPosition().y));
-		}
-		if (p.getPosition().x + EPS > VIEW_WIDTH)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
-            p.setPosition(glm::vec2(VIEW_WIDTH - EPS, p.getPosition().y));
-		}
-		if (p.getPosition().y - EPS < 0.f)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
-            p.setPosition(glm::vec2(p.getPosition().x, EPS));
-		}
-		if (p.getPosition().y + EPS > VIEW_HEIGHT)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
-            p.setPosition(glm::vec2(p.getPosition().x, VIEW_HEIGHT - EPS));
-		}
-	}
-}
-
-void ComputeDensityPressure(void)
-{
-	for (auto &pi : sceneManager.getParticles())
-	{
-        pi.setDensity(0.f);
-		for (auto &pj : sceneManager.getParticles())
-		{
-            glm::vec2 rij = pj.getPosition() - pi.getPosition();
-            float r2 = glm::dot(rij, rij);
-
-			if (r2 < HSQ)
-			{
-				// this computation is symmetric
-                pi.setDensity(pi.getDensity() + MASS * POLY6 * pow(HSQ - r2, 3.f));
-			}
-		}
-        pi.setPressure(PRESSURE_STIFFNESS * (pi.getDensity() - REST_DENS));
-	}
-}
-
-void ComputeForces(void)
-{
-	for (auto &pi : sceneManager.getParticles())
-	{
-        glm::vec2 fpress(0.f, 0.f);
-        glm::vec2 fvisc(0.f, 0.f);
-		for (auto &pj : sceneManager.getParticles())
-		{
-			if (&pi == &pj)
-			{
-				continue;
-			}
-
-            glm::vec2 rij = pj.getPosition() - pi.getPosition();
-            float r = glm::length(rij);
-
-			if (r < H)
-			{
-				// compute pressure force contribution
-				fpress += -glm::normalize(rij) * MASS * (pi.getPressure() + pj.getPressure()) 
-                    / (2.f * pj.getDensity()) * SPIKY_GRAD * pow(H - r, 3.f);
-				// compute viscosity force contribution
-				fvisc += VISC * MASS * (pj.getVelocity() - pi.getVelocity()) / pj.getDensity() * VISC_LAP * (H - r);
-			}
-		}
-        glm::vec2 fgrav = G * MASS / pi.getDensity();
-        pi.setForce(fpress + fvisc + fgrav);
-	}
-}
-
-void Update(void)
-{
-	ComputeDensityPressure();
-	ComputeForces();
-	Integrate();
-}
+SimulatorManager simulatorManager(VIEW_WIDTH, VIEW_HEIGHT);
+SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT);
 
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
 std::vector<float> generateCircleVertices(float radius, int segments) {
@@ -195,13 +89,15 @@ int main() {
 
     // Initialize GLEW
     glewExperimental = GL_TRUE; glewInit();
-    
 
+    // Setup managers
+    sceneManager.changeScene((short) 0);
+    simulatorManager.changeSimulator((short) 0, sceneManager.getParticleRadius());
+    
     // Generate circle vertex and index data
     int circleSegments = 5;
-    std::vector<float> circleVertices = generateCircleVertices(H / 2.0, circleSegments);
+    std::vector<float> circleVertices = generateCircleVertices(sceneManager.getParticleRadius(), circleSegments);
     std::vector<unsigned int> circleIndices = generateCircleIndices(circleSegments);
-
 
     // Create VAO, VBO, and EBO
     GLuint VAO, VBO, EBO;
@@ -267,12 +163,10 @@ int main() {
 
     glBindVertexArray(VAO);
 
-    sceneManager.changeScene(0);
-
     // Event loop
     while (!glfwWindowShouldClose(window)) {
         // Run a step
-        Update();
+        simulatorManager.update(sceneManager.getParticles());
 
         glUseProgram(shaderProgram);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

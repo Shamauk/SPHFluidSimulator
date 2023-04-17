@@ -69,10 +69,24 @@ include CMakeFiles/SPHProject.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/SPHProject.dir/flags.make
 
+CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o: CMakeFiles/SPHProject.dir/flags.make
+CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernels/solenthalerKernel.cpp
+CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o -MF CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o.d -o CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernels/solenthalerKernel.cpp
+
+CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernels/solenthalerKernel.cpp > CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.i
+
+CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernels/solenthalerKernel.cpp -o CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.s
+
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: CMakeFiles/SPHProject.dir/flags.make
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.cpp
 CMakeFiles/SPHProject.dir/src/particle.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SPHProject.dir/src/particle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SPHProject.dir/src/particle.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/particle.cpp.o -MF CMakeFiles/SPHProject.dir/src/particle.cpp.o.d -o CMakeFiles/SPHProject.dir/src/particle.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.cpp
 
 CMakeFiles/SPHProject.dir/src/particle.cpp.i: cmake_force
@@ -86,7 +100,7 @@ CMakeFiles/SPHProject.dir/src/particle.cpp.s: cmake_force
 CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o: CMakeFiles/SPHProject.dir/flags.make
 CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/sceneManager.cpp
 CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o -MF CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o.d -o CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/sceneManager.cpp
 
 CMakeFiles/SPHProject.dir/src/sceneManager.cpp.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/SPHProject.dir/src/sceneManager.cpp.s: cmake_force
 CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o: CMakeFiles/SPHProject.dir/flags.make
 CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.cpp
 CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o -MF CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o.d -o CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.cpp
 
 CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.i: cmake_force
@@ -111,10 +125,38 @@ CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.cpp -o CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.s
 
+CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o: CMakeFiles/SPHProject.dir/flags.make
+CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.cpp
+CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o -MF CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o.d -o CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.cpp
+
+CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.cpp > CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.i
+
+CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.cpp -o CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.s
+
+CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o: CMakeFiles/SPHProject.dir/flags.make
+CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.cpp
+CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o -MF CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o.d -o CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.cpp
+
+CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.cpp > CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.i
+
+CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.cpp -o CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.s
+
 CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/flags.make
 CMakeFiles/SPHProject.dir/src/main.cpp.o: /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/main.cpp
 CMakeFiles/SPHProject.dir/src/main.cpp.o: CMakeFiles/SPHProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SPHProject.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/SPHProject.dir/src/main.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SPHProject.dir/src/main.cpp.o -MF CMakeFiles/SPHProject.dir/src/main.cpp.o.d -o CMakeFiles/SPHProject.dir/src/main.cpp.o -c /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/main.cpp
 
 CMakeFiles/SPHProject.dir/src/main.cpp.i: cmake_force
@@ -127,23 +169,29 @@ CMakeFiles/SPHProject.dir/src/main.cpp.s: cmake_force
 
 # Object files for target SPHProject
 SPHProject_OBJECTS = \
+"CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o" \
 "CMakeFiles/SPHProject.dir/src/particle.cpp.o" \
 "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o" \
 "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o" \
+"CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o" \
+"CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o" \
 "CMakeFiles/SPHProject.dir/src/main.cpp.o"
 
 # External object files for target SPHProject
 SPHProject_EXTERNAL_OBJECTS =
 
+SPHProject: CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/particle.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o
+SPHProject: CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o
+SPHProject: CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/src/main.cpp.o
 SPHProject: CMakeFiles/SPHProject.dir/build.make
 SPHProject: /usr/local/lib/glfw-3.3.8/debug/src/libglfw3.a
 SPHProject: /usr/local/lib/glew-2.1.0/lib/libGLEW.a
 SPHProject: CMakeFiles/SPHProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable SPHProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable SPHProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SPHProject.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

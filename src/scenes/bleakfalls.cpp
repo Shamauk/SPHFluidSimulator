@@ -1,9 +1,9 @@
 #include "bleakfalls.hpp"
 
 void Bleakfalls::createScene() {
-	for (float y = this->kernelRadius; y < this->viewHeight - this->kernelRadius * 2.f; y += this->kernelRadius)
+	for (float y = 2*particleRadius; y < this->viewHeight - 2*particleRadius * 2.f; y += 2*particleRadius)
 	{
-		for (float x = this->viewWidth / 4; x <= this->viewWidth / 2; x += this->kernelRadius)
+		for (float x = this->viewWidth / 4; x <= this->viewWidth / 2; x += 2*particleRadius)
 		{
 			if (particles.size() < DAM_PARTICLES)
 			{

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o"
+  "CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o.d"
   "CMakeFiles/SPHProject.dir/src/main.cpp.o"
   "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
   "CMakeFiles/SPHProject.dir/src/particle.cpp.o"
@@ -7,6 +9,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o.d"
   "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o"
   "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o.d"
+  "CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o"
+  "CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o.d"
+  "CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o"
+  "CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o.d"
   "SPHProject"
   "SPHProject.pdb"
 )

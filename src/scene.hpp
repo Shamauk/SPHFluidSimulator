@@ -9,10 +9,9 @@
 
 class Scene {
 public:
-    Scene(float viewWidth, float viewHeight, float kernelRadius) {
+    Scene(float viewWidth, float viewHeight) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
-        this->kernelRadius = kernelRadius;
     }
 
     virtual void createScene() = 0;
@@ -20,9 +19,12 @@ public:
     ConstVectorWrapper<Particle> getParticles() {
         return ConstVectorWrapper(&particles);
     }
+    float getParticleRadius() {
+        return particleRadius;
+    }
 protected:
     std::vector<Particle> particles;
     float viewWidth;
     float viewHeight;
-    float kernelRadius;
+    float particleRadius = 8.f;
 };

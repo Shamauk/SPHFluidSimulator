@@ -213,6 +213,30 @@ glfw/fast:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
+src/kernels/solenthalerKernel.o: src/kernels/solenthalerKernel.cpp.o
+.PHONY : src/kernels/solenthalerKernel.o
+
+# target to build an object file
+src/kernels/solenthalerKernel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o
+.PHONY : src/kernels/solenthalerKernel.cpp.o
+
+src/kernels/solenthalerKernel.i: src/kernels/solenthalerKernel.cpp.i
+.PHONY : src/kernels/solenthalerKernel.i
+
+# target to preprocess a source file
+src/kernels/solenthalerKernel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.i
+.PHONY : src/kernels/solenthalerKernel.cpp.i
+
+src/kernels/solenthalerKernel.s: src/kernels/solenthalerKernel.cpp.s
+.PHONY : src/kernels/solenthalerKernel.s
+
+# target to generate assembly for a file
+src/kernels/solenthalerKernel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.s
+.PHONY : src/kernels/solenthalerKernel.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -309,6 +333,54 @@ src/scenes/bleakfalls.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.s
 .PHONY : src/scenes/bleakfalls.cpp.s
 
+src/simulatorManager.o: src/simulatorManager.cpp.o
+.PHONY : src/simulatorManager.o
+
+# target to build an object file
+src/simulatorManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o
+.PHONY : src/simulatorManager.cpp.o
+
+src/simulatorManager.i: src/simulatorManager.cpp.i
+.PHONY : src/simulatorManager.i
+
+# target to preprocess a source file
+src/simulatorManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.i
+.PHONY : src/simulatorManager.cpp.i
+
+src/simulatorManager.s: src/simulatorManager.cpp.s
+.PHONY : src/simulatorManager.s
+
+# target to generate assembly for a file
+src/simulatorManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.s
+.PHONY : src/simulatorManager.cpp.s
+
+src/simulators/mullerSimulator.o: src/simulators/mullerSimulator.cpp.o
+.PHONY : src/simulators/mullerSimulator.o
+
+# target to build an object file
+src/simulators/mullerSimulator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o
+.PHONY : src/simulators/mullerSimulator.cpp.o
+
+src/simulators/mullerSimulator.i: src/simulators/mullerSimulator.cpp.i
+.PHONY : src/simulators/mullerSimulator.i
+
+# target to preprocess a source file
+src/simulators/mullerSimulator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.i
+.PHONY : src/simulators/mullerSimulator.cpp.i
+
+src/simulators/mullerSimulator.s: src/simulators/mullerSimulator.cpp.s
+.PHONY : src/simulators/mullerSimulator.s
+
+# target to generate assembly for a file
+src/simulators/mullerSimulator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.s
+.PHONY : src/simulators/mullerSimulator.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -325,6 +397,9 @@ help:
 	@echo "... update_mappings"
 	@echo "... SPHProject"
 	@echo "... glfw"
+	@echo "... src/kernels/solenthalerKernel.o"
+	@echo "... src/kernels/solenthalerKernel.i"
+	@echo "... src/kernels/solenthalerKernel.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -337,6 +412,12 @@ help:
 	@echo "... src/scenes/bleakfalls.o"
 	@echo "... src/scenes/bleakfalls.i"
 	@echo "... src/scenes/bleakfalls.s"
+	@echo "... src/simulatorManager.o"
+	@echo "... src/simulatorManager.i"
+	@echo "... src/simulatorManager.s"
+	@echo "... src/simulators/mullerSimulator.o"
+	@echo "... src/simulators/mullerSimulator.i"
+	@echo "... src/simulators/mullerSimulator.s"
 .PHONY : help
 
 

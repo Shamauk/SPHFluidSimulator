@@ -8,19 +8,20 @@
 
 class SceneManager {
 public:
-    SceneManager(float viewWidth, float viewHeight, float kernelRadius) {
+    SceneManager(float viewWidth, float viewHeight) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
-        this->kernelRadius = kernelRadius;
     }
 
     ConstVectorWrapper<Particle> getParticles() {
         return this->activeScene->getParticles();
     }
     void changeScene(short sceneNumber);
+    float getParticleRadius() {
+        return activeScene->getParticleRadius();
+    }
 private:
     float viewWidth;
     float viewHeight;
-    float kernelRadius;
     Scene *activeScene = new DummyScene();
 };

@@ -8,10 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernels/solenthalerKernel.cpp" "CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/kernels/solenthalerKernel.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/main.cpp" "CMakeFiles/SPHProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.cpp" "CMakeFiles/SPHProject.dir/src/particle.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/particle.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/sceneManager.cpp" "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.cpp" "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.cpp" "CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/simulatorManager.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.cpp" "CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/simulators/mullerSimulator.cpp.o.d"
   )
 
 # Targets to which this target links.

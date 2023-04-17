@@ -996,4 +996,9 @@ CMakeFiles/SPHProject.dir/src/main.cpp.o: \
   /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/utils/constVector.hpp \
   /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.hpp \
   /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/../scene.hpp \
-  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/dummyScene.hpp
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/dummyScene.hpp \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulatorManager.hpp \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulator.hpp \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/mullerSimulator.hpp \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/../simulator.hpp \
+  /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/simulators/../kernels/solenthalerKernel.hpp

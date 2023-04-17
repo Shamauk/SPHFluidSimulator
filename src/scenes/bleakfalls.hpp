@@ -4,7 +4,7 @@
 
 class Bleakfalls : public Scene {
 public:
-    Bleakfalls(float viewWidth, float viewHeight, float kernelRadius) : Scene(viewWidth, viewHeight, kernelRadius) {}
+    Bleakfalls(float viewWidth, float viewHeight) : Scene(viewWidth, viewHeight) {}
     void createScene() override;
     void update() override;
 private:
