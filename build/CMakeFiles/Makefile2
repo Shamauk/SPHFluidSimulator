@@ -64,8 +64,6 @@ CMAKE_BINARY_DIR = /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/proje
 
 # The main recursive "all" target.
 all: CMakeFiles/SPHProject.dir/all
-all: CMakeFiles/my_project_lib.dir/all
-all: CMakeFiles/kernel_tests.dir/all
 all: /usr/local/lib/glfw-3.3.8/debug/all
 .PHONY : all
 
@@ -75,8 +73,6 @@ preinstall: /usr/local/lib/glfw-3.3.8/debug/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/SPHProject.dir/clean
-clean: CMakeFiles/my_project_lib.dir/clean
-clean: CMakeFiles/kernel_tests.dir/clean
 clean: /usr/local/lib/glfw-3.3.8/debug/clean
 .PHONY : clean
 
@@ -119,12 +115,12 @@ clean: /usr/local/lib/glfw-3.3.8/debug/clean
 CMakeFiles/SPHProject.dir/all: /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=1,2,3,4 "Built target SPHProject"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target SPHProject"
 .PHONY : CMakeFiles/SPHProject.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/SPHProject.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/SPHProject.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 0
 .PHONY : CMakeFiles/SPHProject.dir/rule
@@ -137,58 +133,6 @@ SPHProject: CMakeFiles/SPHProject.dir/rule
 CMakeFiles/SPHProject.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/clean
 .PHONY : CMakeFiles/SPHProject.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/my_project_lib.dir
-
-# All Build rule for target.
-CMakeFiles/my_project_lib.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=23,24,25 "Built target my_project_lib"
-.PHONY : CMakeFiles/my_project_lib.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/my_project_lib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/my_project_lib.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 0
-.PHONY : CMakeFiles/my_project_lib.dir/rule
-
-# Convenience name for target.
-my_project_lib: CMakeFiles/my_project_lib.dir/rule
-.PHONY : my_project_lib
-
-# clean rule for target.
-CMakeFiles/my_project_lib.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/clean
-.PHONY : CMakeFiles/my_project_lib.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/kernel_tests.dir
-
-# All Build rule for target.
-CMakeFiles/kernel_tests.dir/all: CMakeFiles/my_project_lib.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=21,22 "Built target kernel_tests"
-.PHONY : CMakeFiles/kernel_tests.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/kernel_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 5
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/kernel_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles 0
-.PHONY : CMakeFiles/kernel_tests.dir/rule
-
-# Convenience name for target.
-kernel_tests: CMakeFiles/kernel_tests.dir/rule
-.PHONY : kernel_tests
-
-# clean rule for target.
-CMakeFiles/kernel_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/clean
-.PHONY : CMakeFiles/kernel_tests.dir/clean
 
 #=============================================================================
 # Target rules for target /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/uninstall.dir
@@ -223,7 +167,7 @@ uninstall: /usr/local/lib/glfw-3.3.8/debug/CMakeFiles/uninstall.dir/rule
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=26 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=22 "Built target update_mappings"
 .PHONY : /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.
@@ -249,7 +193,7 @@ update_mappings: /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.
 /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/all:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/build/CMakeFiles --progress-num=6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 "Built target glfw"
 .PHONY : /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.

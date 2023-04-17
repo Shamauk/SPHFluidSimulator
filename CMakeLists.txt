@@ -14,6 +14,7 @@ if(UNIX)
     target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_DL_LIBS})
 endif()
 
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 # Get the GLFW environment variable. There should be a CMakeLists.txt in the 
 # specified directory.
@@ -88,6 +89,10 @@ ENDIF()
 SET(GLM_DIR $ENV{THIRDPARTY_DIR}/glm-0.9.9)
 INCLUDE_DIRECTORIES(${GLM_DIR})
 
+# Get eigen
+SET(EIGEN_DIR $ENV{THIRDPARTY_DIR}/eigen-3.4.0)
+INCLUDE_DIRECTORIES(${EIGEN_DIR})
+
 # Use c++17
 SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
@@ -106,19 +111,38 @@ ELSE()
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
     IF(APPLE)
         # Add required frameworks for GLFW.
-        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
+        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "-framework GLUT -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
     ELSE()
         #Link the Linux OpenGL library
         TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "GL")
     ENDIF()
 ENDIF()
 
+# GLUT
+# SET(GLUT_DIR $ENV{THIRDPARTY_DIR}/glut)
+# IF(NOT GLUT_DIR)
+#     SET(ERR_MSG "Please point the environment variable GLUT_DIR to the root directory of your GLUT installation.")
+#     IF(WIN32)
+#         # On Windows, try the default location
+#         MESSAGE(STATUS "Looking for GLUT in ${DEF_DIR_GLUT}")
+#         IF(IS_DIRECTORY ${DEF_DIR_GLUT})
+#             MESSAGE(STATUS "Found!")
+#             SET(GLUT_DIR ${DEF_DIR_GLUT})
+#         ELSE()
+#             MESSAGE(FATAL_ERROR ${ERR_MSG})
+#         ENDIF()
+#     ELSE()
+#         MESSAGE(FATAL_ERROR ${ERR_MSG})
+#     ENDIF()
+# ENDIF()
+# INCLUDE_DIRECTORIES(${GLUT_DIR}/include)
+
 # Testing
-add_library(my_project_lib ${SOURCES})
-include_directories(src)
-enable_testing()
-add_executable(kernel_tests tests/kernel_tests.cpp)
-target_link_libraries(kernel_tests my_project_lib)
-add_test(NAME kernel_tests COMMAND kernel_tests)
+# add_library(my_project_lib ${SOURCES})
+# include_directories(src)
+# enable_testing()
+# add_executable(kernel_tests tests/kernel_tests.cpp)
+# target_link_libraries(kernel_tests my_project_lib)
+# add_test(NAME kernel_tests COMMAND kernel_tests)
 
 

@@ -8,9 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/fluid.cpp" "CMakeFiles/SPHProject.dir/src/fluid.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/fluid.cpp.o.d"
-  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/kernel.cpp" "CMakeFiles/SPHProject.dir/src/kernel.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/kernel.cpp.o.d"
   "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/main.cpp" "CMakeFiles/SPHProject.dir/src/main.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/main.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/particle.cpp" "CMakeFiles/SPHProject.dir/src/particle.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/particle.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/sceneManager.cpp" "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o.d"
+  "/Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/project2/src/scenes/bleakfalls.cpp" "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o" "gcc" "CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o.d"
   )
 
 # Targets to which this target links.

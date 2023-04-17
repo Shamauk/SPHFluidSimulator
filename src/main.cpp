@@ -1,19 +1,134 @@
-#include <vector>
-#include <cmath>
-#include <iostream>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
+#include <iostream>
+#include <vector>
 
-#include "fluid.h"
+#include "particle.hpp"
+#include "sceneManager.hpp"
 
-Fluid fluidSimulator;
+// "Particle-Based Fluid Simulation for Interactive Applications" by Müller et al.
+
+// rendering projection parameters
+const static int WINDOW_WIDTH = 800;
+const static int WINDOW_HEIGHT = 600;
+const static float VIEW_WIDTH = 1200;
+const static float VIEW_HEIGHT = 900;
+
+// solver parameters
+const static glm::vec2 G(0.0, -9.81);          
+const static float REST_DENS = 300.f;          
+const static float PRESSURE_STIFFNESS = 2000.f;          
+const static float H = 16.f;
+const static float HSQ = H * H;		            
+const static float MASS = 2.5f;		           
+const static float VISC = 200.f;	           
+const static float DT = 0.0007f;	           
+
+// smoothing kernels defined in Müller and their gradients
+// adapted to 2D per "SPH Based Shallow Water Simulation" by Solenthaler et al.
+const static float POLY6 = 4.f / (M_PI * pow(H, 8.f));
+const static float SPIKY_GRAD = -10.f / (M_PI * pow(H, 5.f));
+const static float VISC_LAP = 40.f / (M_PI * pow(H, 5.f));
+
+// simulation parameters
+const static float EPS = H; // boundary epsilon
+const static float BOUND_DAMPING = -0.5f;
+
+// SceneManager
+SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT, H);
+
+void Integrate(void)
+{
+	for (auto &p : sceneManager.getParticles())
+	{
+		// forward Euler integration
+        p.setVelocity(p.getVelocity() + DT * p.getForce() / p.getDensity());
+        p.setPosition(p.getPosition() + DT * p.getVelocity());
+
+        if (p.getPosition().x - EPS < 0.f)
+		{
+            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
+            p.setPosition(glm::vec2(EPS, p.getPosition().y));
+		}
+		if (p.getPosition().x + EPS > VIEW_WIDTH)
+		{
+            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
+            p.setPosition(glm::vec2(VIEW_WIDTH - EPS, p.getPosition().y));
+		}
+		if (p.getPosition().y - EPS < 0.f)
+		{
+            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
+            p.setPosition(glm::vec2(p.getPosition().x, EPS));
+		}
+		if (p.getPosition().y + EPS > VIEW_HEIGHT)
+		{
+            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
+            p.setPosition(glm::vec2(p.getPosition().x, VIEW_HEIGHT - EPS));
+		}
+	}
+}
+
+void ComputeDensityPressure(void)
+{
+	for (auto &pi : sceneManager.getParticles())
+	{
+        pi.setDensity(0.f);
+		for (auto &pj : sceneManager.getParticles())
+		{
+            glm::vec2 rij = pj.getPosition() - pi.getPosition();
+            float r2 = glm::dot(rij, rij);
+
+			if (r2 < HSQ)
+			{
+				// this computation is symmetric
+                pi.setDensity(pi.getDensity() + MASS * POLY6 * pow(HSQ - r2, 3.f));
+			}
+		}
+        pi.setPressure(PRESSURE_STIFFNESS * (pi.getDensity() - REST_DENS));
+	}
+}
+
+void ComputeForces(void)
+{
+	for (auto &pi : sceneManager.getParticles())
+	{
+        glm::vec2 fpress(0.f, 0.f);
+        glm::vec2 fvisc(0.f, 0.f);
+		for (auto &pj : sceneManager.getParticles())
+		{
+			if (&pi == &pj)
+			{
+				continue;
+			}
+
+            glm::vec2 rij = pj.getPosition() - pi.getPosition();
+            float r = glm::length(rij);
+
+			if (r < H)
+			{
+				// compute pressure force contribution
+				fpress += -glm::normalize(rij) * MASS * (pi.getPressure() + pj.getPressure()) 
+                    / (2.f * pj.getDensity()) * SPIKY_GRAD * pow(H - r, 3.f);
+				// compute viscosity force contribution
+				fvisc += VISC * MASS * (pj.getVelocity() - pi.getVelocity()) / pj.getDensity() * VISC_LAP * (H - r);
+			}
+		}
+        glm::vec2 fgrav = G * MASS / pi.getDensity();
+        pi.setForce(fpress + fvisc + fgrav);
+	}
+}
+
+void Update(void)
+{
+	ComputeDensityPressure();
+	ComputeForces();
+	Integrate();
+}
 
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
-
 std::vector<float> generateCircleVertices(float radius, int segments) {
     std::vector<float> vertices;
 
@@ -66,13 +181,8 @@ int main() {
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create OpenGL window and context
-    float windowSizeRatio = 0.75;
-    float windowWidth = 800;
-    GLFWwindow* window = glfwCreateWindow(windowWidth, windowWidth * windowSizeRatio, "SPH Fluid Simulator", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SPH Fluid Simulator", NULL, NULL);
     glfwMakeContextCurrent(window);
-
-    fluidSimulator.setMinY(fluidSimulator.getMinY() * windowSizeRatio);
-    fluidSimulator.setMaxY(fluidSimulator.getMaxY() * windowSizeRatio);
 
     // Check for window creation failure
     if (!window) 
@@ -88,8 +198,8 @@ int main() {
     
 
     // Generate circle vertex and index data
-    int circleSegments = 22;
-    std::vector<float> circleVertices = generateCircleVertices(fluidSimulator.getParticleRadius(), circleSegments);
+    int circleSegments = 5;
+    std::vector<float> circleVertices = generateCircleVertices(H / 2.0, circleSegments);
     std::vector<unsigned int> circleIndices = generateCircleIndices(circleSegments);
 
 
@@ -110,29 +220,13 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
     // Unbind the VAO and VBO
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    // Camera settings
-    glm::vec3 cameraPosition(0.0f, 0.0f, 3.5f);
-    glm::vec3 cameraTarget(0.0f, 0.0f, 0.0f);
-    glm::vec3 upVector(0.0f, 1.0f, 0.0f);
-
-    // Projection settings
-    float left = fluidSimulator.getMinX();
-    float right = fluidSimulator.getMaxX();
-    float bottom = fluidSimulator.getMinY();
-    float top = fluidSimulator.getMaxY();
-    float nearPlane = 0.1f;
-    float farPlane = 100.0f;
-
     // Create view and projection matrices
-    glm::mat4 viewMatrix = glm::lookAt(cameraPosition, cameraTarget, upVector);
-    glm::mat4 projectionMatrix = glm::ortho(left, right, bottom, top, nearPlane, farPlane);
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    glm::mat4 projectionMatrix = glm::ortho(0.f, VIEW_WIDTH, 0.f, VIEW_HEIGHT, -1.f, 1.f);
 
     const char* vertexShaderSrc = R"(
         #version 330 core
@@ -164,26 +258,28 @@ int main() {
     GLuint shaderProgram = createShaderProgram(vertexShaderSrc, fragmentShaderSrc);
     glUseProgram(shaderProgram);
 
+    glm::vec3 waterColor = glm::vec3(0.0,0.5,1.0);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-    glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(fluidSimulator.getParticleColor()));
+    glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(waterColor));
 
+    glEnable(GL_DEPTH_TEST);
 
-    fluidSimulator.createScene(4);
+    glBindVertexArray(VAO);
+
+    sceneManager.changeScene(0);
 
     // Event loop
     while (!glfwWindowShouldClose(window)) {
+        // Run a step
+        Update();
+
         glUseProgram(shaderProgram);
-        // Clear the screen to black
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-        // Draw particles
-        glBindVertexArray(VAO);
-
-        for (const Particle& p : fluidSimulator.getParticles()) {
-            glm::dvec3 position3D(p.position.x, p.position.y, 0.0);
+        for (const Particle& p : sceneManager.getParticles()) {
+            glm::dvec3 position3D(p.getPosition(), 0.0);
             glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), position3D);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
@@ -193,10 +289,7 @@ int main() {
 
         // Swap buffers and poll events
         glfwSwapBuffers(window);
-        glfwPollEvents();
-
-        // Run a step
-        fluidSimulator.updateParticleStates();
+        glfwPollEvents(); 
     }
 
     // Clean up

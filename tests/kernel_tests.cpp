@@ -1,18 +1,18 @@
-#include <iostream>
-#include <cmath>
-#include "kernel.h"
+// #include <iostream>
+// #include <cmath>
+// #include "kernel.h"
 
-Kernel kernelOne = Kernel(1.0);
-Kernel kernelPointOne = Kernel(0.1);
+// Kernel kernelOne = Kernel(1.0);
+// Kernel kernelPointOne = Kernel(0.1);
 
-bool testGetKernelValueItself() {
-    glm::dvec2 r = glm::dvec2(0.0);
+// bool testGetKernelValueItself() {
+//     glm::dvec2 r = glm::dvec2(0.0);
    
-    double result = kernelOne.getKernelValue(r);
-    double expected = 8 / M_PI;
+//     double result = kernelOne.getKernelValue(r);
+//     double expected = 8 / M_PI;
 
-    return abs(result - expected) < DBL_EPSILON;
-}
+//     return abs(result - expected) < DBL_EPSILON;
+// }
 
 // bool testGetKernelValueHalfSmoothingLength() {
 //     glm::dvec3 pos1 = glm::dvec2(0.3,0.0,0.3);
@@ -136,15 +136,15 @@ bool testGetKernelValueItself() {
 // }
 
 
-int main(int argc, char **argv) {
-    // Run the tests and check the results
-    int failure = 0;
-    if (testGetKernelValueItself()) {
-        std::cout << "testGetKernelValueItself PASSED" << std::endl;
-    } else {
-        std::cout << "testGetKernelValueItself FAILED" << std::endl;
-        failure = 1;
-    }
+// int main(int argc, char **argv) {
+//     // Run the tests and check the results
+//     int failure = 0;
+//     if (testGetKernelValueItself()) {
+//         std::cout << "testGetKernelValueItself PASSED" << std::endl;
+//     } else {
+//         std::cout << "testGetKernelValueItself FAILED" << std::endl;
+//         failure = 1;
+//     }
     // if (testGetKernelValueHalfSmoothingLength()) {
     //     std::cout << "testGetKernelValueHalfSmoothingLength PASSED" << std::endl;
     // } else {
@@ -207,5 +207,5 @@ int main(int argc, char **argv) {
     //     failure = 1;
     // }
 
-    return failure;
-}
+//     return failure;
+// }

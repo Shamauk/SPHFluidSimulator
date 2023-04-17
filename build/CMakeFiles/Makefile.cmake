@@ -151,8 +151,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/SPHProject.dir/DependInfo.cmake"
-  "CMakeFiles/my_project_lib.dir/DependInfo.cmake"
-  "CMakeFiles/kernel_tests.dir/DependInfo.cmake"
   "/usr/local/lib/glfw-3.3.8/debug/CMakeFiles/uninstall.dir/DependInfo.cmake"
   "/usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/update_mappings.dir/DependInfo.cmake"
   "/usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/DependInfo.cmake"

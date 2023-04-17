@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /Users/lovelace/Documents/McGill/undergrad/sem6/COMP559/proje
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/Applications/CMake.app/Contents/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -185,32 +175,6 @@ SPHProject/fast:
 .PHONY : SPHProject/fast
 
 #=============================================================================
-# Target rules for targets named my_project_lib
-
-# Build rule for target.
-my_project_lib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 my_project_lib
-.PHONY : my_project_lib
-
-# fast build rule for target.
-my_project_lib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/build
-.PHONY : my_project_lib/fast
-
-#=============================================================================
-# Target rules for targets named kernel_tests
-
-# Build rule for target.
-kernel_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kernel_tests
-.PHONY : kernel_tests
-
-# fast build rule for target.
-kernel_tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/build
-.PHONY : kernel_tests/fast
-
-#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -249,60 +213,6 @@ glfw/fast:
 	$(MAKE) $(MAKESILENT) -f /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build.make /usr/local/lib/glfw-3.3.8/debug/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
-src/fluid.o: src/fluid.cpp.o
-.PHONY : src/fluid.o
-
-# target to build an object file
-src/fluid.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.o
-.PHONY : src/fluid.cpp.o
-
-src/fluid.i: src/fluid.cpp.i
-.PHONY : src/fluid.i
-
-# target to preprocess a source file
-src/fluid.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.i
-.PHONY : src/fluid.cpp.i
-
-src/fluid.s: src/fluid.cpp.s
-.PHONY : src/fluid.s
-
-# target to generate assembly for a file
-src/fluid.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/fluid.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/fluid.cpp.s
-.PHONY : src/fluid.cpp.s
-
-src/kernel.o: src/kernel.cpp.o
-.PHONY : src/kernel.o
-
-# target to build an object file
-src/kernel.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.o
-.PHONY : src/kernel.cpp.o
-
-src/kernel.i: src/kernel.cpp.i
-.PHONY : src/kernel.i
-
-# target to preprocess a source file
-src/kernel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.i
-.PHONY : src/kernel.cpp.i
-
-src/kernel.s: src/kernel.cpp.s
-.PHONY : src/kernel.s
-
-# target to generate assembly for a file
-src/kernel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/kernel.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_project_lib.dir/build.make CMakeFiles/my_project_lib.dir/src/kernel.cpp.s
-.PHONY : src/kernel.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -327,29 +237,77 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-tests/kernel_tests.o: tests/kernel_tests.cpp.o
-.PHONY : tests/kernel_tests.o
+src/particle.o: src/particle.cpp.o
+.PHONY : src/particle.o
 
 # target to build an object file
-tests/kernel_tests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
-.PHONY : tests/kernel_tests.cpp.o
+src/particle.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.o
+.PHONY : src/particle.cpp.o
 
-tests/kernel_tests.i: tests/kernel_tests.cpp.i
-.PHONY : tests/kernel_tests.i
+src/particle.i: src/particle.cpp.i
+.PHONY : src/particle.i
 
 # target to preprocess a source file
-tests/kernel_tests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.i
-.PHONY : tests/kernel_tests.cpp.i
+src/particle.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.i
+.PHONY : src/particle.cpp.i
 
-tests/kernel_tests.s: tests/kernel_tests.cpp.s
-.PHONY : tests/kernel_tests.s
+src/particle.s: src/particle.cpp.s
+.PHONY : src/particle.s
 
 # target to generate assembly for a file
-tests/kernel_tests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel_tests.dir/build.make CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.s
-.PHONY : tests/kernel_tests.cpp.s
+src/particle.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/particle.cpp.s
+.PHONY : src/particle.cpp.s
+
+src/sceneManager.o: src/sceneManager.cpp.o
+.PHONY : src/sceneManager.o
+
+# target to build an object file
+src/sceneManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/sceneManager.cpp.o
+.PHONY : src/sceneManager.cpp.o
+
+src/sceneManager.i: src/sceneManager.cpp.i
+.PHONY : src/sceneManager.i
+
+# target to preprocess a source file
+src/sceneManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/sceneManager.cpp.i
+.PHONY : src/sceneManager.cpp.i
+
+src/sceneManager.s: src/sceneManager.cpp.s
+.PHONY : src/sceneManager.s
+
+# target to generate assembly for a file
+src/sceneManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/sceneManager.cpp.s
+.PHONY : src/sceneManager.cpp.s
+
+src/scenes/bleakfalls.o: src/scenes/bleakfalls.cpp.o
+.PHONY : src/scenes/bleakfalls.o
+
+# target to build an object file
+src/scenes/bleakfalls.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.o
+.PHONY : src/scenes/bleakfalls.cpp.o
+
+src/scenes/bleakfalls.i: src/scenes/bleakfalls.cpp.i
+.PHONY : src/scenes/bleakfalls.i
+
+# target to preprocess a source file
+src/scenes/bleakfalls.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.i
+.PHONY : src/scenes/bleakfalls.cpp.i
+
+src/scenes/bleakfalls.s: src/scenes/bleakfalls.cpp.s
+.PHONY : src/scenes/bleakfalls.s
+
+# target to generate assembly for a file
+src/scenes/bleakfalls.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SPHProject.dir/build.make CMakeFiles/SPHProject.dir/src/scenes/bleakfalls.cpp.s
+.PHONY : src/scenes/bleakfalls.cpp.s
 
 # Help Target
 help:
@@ -363,25 +321,22 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... test"
 	@echo "... uninstall"
 	@echo "... update_mappings"
 	@echo "... SPHProject"
 	@echo "... glfw"
-	@echo "... kernel_tests"
-	@echo "... my_project_lib"
-	@echo "... src/fluid.o"
-	@echo "... src/fluid.i"
-	@echo "... src/fluid.s"
-	@echo "... src/kernel.o"
-	@echo "... src/kernel.i"
-	@echo "... src/kernel.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... tests/kernel_tests.o"
-	@echo "... tests/kernel_tests.i"
-	@echo "... tests/kernel_tests.s"
+	@echo "... src/particle.o"
+	@echo "... src/particle.i"
+	@echo "... src/particle.s"
+	@echo "... src/sceneManager.o"
+	@echo "... src/sceneManager.i"
+	@echo "... src/sceneManager.s"
+	@echo "... src/scenes/bleakfalls.o"
+	@echo "... src/scenes/bleakfalls.i"
+	@echo "... src/scenes/bleakfalls.s"
 .PHONY : help
 
 
