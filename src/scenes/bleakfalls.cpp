@@ -18,7 +18,3 @@ void Bleakfalls::createScene() {
 		}
 	}
 }
-
-void Bleakfalls::update() {
-
-}

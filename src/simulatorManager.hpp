@@ -10,11 +10,6 @@
 
 class SimulatorManager {
 public:
-    SimulatorManager(float viewWidth, float viewHeight) {
-        this->viewWidth = viewWidth;
-        this->viewHeight = viewHeight;
-    }
-
     void update(ConstVectorWrapper<Particle> particles) {
         activeSimulator->update(particles);
     }
@@ -23,10 +18,22 @@ public:
         return activeSimulator->getName();
     }
 
-    void changeSimulator(short, float);
+    void changeSimulator(short, float, float, float);
 
     std::vector<Parameter> getParameters() {
         return activeSimulator->getParameters();
+    }
+
+    float getKernelRadius() {
+        return activeSimulator->getKernelRadius();
+    }
+
+    short getID() {
+        return activeSimulator->getID();
+    }
+
+    void resetBoundary() {
+        return activeSimulator->resetBoundary();
     }
 
 private:

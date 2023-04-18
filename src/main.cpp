@@ -31,9 +31,9 @@ const float VIEW_HEIGHT = 900;
 int stepsToRun = 0;
 bool runSimulation = false;
 
-// SceneManager
-SimulatorManager simulatorManager(VIEW_WIDTH, VIEW_HEIGHT);
+// Managers
 SceneManager sceneManager;
+SimulatorManager simulatorManager;
 
 GLuint shaderProgram;
 
@@ -67,7 +67,8 @@ int main() {
 
     // Setup managers
     sceneManager.changeScene((short) 1);
-    simulatorManager.changeSimulator((short) 1, sceneManager.getParticleRadius());
+    simulatorManager.changeSimulator((short) 1, sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
     
     // Set up UI
     initializeImgGui(window);
@@ -100,7 +101,8 @@ int main() {
 
     // Create view and projection matrices
     glm::mat4 viewMatrix = glm::mat4(1.0f);
-    glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 0.f, sceneManager.getViewHeight(), -1.f, 1.f);
+    glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 0.f, 
+        sceneManager.getViewHeight(), -1.f, 1.f);
 
     const char* vertexShaderSrc = R"(
         #version 330 core
@@ -149,7 +151,7 @@ int main() {
         if (runSimulation || stepsToRun > 0) {
             stepsToRun = stepsToRun < 1 ? 0 : stepsToRun - 1;
             // Run a step
-            sceneManager.update();
+            sceneManager.update(simulatorManager);
             simulatorManager.update(sceneManager.getParticles());
         }
 
@@ -260,19 +262,23 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
+            simulatorManager.resetBoundary();
        } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
-            simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getParticleRadius());
+            simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
         } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
+            simulatorManager.changeSimulator(simulatorManager.getID(), sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
             glUseProgram(shaderProgram);
-            glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 0.f, sceneManager.getViewHeight(), -1.f, 1.f);
+            glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 
+                0.f, sceneManager.getViewHeight(), -1.f, 1.f);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
         } 
     }
 }

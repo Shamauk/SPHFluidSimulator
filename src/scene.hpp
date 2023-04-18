@@ -5,6 +5,7 @@
 #include <string>
 
 #include "particle.hpp"
+#include "simulatorManager.hpp"
 #include "utils/constVector.hpp"
 
 
@@ -19,7 +20,7 @@ public:
     virtual void createScene() {
         this->particles = std::vector<Particle>();
     }
-    virtual void update() = 0;
+    virtual void update(SimulatorManager &) = 0;
     ConstVectorWrapper<Particle> getParticles() {
         return ConstVectorWrapper(&this->particles);
     }

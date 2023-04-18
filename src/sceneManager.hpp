@@ -1,4 +1,7 @@
 #pragma once
+#ifndef SCENE_MANAGER_H
+#define SCENE_MANAGER_H
+
 #include <iostream>
 
 #include "scene.hpp"
@@ -16,8 +19,8 @@ public:
     float getParticleRadius() {
         return activeScene->getParticleRadius();
     }
-    void update() {
-        activeScene->update();
+    void update(SimulatorManager &simulatorManager) {
+        activeScene->update(simulatorManager);
     }
     void reset() {
         activeScene->createScene();
@@ -32,5 +35,8 @@ public:
         return activeScene->getViewHeight();
     }
 private:
+    static SceneManager sceneManager;
     Scene *activeScene = new DummyScene();
 };
+
+#endif

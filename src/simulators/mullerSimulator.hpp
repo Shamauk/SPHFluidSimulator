@@ -5,15 +5,20 @@
 
 class MullerSimulator : public Simulator {
 public:
-    MullerSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Muller Simulator") {
+    MullerSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Muller Simulator", 1) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
         this->kernelRadius = 2 * particleRadius;
         this->solenthalerKernel = SolenthalerKernel(this->kernelRadius);
-        this->epsilon = this->kernelRadius;
+        this->boundary = new PositionalBoundary();
+        this->boundary->resetBoundary(viewWidth, viewHeight);
     }
 
     void update(ConstVectorWrapper<Particle>) override;
+
+    void resetBoundary() override {
+        boundary->resetBoundary(this->viewWidth, this->viewHeight);
+    }
 
     std::vector<Parameter> getParameters() override {
         return std::vector<Parameter>{
@@ -30,17 +35,12 @@ private:
     // PARAMS
     float viewWidth;
     float viewHeight;
-    float kernelRadius;
     glm::vec2 ACCELERATION_DUE_TO_GRAVITY = glm::vec2(0.0f, -9.81f);          
     float REST_DENSITY = 300.f;          
     float PRESSURE_STIFFNESS = 2000.f;          
     float MASS = 2.5f;		           
     float VISCOSITY_FACTOR = 200.f;	           
     float DT = 0.0007f;	      
-
-    // BOUNDARIES
-    float epsilon;
-    const float BOUND_DAMPING = -0.5f;
 
     // OBJECTS
     SolenthalerKernel solenthalerKernel;

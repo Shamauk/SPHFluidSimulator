@@ -59,31 +59,10 @@ void MullerSimulator::ComputeForces(ConstVectorWrapper<Particle> particles)
 
 void MullerSimulator::Integrate(ConstVectorWrapper<Particle> particles)
 {
-	for (auto &p : particles)
+	for (auto &particle : particles)
 	{
-        p.setVelocity(p.getVelocity() + DT * p.getForce() / p.getDensity());
-        p.setPosition(p.getPosition() + DT * p.getVelocity());
-
-        // Handle boundary
-        if (p.getPosition().x - epsilon < 0.f)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
-            p.setPosition(glm::vec2(epsilon, p.getPosition().y));
-		}
-		if (p.getPosition().x + epsilon > viewWidth)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(BOUND_DAMPING, 1));
-            p.setPosition(glm::vec2(viewWidth - epsilon, p.getPosition().y));
-		}
-		if (p.getPosition().y - epsilon < 0.f)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
-            p.setPosition(glm::vec2(p.getPosition().x, epsilon));
-		}
-		if (p.getPosition().y + epsilon > viewHeight)
-		{
-            p.setVelocity(p.getVelocity() * glm::vec2(1, BOUND_DAMPING));
-            p.setPosition(glm::vec2(p.getPosition().x, viewHeight - epsilon));
-		}
+        particle.setVelocity(particle.getVelocity() + DT * particle.getForce() / particle.getDensity());
+        particle.setPosition(particle.getPosition() + DT * particle.getVelocity());
+        boundary->enforceBoundary(particle, kernelRadius);
 	}
 }
