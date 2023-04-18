@@ -9,11 +9,6 @@
 
 class SceneManager {
 public:
-    SceneManager(float viewWidth, float viewHeight) {
-        this->viewWidth = viewWidth;
-        this->viewHeight = viewHeight;
-    }
-
     ConstVectorWrapper<Particle> getParticles() {
         return this->activeScene->getParticles();
     }
@@ -30,8 +25,12 @@ public:
     const std::string getName() {
         return activeScene->getName();
     }
+    float getViewWidth() {
+        return activeScene->getViewWidth();
+    }
+    float getViewHeight() {
+        return activeScene->getViewHeight();
+    }
 private:
-    float viewWidth;
-    float viewHeight;
     Scene *activeScene = new DummyScene();
 };

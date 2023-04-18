@@ -29,6 +29,12 @@ public:
     std::string getName() {
         return this->name;
     }
+    float getViewWidth() {
+        return viewWidth;
+    }
+    float getViewHeight() {
+        return viewHeight;
+    }
 protected:
     std::vector<Particle> particles;
     float viewWidth;

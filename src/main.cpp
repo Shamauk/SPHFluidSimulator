@@ -33,7 +33,9 @@ bool runSimulation = false;
 
 // SceneManager
 SimulatorManager simulatorManager(VIEW_WIDTH, VIEW_HEIGHT);
-SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT);
+SceneManager sceneManager;
+
+GLuint shaderProgram;
 
 int main() {
     // Initialize GLFW
@@ -98,7 +100,7 @@ int main() {
 
     // Create view and projection matrices
     glm::mat4 viewMatrix = glm::mat4(1.0f);
-    glm::mat4 projectionMatrix = glm::ortho(0.f, VIEW_WIDTH, 0.f, VIEW_HEIGHT, -1.f, 1.f);
+    glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 0.f, sceneManager.getViewHeight(), -1.f, 1.f);
 
     const char* vertexShaderSrc = R"(
         #version 330 core
@@ -127,7 +129,7 @@ int main() {
     )";
 
 
-    GLuint shaderProgram = createShaderProgram(vertexShaderSrc, fragmentShaderSrc);
+    shaderProgram = createShaderProgram(vertexShaderSrc, fragmentShaderSrc);
     glUseProgram(shaderProgram);
 
     glm::vec3 waterColor = glm::vec3(0.0,0.1,1.0);
@@ -267,6 +269,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
+            glUseProgram(shaderProgram);
+            glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 0.f, sceneManager.getViewHeight(), -1.f, 1.f);
+            glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
         } 
     }
 }
