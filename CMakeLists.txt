@@ -11,7 +11,7 @@ list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 ADD_EXECUTABLE(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS} ${GLSL} "src/main.cpp")
 
 if(UNIX)
-    target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_DL_LIBS})
+    TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_DL_LIBS})
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
@@ -44,7 +44,7 @@ ELSE()
     ADD_SUBDIRECTORY(${GLFW_DIR} ${GLFW_DIR}/debug)
 ENDIF()
 INCLUDE_DIRECTORIES(${GLFW_DIR}/include)
-TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} glfw ${GLFW_LIBRARIES})
+TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE glfw)
 
 # Get the GLEW environment variable.
 SET(GLEW_DIR $ENV{THIRDPARTY_DIR}/glew-2.1.0)
@@ -82,7 +82,7 @@ IF(WIN32)
 ELSE()
     # The pre-built doesn't exit. Maybe just ask the student to install it using the system package manager
     #TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} ${GLEW_DIR}/lib/libGLEW.a)
-    TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} ${GLEW_DIR}/lib/libGLEW.a)
+    TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE ${GLEW_DIR}/lib/libGLEW.a)
 ENDIF()
 
 # Get GLM
@@ -94,8 +94,31 @@ SET(EIGEN_DIR $ENV{THIRDPARTY_DIR}/eigen-3.4.0)
 INCLUDE_DIRECTORIES(${EIGEN_DIR})
 
 # Get freetype
-SET(FREETYPE_DIR $ENV{THIRDPARTY_DIR}/freetype-2.12.1)
-INCLUDE_DIRECTORIES(${EIGEN_DIR})
+# SET(FREETYPE_DIR $ENV{THIRDPARTY_DIR}/freetype-2.12.1/include)
+# INCLUDE_DIRECTORIES(${FREETYPE_DIR})
+
+# SET(FREETYPE_LIBRARY $ENV{THIRDPARTY_DIR}/freetype-2.12.1/build/libfreetype.a)
+# TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} ${FREETYPE_LIBRARY})
+
+# Get imgui
+SET(IMGUI_DIR $ENV{THIRDPARTY_DIR}/imgui-1.89.5)
+INCLUDE_DIRECTORIES(${IMGUI_DIR})
+
+# Add ImGui source files
+SET(IMGUI_SRC
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+)
+
+# Create a static ImGui library
+ADD_LIBRARY(imgui STATIC ${IMGUI_SRC})
+
+# Link the ImGui library to your target application
+TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE imgui)
 
 # Use c++17
 SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
@@ -106,7 +129,7 @@ IF(WIN32)
     # -pedantic is not supported.
     # Disable warning 4996.
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
-    TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} opengl32.lib)
+    TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE opengl32.lib)
 
     SET_PROPERTY(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
     SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "../resources")
@@ -115,10 +138,10 @@ ELSE()
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
     IF(APPLE)
         # Add required frameworks for GLFW.
-        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "-framework GLUT -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
+        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} LINK_PRIVATE "-framework GLUT -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
     ELSE()
         #Link the Linux OpenGL library
-        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "GL")
+        TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE "GL")
     ENDIF()
 ENDIF()
 

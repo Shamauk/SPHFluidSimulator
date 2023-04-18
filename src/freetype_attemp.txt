@@ -1,0 +1,208 @@
+struct Character {
+    unsigned int textureID;
+    glm::ivec2 size;
+    glm::ivec2 bearing;
+    unsigned int advance;
+};
+std::map<char, Character> Characters;
+
+void initFreeType(const char* fontPath) {
+    FT_Library ft;
+	if (FT_Init_FreeType(&ft)) {
+		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+		return;// -1;
+	}
+	FT_Face face;
+	if (FT_New_Face(ft, fontPath, 0, &face)) {
+		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+		return;// -1;
+	}
+    std::cout << "Font loaded successfully" << std::endl;
+	if (FT_Load_Char(face, 'X', FT_LOAD_RENDER)) {
+		std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+		return; // -1;
+	}
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    for (unsigned char c = 0; c < 128; c++)
+    {
+        // load character glyph 
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+        {
+            std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+            continue;
+        }
+        // generate texture
+        unsigned int texture;
+        glActiveTexture(GL_TEXTURE0); 
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_ALPHA,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            0,
+            GL_ALPHA,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
+        );
+        std::cout << "Generated texture ID " << texture << " for character '" << c << "', size: "
+          << face->glyph->bitmap.width << "x" << face->glyph->bitmap.rows << std::endl;
+
+        // set texture options
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // now store character for later use
+        Character character = {
+            texture, 
+            glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+            glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+            (unsigned int) face->glyph->advance.x
+        };
+        Characters.insert(std::pair<char, Character>(c, character));
+    }
+
+    for (auto& entry : Characters) {
+    char c = entry.first;
+    Character ch = entry.second;
+    std::cout << "Character '" << c << "': TextureID=" << ch.textureID
+              << ", Size=" << ch.size.x << "x" << ch.size.y
+              << ", Bearing=" << ch.bearing.x << "," << ch.bearing.y
+              << ", Advance=" << ch.advance << std::endl;
+    }
+
+
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
+}
+
+// Set up OpenGL buffers and shaders for text rendering
+GLuint textVAO, textVBO, textShader;
+void setupTextRendering() {
+    glGenVertexArrays(1, &textVAO);
+    glGenBuffers(1, &textVBO);
+    glBindVertexArray(textVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    const char* textVertexShaderSrc = R"(
+        #version 330 core
+        layout (location = 0) in vec4 vertex;
+        out vec2 TexCoords;
+        uniform mat4 projection;
+
+        void main() {
+            gl_Position = projection * vec4(vertex.xy, 0.0, 1.0);
+            TexCoords = vertex.zw;
+        }
+    )";
+
+    const char* textFragmentShaderSrc = R"(
+        #version 330 core
+        in vec2 TexCoords;
+        uniform sampler2D text;
+        uniform vec3 textColor;
+
+        out vec4 FragColor;
+
+        void main() {
+            vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).a);
+            FragColor = vec4(textColor, 1.0) * sampled;
+        }
+    )";
+
+    textShader = createShaderProgram(textVertexShaderSrc, textFragmentShaderSrc);
+    if (textShader == 0) {
+        std::cout << "Failed to create text shader program" << std::endl;
+        exit(1);
+    }
+    
+    glUseProgram(textShader);
+    glm::mat4 textProjection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), 0.0f, static_cast<float>(WINDOW_HEIGHT));
+    GLint projLoc = glGetUniformLocation(textShader, "projection");
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(textProjection));
+    glUseProgram(0);
+}
+
+// Function to render text
+void renderText(const std::string &text, GLfloat x, GLfloat y, GLfloat scale, const glm::vec3 &color) {
+    glUseProgram(textShader);
+    glDisable(GL_DEPTH_TEST);
+    glBindVertexArray(textVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    glUniform3f(glGetUniformLocation(textShader, "textColor"), color.r, color.g, color.b);
+    glUniform1i(glGetUniformLocation(textShader, "text"), 0);
+    glActiveTexture(GL_TEXTURE0);
+
+    GLfloat xStart = x;
+
+    for (char c : text) {
+        if (c == ' ') {
+            x += (Characters['P'].advance >> 6) * scale; // Use the advance value of a common character, e.g., 'P'
+            continue;
+        } else if (c == '\n') {
+            x = xStart;
+            y += 48 * scale;
+            continue;
+        }
+
+        Character ch = Characters[c];
+
+        GLfloat xpos = x + ch.bearing.x * scale;
+        GLfloat ypos = y - (ch.size.y - ch.bearing.y) * scale;
+
+        GLfloat w = ch.size.x * scale;
+        GLfloat h = ch.size.y * scale;
+
+        GLfloat vertices[6][4] = {
+            { xpos,     ypos + h, 0.0, 0.0 },
+            { xpos,     ypos,     0.0, 1.0 },
+            { xpos + w, ypos,     1.0, 1.0 },
+
+            { xpos,     ypos + h, 0.0, 0.0 },
+            { xpos + w, ypos,     1.0, 1.0 },
+            { xpos + w, ypos + h, 1.0, 0.0 }
+        };
+
+        glBindTexture(GL_TEXTURE_2D, ch.textureID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        std::cout << "HELLO" << std::endl;
+        exit (1);
+        x += (ch.advance >> 6) * scale;
+    }
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glUseProgram(0);
+}
+
+void main() {
+    /..../
+    // Setup font typing
+    initFreeType("../rsc/fonts/MomTypewriter.ttf");
+    setupTextRendering();
+    while() {
+        renderText("DebugInformation", 750.0f, 500.0f, 1.0f, glm::vec3(1.0,0.0,0.0));
+        /.../
+    }
+}

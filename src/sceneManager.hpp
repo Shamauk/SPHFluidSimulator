@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 #include "scene.hpp"
 
 // Scenes
@@ -25,6 +26,9 @@ public:
     }
     void reset() {
         activeScene->createScene();
+    }
+    const std::string getName() {
+        return activeScene->getName();
     }
 private:
     float viewWidth;

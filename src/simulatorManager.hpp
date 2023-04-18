@@ -19,7 +19,15 @@ public:
         activeSimulator->update(particles);
     }
 
+    const std::string getName() {
+        return activeSimulator->getName();
+    }
+
     void changeSimulator(short, float);
+
+    std::vector<Parameter> getParameters() {
+        return activeSimulator->getParameters();
+    }
 
 private:
     Simulator *activeSimulator;

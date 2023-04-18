@@ -3,12 +3,23 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include "particle.hpp"
 #include "sceneManager.hpp"
 #include "simulatorManager.hpp"
+
+GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
+std::vector<float> generateCircleVertices(float radius, int segments);
+std::vector<unsigned int> generateCircleIndices(int segments);
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void renderUI();
+void initializeImgGui(GLFWwindow *window);
 
 // PROJECTION PARAMS
 const int WINDOW_WIDTH = 800;
@@ -23,11 +34,6 @@ bool runSimulation = false;
 // SceneManager
 SimulatorManager simulatorManager(VIEW_WIDTH, VIEW_HEIGHT);
 SceneManager sceneManager(VIEW_WIDTH, VIEW_HEIGHT);
-
-GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
-std::vector<float> generateCircleVertices(float radius, int segments);
-std::vector<unsigned int> generateCircleIndices(int segments);
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int main() {
     // Initialize GLFW
@@ -61,6 +67,9 @@ int main() {
     sceneManager.changeScene((short) 1);
     simulatorManager.changeSimulator((short) 1, sceneManager.getParticleRadius());
     
+    // Set up UI
+    initializeImgGui(window);
+
     // Generate circle vertex and index data
     int circleSegments = 5;
     std::vector<float> circleVertices = generateCircleVertices(sceneManager.getParticleRadius(), circleSegments);
@@ -128,12 +137,13 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    glBindVertexArray(VAO);
-    glUseProgram(shaderProgram);
-
     // Event loop
     while (!glfwWindowShouldClose(window)) {
-        
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
         if (runSimulation || stepsToRun > 0) {
             stepsToRun = stepsToRun < 1 ? 0 : stepsToRun - 1;
             // Run a step
@@ -141,7 +151,6 @@ int main() {
             simulatorManager.update(sceneManager.getParticles());
         }
 
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (const Particle& p : sceneManager.getParticles()) {
@@ -153,6 +162,8 @@ int main() {
             glDrawElements(GL_TRIANGLES, circleIndices.size(), GL_UNSIGNED_INT, 0);
         }
 
+        renderUI();
+
         // Swap buffers and poll events
         glfwSwapBuffers(window);
         glfwPollEvents(); 
@@ -163,6 +174,12 @@ int main() {
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glDeleteProgram(shaderProgram);
+
+    // Clean up UI
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
 
     // Terminate GLFW
     glfwTerminate();
@@ -252,5 +269,39 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
         } 
     }
+}
+
+void initializeImgGui(GLFWwindow *window) {
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui::StyleColorsDark();
+
+    // Initialize ImGui backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330 core");
+}
+
+void renderUI() {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Configuration");
+
+    ImGui::Text("Using Simulator: %s", simulatorManager.getName().c_str());
+    ImGui::Text("Running Scene: %s", sceneManager.getName().c_str());
+
+
+    for (auto& parameter : simulatorManager.getParameters()) {
+        ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
+    }
+
+    ImGui::End();
+
+    // Render ImGui
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
