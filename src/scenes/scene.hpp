@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include "particle.hpp"
-#include "simulatorManager.hpp"
-#include "utils/constVector.hpp"
+#include "../datastructures/particle.hpp"
+#include "../managers/simulatorManager.hpp"
+#include "../utils/constVector.hpp"
 
 
 class Scene {

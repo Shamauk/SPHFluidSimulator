@@ -2,11 +2,10 @@
 
 #include <iostream>
 
-#include "simulator.hpp"
-#include "utils/constVector.hpp"
+#include "../utils/constVector.hpp"
 
 // Simulators
-#include "simulators/mullerSimulator.hpp"
+#include "../simulators/mullerSimulator.hpp"
 
 class SimulatorManager {
 public:
@@ -24,12 +23,24 @@ public:
         return activeSimulator->getParameters();
     }
 
-    float getKernelRadius() {
-        return activeSimulator->getKernelRadius();
+    float getKernelRange() {
+        return activeSimulator->getKernelRange();
     }
 
     short getID() {
         return activeSimulator->getID();
+    }
+
+    void setDiscretization(Discretization *discretization) {
+        activeSimulator->setDiscretization(discretization);
+    }
+
+    size_t getDiscretizationMemoryUsage() {
+        return activeSimulator->getDiscretizationMemoryUsage();
+    }
+
+    std::string getDiscretizationName() {
+        return activeSimulator->getDiscretizationName();
     }
 
     void resetBoundary() {

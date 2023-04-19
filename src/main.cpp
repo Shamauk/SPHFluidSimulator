@@ -9,27 +9,27 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
-#include "particle.hpp"
-#include "sceneManager.hpp"
-#include "simulatorManager.hpp"
+#include "managers/sceneManager.hpp"
+#include "managers/simulatorManager.hpp"
 
 GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
 std::vector<float> generateCircleVertices(float radius, int segments);
 std::vector<unsigned int> generateCircleIndices(int segments);
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-void renderUI();
+void renderUI(float);
 void initializeImgGui(GLFWwindow *window);
 
 // PROJECTION PARAMS
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
-const float VIEW_WIDTH = 1200;
-const float VIEW_HEIGHT = 900;
 
 // Play vars
 int stepsToRun = 0;
 bool runSimulation = false;
+bool enableDebug = true;
 
 // Managers
 SceneManager sceneManager;
@@ -46,7 +46,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2); 
     glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Create OpenGL window and context
     GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SPH Fluid Simulator", NULL, NULL);
@@ -142,6 +142,8 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
+    double lastTime = glfwGetTime();
+
     // Event loop
     while (!glfwWindowShouldClose(window)) {
         glUseProgram(shaderProgram);
@@ -167,7 +169,11 @@ int main() {
             glDrawElements(GL_TRIANGLES, circleIndices.size(), GL_UNSIGNED_INT, 0);
         }
 
-        renderUI();
+        float currentTime = glfwGetTime();
+        float elapsedTime = currentTime - lastTime;
+        lastTime = currentTime;
+        float fps = 1.f / elapsedTime;
+        renderUI(fps);
 
         // Swap buffers and poll events
         glfwSwapBuffers(window);
@@ -264,19 +270,30 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             runSimulation = !runSimulation;
         else if (key == GLFW_KEY_S)
             stepsToRun++;
+        else if (key == GLFW_KEY_D)
+            enableDebug = !enableDebug;
         else if (key == GLFW_KEY_R) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
             simulatorManager.resetBoundary();
             sceneManager.setupSceneConfig(simulatorManager);
-       } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
+        } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
             simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getViewWidth(), 
                 sceneManager.getViewHeight(), sceneManager.getParticleRadius());
             sceneManager.setupSceneConfig(simulatorManager);
+        } else if (key == GLFW_KEY_1 && (mods & GLFW_MOD_CONTROL)) {
+            simulatorManager.setDiscretization(new BruteDiscretization(sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
+        } else if (key == GLFW_KEY_2 && (mods & GLFW_MOD_CONTROL)) {
+            simulatorManager.setDiscretization(new GridDiscretization(sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
+        } else if (key == GLFW_KEY_3 && (mods & GLFW_MOD_CONTROL)) {
+            simulatorManager.setDiscretization(new CompactHashingDiscretization(sceneManager.getViewWidth(), 
+                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
         } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
             runSimulation = false;
             stepsToRun = 0;
@@ -303,16 +320,39 @@ void initializeImgGui(GLFWwindow *window) {
     ImGui_ImplOpenGL3_Init("#version 330 core");
 }
 
-void renderUI() {
+std::string formatMemorySize(size_t sizeInBytes) {
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2);
+
+    if (sizeInBytes < 1024) {
+        ss << sizeInBytes << " bytes";
+    } else if (sizeInBytes < 1024 * 1024) {
+        ss << static_cast<float>(sizeInBytes) / 1024 << " KB";
+    } else {
+        ss << static_cast<float>(sizeInBytes) / (1024 * 1024) << " MB";
+    }
+
+    return ss.str();
+}
+
+void renderUI(float fps) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     ImGui::Begin("Configuration");
+    if (enableDebug) {
+        ImGui::Text("FPS: %.1f", fps);
+        ImGui::Text("Discretization Memory Usage: %s", 
+            formatMemorySize(simulatorManager.getDiscretizationMemoryUsage()).c_str());
+    } else {
+        ImGui::Text("Press D to enable debugging");
+    }
 
     ImGui::Text("Using Simulator: %s", simulatorManager.getName().c_str());
-    ImGui::Text("Running Scene: %s", sceneManager.getName().c_str());
+    ImGui::Text("Using Discretization Method: %s", simulatorManager.getDiscretizationName().c_str());
 
+    ImGui::Text("Running Scene: %s", sceneManager.getName().c_str());
 
     for (auto& parameter : simulatorManager.getParameters()) {
         ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");

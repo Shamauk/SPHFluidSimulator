@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../simulator.hpp"
+#include "simulator.hpp"
 #include "../kernels/solenthalerKernel.hpp"
 
 class MullerSimulator : public Simulator {
@@ -8,10 +8,10 @@ public:
     MullerSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Muller Simulator", 1) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
-        this->kernelRadius = 2 * particleRadius;
-        this->solenthalerKernel = SolenthalerKernel(this->kernelRadius);
+        this->kernel = new SolenthalerKernel(2 * particleRadius);
         this->boundary = new PositionalBoundary();
         this->boundary->resetBoundary(viewWidth, viewHeight);
+        this->discretization = new BruteDiscretization(viewWidth, viewHeight, kernel->getKernelRange());
     }
 
     void update(ConstVectorWrapper<Particle>) override;
@@ -20,10 +20,14 @@ public:
         boundary->resetBoundary(this->viewWidth, this->viewHeight);
     }
 
+    float getKernelRange() override {
+        return kernel->getKernelRange();
+    }
+
     std::vector<Parameter> getParameters() override {
         return std::vector<Parameter>{
             Parameter{"Time step", &this->DT, 0.0000001f, 0.0001f},
-            Parameter{"Kernel Radius", &this->kernelRadius, 0.01f, 40.f},
+            Parameter{"Kernel Range", kernel->getKernelParameterReference(), 0.01f, 40.f},
             Parameter{"Gravity", &this->ACCELERATION_DUE_TO_GRAVITY.y, -25.0f, 25.0f},
             Parameter{"Rest Density", &this->REST_DENSITY, 0.f, 1000.f},
             Parameter{"Pressure Stiffness", &this->PRESSURE_STIFFNESS, 1.f, 10000.f},
@@ -42,11 +46,10 @@ private:
     float VISCOSITY_FACTOR = 200.f;	           
     float DT = 0.0007f;	      
 
-    // OBJECTS
-    SolenthalerKernel solenthalerKernel;
+    // Objects
+    SolenthalerKernel *kernel;
 
     // METHODS
-    void GetNeighbors(ConstVectorWrapper<Particle>);
     void Integrate(ConstVectorWrapper<Particle>);
     void ComputeDensityPressure(ConstVectorWrapper<Particle>);
     void ComputeForces(ConstVectorWrapper<Particle>);

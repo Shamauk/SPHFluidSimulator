@@ -2,11 +2,16 @@
 
 #include <string>
 
-#include "particle.hpp"
-#include "utils/constVector.hpp"
-#include "boundary.hpp"
+#include "../datastructures/particle.hpp"
+#include "../utils/constVector.hpp"
 
-#include "boundaries/positionalBoundary.hpp"
+// Boundaries
+#include "../boundaries/positionalBoundary.hpp"
+
+// Discretizations
+#include "../discretizations/bruteDiscretization.hpp"
+#include "../discretizations/gridDiscretization.hpp"
+#include "../discretizations/compactHashingDiscretization.hpp"
 
 struct Parameter {
     std::string name;
@@ -33,12 +38,22 @@ public:
         return std::vector<Parameter>();
     }
 
-    float getKernelRadius() {
-        return this->kernelRadius;
+    virtual float getKernelRange() = 0;
+
+    void setDiscretization(Discretization *discretization) {
+        this->discretization = discretization;
     }
 
     short getID() {
         return this->ID;
+    }
+
+    std::string getDiscretizationName() {
+        return discretization->getDiscretizationName();
+    }
+
+    size_t getDiscretizationMemoryUsage() {
+        return discretization->getMemoryUse();
     }
 
     void setBoundaryX(float x) {
@@ -53,6 +68,6 @@ private:
     std::string name = "Specimen 462";
 protected:
     short ID;
-    float kernelRadius = 16.f;
     Boundary *boundary;
+    Discretization *discretization;
 };

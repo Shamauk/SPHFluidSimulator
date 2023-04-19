@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "particle.hpp"
+#include "../datastructures/particle.hpp"
 
 class Boundary {
 public:

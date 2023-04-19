@@ -3,7 +3,9 @@
 #include <glm/glm.hpp>
 #include <cmath>
 
-class SolenthalerKernel {
+#include "kernel.hpp"
+
+class SolenthalerKernel : public Kernel {
 public:
     SolenthalerKernel() {
         SolenthalerKernel(16.f);
@@ -16,6 +18,14 @@ public:
             this->kernelRadiusSecondPower * this->kernelRadius;
         this->kernelRadiusEightPower = this->kernelRadiusFifthPower * 
             this->kernelRadiusSecondPower * this->kernelRadius;
+    }
+
+    float getKernelRange() {
+        return kernelRadius;
+    }
+
+    float *getKernelParameterReference() {
+        return &kernelRadius;
     }
 
     float laplacianViscosityKernel(glm::vec2) const;

@@ -4,14 +4,12 @@
 
 #include <iostream>
 
-#include "scene.hpp"
-
 // Scenes
-#include "scenes/dummyScene.hpp"
-#include "scenes/watercometScene.hpp"
-#include "scenes/damBreakScene.hpp"
-#include "scenes/rainScene.hpp"
-#include "scenes/fountainScene.hpp"
+#include "../scenes/dummyScene.hpp"
+#include "../scenes/waterCometScene.hpp"
+#include "../scenes/damBreakScene.hpp"
+#include "../scenes/rainScene.hpp"
+#include "../scenes/fountainScene.hpp"
 
 class SceneManager {
 public:

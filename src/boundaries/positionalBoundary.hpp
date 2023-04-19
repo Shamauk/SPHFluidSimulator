@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../boundary.hpp"
+#include "boundary.hpp"
 
 class PositionalBoundary : public Boundary {
 public:
