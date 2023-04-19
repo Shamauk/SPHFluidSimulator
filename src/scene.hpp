@@ -20,6 +20,7 @@ public:
     virtual void createScene() {
         this->particles = std::vector<Particle>();
     }
+    virtual void setupSceneConfig(SimulatorManager &) = 0;
     virtual void update(SimulatorManager &) = 0;
     ConstVectorWrapper<Particle> getParticles() {
         return ConstVectorWrapper(&this->particles);

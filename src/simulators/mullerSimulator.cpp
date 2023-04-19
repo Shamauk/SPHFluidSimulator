@@ -53,7 +53,8 @@ void MullerSimulator::ComputeForces(ConstVectorWrapper<Particle> particles)
 			}
 		}
         glm::vec2 fgrav = ACCELERATION_DUE_TO_GRAVITY * MASS / pi.getDensity();
-        pi.setForce(fpress + fvisc + fgrav);
+        glm::vec2 totalForce = fpress + fvisc + fgrav;
+        pi.setForce(totalForce.x, totalForce.y);
 	}
 }
 
@@ -61,8 +62,10 @@ void MullerSimulator::Integrate(ConstVectorWrapper<Particle> particles)
 {
 	for (auto &particle : particles)
 	{
-        particle.setVelocity(particle.getVelocity() + DT * particle.getForce() / particle.getDensity());
-        particle.setPosition(particle.getPosition() + DT * particle.getVelocity());
+        glm::vec2 newVelocity = particle.getVelocity() + DT * particle.getForce() / particle.getDensity();
+        particle.setVelocity(newVelocity.x, newVelocity.y);
+        glm::vec2 newPosition = particle.getPosition() + DT * particle.getVelocity();
+        particle.setPosition(newPosition.x, newPosition.y);
         boundary->enforceBoundary(particle, kernelRadius);
 	}
 }

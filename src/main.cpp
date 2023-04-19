@@ -69,6 +69,7 @@ int main() {
     sceneManager.changeScene((short) 1);
     simulatorManager.changeSimulator((short) 1, sceneManager.getViewWidth(), 
                 sceneManager.getViewHeight(), sceneManager.getParticleRadius());
+    sceneManager.setupSceneConfig(simulatorManager);
     
     // Set up UI
     initializeImgGui(window);
@@ -251,6 +252,11 @@ GLuint createShaderProgram(const char* vertexShaderSource, const char* fragmentS
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (io.WantCaptureKeyboard) 
+        return;
+
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, true);
@@ -263,18 +269,21 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             stepsToRun = 0;
             sceneManager.reset();
             simulatorManager.resetBoundary();
+            sceneManager.setupSceneConfig(simulatorManager);
        } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
             simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getViewWidth(), 
                 sceneManager.getViewHeight(), sceneManager.getParticleRadius());
+            sceneManager.setupSceneConfig(simulatorManager);
         } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
             simulatorManager.changeSimulator(simulatorManager.getID(), sceneManager.getViewWidth(), 
                 sceneManager.getViewHeight(), sceneManager.getParticleRadius());
+            sceneManager.setupSceneConfig(simulatorManager);
             glUseProgram(shaderProgram);
             glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 
                 0.f, sceneManager.getViewHeight(), -1.f, 1.f);
@@ -287,7 +296,6 @@ void initializeImgGui(GLFWwindow *window) {
     // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
     ImGui::StyleColorsDark();
 
     // Initialize ImGui backends

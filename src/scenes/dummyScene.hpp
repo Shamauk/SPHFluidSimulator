@@ -7,4 +7,5 @@ public:
     DummyScene() : Scene(800,600,"Dummy Scene") {};
     void createScene() {};
     void update(SimulatorManager &) {};
+    void setupSceneConfig(SimulatorManager &) {};
 };

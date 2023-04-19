@@ -40,6 +40,15 @@ public:
     short getID() {
         return this->ID;
     }
+
+    void setBoundaryX(float x) {
+        boundary->setMaxX(x);
+    }
+
+    void setBoundaryY(float y) {
+        boundary->setMaxY(y);
+    }
+
 private:
     std::string name = "Specimen 462";
 protected:

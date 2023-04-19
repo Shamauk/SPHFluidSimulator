@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "particle.hpp"
 
 class Boundary {
@@ -22,7 +24,7 @@ public:
     float getMinY() { return this->minY; }
     float getMaxX() { return this->maxX; }
     float getMaxY() { return this->maxY; }
-private:
+protected:
     float minX;
     float minY;
     float maxX;

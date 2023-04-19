@@ -36,8 +36,14 @@ public:
         return activeSimulator->resetBoundary();
     }
 
+    void setBoundaryX(float x) {
+        activeSimulator->setBoundaryX(x);
+    }
+
+    void setBoundaryY(float y) {
+        activeSimulator->setBoundaryY(y);
+    }
+
 private:
     Simulator *activeSimulator;
-    float viewWidth;
-    float viewHeight;
 };

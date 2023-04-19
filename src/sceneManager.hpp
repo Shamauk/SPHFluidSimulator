@@ -7,8 +7,11 @@
 #include "scene.hpp"
 
 // Scenes
-#include "scenes/bleakfalls.hpp"
 #include "scenes/dummyScene.hpp"
+#include "scenes/watercometScene.hpp"
+#include "scenes/damBreakScene.hpp"
+#include "scenes/rainScene.hpp"
+#include "scenes/fountainScene.hpp"
 
 class SceneManager {
 public:
@@ -21,6 +24,9 @@ public:
     }
     void update(SimulatorManager &simulatorManager) {
         activeScene->update(simulatorManager);
+    }
+    void setupSceneConfig(SimulatorManager &simulatorManager) {
+        activeScene->setupSceneConfig(simulatorManager);
     }
     void reset() {
         activeScene->createScene();
@@ -37,6 +43,8 @@ public:
 private:
     static SceneManager sceneManager;
     Scene *activeScene = new DummyScene();
+    std::vector<Scene *> availableScenes { new WaterCometScene(), new DamBreakScene(), 
+        new RainScene(), new FountainScene() };
 };
 
 #endif

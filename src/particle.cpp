@@ -21,19 +21,19 @@ float Particle::getPressure() {
 }
 
 
-void Particle::setForce(const glm::vec2 &force) {
-    this->force.x = force.x;
-    this->force.y = force.y;
+void Particle::setForce(float x, float y) {
+    this->force.x = x;
+    this->force.y = y;
 }
 
-void Particle::setPosition(const glm::vec2 &position) {
-    this->position.x = position.x;
-    this->position.y = position.y;
+void Particle::setPosition(float x, float y) {
+    this->position.x = x;
+    this->position.y = y;
 }
 
-void Particle::setVelocity(const glm::vec2 &velocity) {
-    this->velocity.x = velocity.x;
-    this->velocity.y = velocity.y;
+void Particle::setVelocity(float x, float y) {
+    this->velocity.x = x;
+    this->velocity.y = y;
 }
 
 void Particle::setDensity(float density) {
