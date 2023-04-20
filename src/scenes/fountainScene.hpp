@@ -13,7 +13,7 @@ public:
     }
     void update(SimulatorManager &simulatorManager) override;
 
-    std::vector<Parameter> getParameters() {
+    std::vector<Parameter> getParameters() override {
         return std::vector<Parameter> {
             Parameter{"Inverse Fountain Rate", &FOUNTAIN_RATE_FRAMES, 1.f, 100.f},
             Parameter{"Initial Force", &INITIAL_FORCE, 0.01f, 100.f},

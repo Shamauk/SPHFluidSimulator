@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project("SPHProject")
+project("SPH")
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -18,7 +18,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 # Get the GLFW environment variable. There should be a CMakeLists.txt in the 
 # specified directory.
-SET(GLFW_DIR $ENV{THIRDPARTY_DIR}/glfw-3.3.8)
+SET(GLFW_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw-3.3.8)
 IF(NOT GLFW_DIR)
     # The environment variable was not set
     SET(ERR_MSG "Please point the environment variable GLFW_DIR to the root directory of your GLFW installation.")
@@ -47,7 +47,7 @@ INCLUDE_DIRECTORIES(${GLFW_DIR}/include)
 TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} PRIVATE glfw)
 
 # Get the GLEW environment variable.
-SET(GLEW_DIR $ENV{THIRDPARTY_DIR}/glew-2.1.0)
+SET(GLEW_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/glew-2.1.0)
 IF(NOT GLEW_DIR)
     # The environment variable was not set
     SET(ERR_MSG "Please point the environment variable GLEW_DIR to the root directory of your GLEW installation.")
@@ -86,22 +86,11 @@ ELSE()
 ENDIF()
 
 # Get GLM
-SET(GLM_DIR $ENV{THIRDPARTY_DIR}/glm-0.9.9)
+SET(GLM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/glm-0.9.9)
 INCLUDE_DIRECTORIES(${GLM_DIR})
 
-# Get eigen
-SET(EIGEN_DIR $ENV{THIRDPARTY_DIR}/eigen-3.4.0)
-INCLUDE_DIRECTORIES(${EIGEN_DIR})
-
-# Get freetype
-# SET(FREETYPE_DIR $ENV{THIRDPARTY_DIR}/freetype-2.12.1/include)
-# INCLUDE_DIRECTORIES(${FREETYPE_DIR})
-
-# SET(FREETYPE_LIBRARY $ENV{THIRDPARTY_DIR}/freetype-2.12.1/build/libfreetype.a)
-# TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} ${FREETYPE_LIBRARY})
-
 # Get imgui
-SET(IMGUI_DIR $ENV{THIRDPARTY_DIR}/imgui-1.89.5)
+SET(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui-1.89.5)
 INCLUDE_DIRECTORIES(${IMGUI_DIR})
 
 # Add ImGui source files
