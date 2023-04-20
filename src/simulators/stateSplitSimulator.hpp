@@ -4,21 +4,16 @@
 
 class StateSplitSimulator : public Simulator {
 public:
-    StateSplitSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("State Split", 2) {
+    StateSplitSimulator(float viewWidth, float viewHeight, float particleRadius, Boundary *boundary) : Simulator("State Split", 2) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
         this->kernel = new NonNormalizedCubicSplineKernel(2.5 * particleRadius);
-        this->boundary = new PositionalBoundary();
-        this->boundary->resetBoundary(viewWidth, viewHeight);
+        this->boundary = boundary;
         this->discretization = new BruteDiscretization(viewWidth, viewHeight, kernel->getKernelRange());
         this->DT = 0.005f;
     }
 
     void update(ConstVectorWrapper<Particle>) override;
-
-    void resetBoundary() override {
-        boundary->resetBoundary(this->viewWidth, this->viewHeight);
-    }
 
     float getKernelRange() override {
        return kernel->getKernelRange();

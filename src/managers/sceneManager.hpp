@@ -20,11 +20,11 @@ public:
     float getParticleRadius() {
         return activeScene->getParticleRadius();
     }
-    void update(SimulatorManager &simulatorManager) {
-        activeScene->update(simulatorManager);
+    void update() {
+        activeScene->update();
     }
-    void setupSceneConfig(SimulatorManager &simulatorManager) {
-        activeScene->setupSceneConfig(simulatorManager);
+    void setupSceneConfig() {
+        activeScene->setupSceneConfig();
     }
     void reset() {
         activeScene->createScene();
@@ -40,6 +40,9 @@ public:
     }
     float getViewHeight() {
         return activeScene->getViewHeight();
+    }
+    Boundary *getBoundary() {
+        return activeScene->getBoundary();
     }
 private:
     static SceneManager sceneManager;

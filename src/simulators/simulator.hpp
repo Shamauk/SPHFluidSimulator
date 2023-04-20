@@ -28,7 +28,6 @@ public:
     }
 
     virtual void update(ConstVectorWrapper<Particle>) = 0;
-    virtual void resetBoundary() = 0;
 
     const std::string getName() {
         return name;
@@ -59,15 +58,6 @@ public:
     size_t getDiscretizationMemoryUsage() {
         return discretization->getMemoryUse();
     }
-
-    void setBoundaryX(float x) {
-        boundary->setMaxX(x);
-    }
-
-    void setBoundaryY(float y) {
-        boundary->setMaxY(y);
-    }
-
 private:
     std::string name = "Specimen 462";
 protected:

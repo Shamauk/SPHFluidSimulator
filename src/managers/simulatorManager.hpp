@@ -19,7 +19,7 @@ public:
         return activeSimulator->getName();
     }
 
-    void changeSimulator(short, float, float, float);
+    void changeSimulator(short, float, float, float, Boundary *);
 
     std::vector<Parameter> getParameters() {
         return activeSimulator->getParameters();
@@ -47,18 +47,6 @@ public:
 
     std::string getDiscretizationName() {
         return activeSimulator->getDiscretizationName();
-    }
-
-    void resetBoundary() {
-        return activeSimulator->resetBoundary();
-    }
-
-    void setBoundaryX(float x) {
-        activeSimulator->setBoundaryX(x);
-    }
-
-    void setBoundaryY(float y) {
-        activeSimulator->setBoundaryY(y);
     }
 
 private:

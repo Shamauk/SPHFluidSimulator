@@ -18,10 +18,10 @@
 
 ## Install
 
-`mkdir build`
-`cd build`
-`cmake ..`
-`make`
+`mkdir build
+cd build
+cmake ..
+make`
 
 ## Run
 
@@ -33,6 +33,7 @@
 - You can use the keyboard number key (not numpad) to change scenes
 - You can do the same thing while holding SHIFT to go through the simulators
 - You can do the same thing while holding CTRL to go through the spatial discretizations
+- The scenes are dependent on time step and FPS so different simulators have different effects, do tweak the scene settings to obtain the desired result
 
 ## Issues Encountered
 

@@ -27,23 +27,23 @@ void DamBreakScene::createParticleDam() {
 	}
 }
 
-void DamBreakScene::setupSceneConfig(SimulatorManager &simulatorManager) {
-    createRightWall(simulatorManager, viewWidth / 4.0);
+void DamBreakScene::setupSceneConfig() {
+    createRightWall(viewWidth / 4.0f);
 }
 
-void createRightWall(SimulatorManager &simulatorManager, float xPos) {
-    simulatorManager.setBoundaryX(xPos);
+void DamBreakScene::createRightWall(float xPos) {
+	boundary->setMaxX(xPos);
 }
 
-void DamBreakScene::update(SimulatorManager &simulatorManager) {
+void DamBreakScene::update() {
     if (!hasCollapsed && ++this->counter > this->TIME_STEP_COLLAPSE) {
 		std::cout << "Collapsing the wall" << std::endl;
-        collapseRightWall(simulatorManager);
+        collapseRightWall();
         hasCollapsed = true;
     }
 }
 
-void collapseRightWall(SimulatorManager & simulatorManager) {
-    simulatorManager.resetBoundary();
+void DamBreakScene::collapseRightWall() {
+	boundary->setMaxX(viewWidth);
 }
 

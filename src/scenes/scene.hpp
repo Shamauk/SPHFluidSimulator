@@ -9,6 +9,10 @@
 #include "../managers/simulatorManager.hpp"
 #include "../utils/constVector.hpp"
 
+// Boundaries
+#include "../boundaries/positionalBoundary.hpp"
+#include "../boundaries/polyBoundary.hpp"
+
 class Scene {
 public:
     Scene(float viewWidth, float viewHeight, std::string name) {
@@ -20,8 +24,8 @@ public:
     virtual void createScene() {
         this->particles = std::vector<Particle>();
     }
-    virtual void setupSceneConfig(SimulatorManager &) = 0;
-    virtual void update(SimulatorManager &) = 0;
+    virtual void setupSceneConfig() = 0;
+    virtual void update() = 0;
     virtual std::vector<Parameter> getParameters() {
         return std::vector<Parameter>();
     }
@@ -41,6 +45,9 @@ public:
     float getViewHeight() {
         return viewHeight;
     }
+
+    virtual Boundary *getBoundary() = 0;
+
 protected:
     std::vector<Particle> particles;
     float viewWidth;

@@ -1,6 +1,6 @@
 #include "rainScene.hpp"
 
-void RainScene::update(SimulatorManager &simulatorManager) {
+void RainScene::update() {
     if (++counter > RAIN_RATE) {
         counter = 0;
         std::vector<Particle *> particleRound;

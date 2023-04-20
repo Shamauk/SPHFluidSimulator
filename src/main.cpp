@@ -68,8 +68,8 @@ int main() {
     // Setup managers
     sceneManager.changeScene((short) 1);
     simulatorManager.changeSimulator((short) 1, sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
-    sceneManager.setupSceneConfig(simulatorManager);
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
+    sceneManager.setupSceneConfig();
     
     // Set up UI
     initializeImgGui(window);
@@ -154,7 +154,7 @@ int main() {
         if (runSimulation || stepsToRun > 0) {
             stepsToRun = stepsToRun < 1 ? 0 : stepsToRun - 1;
             // Run a step
-            sceneManager.update(simulatorManager);
+            sceneManager.update();
             simulatorManager.update(sceneManager.getParticles());
         }
 
@@ -276,15 +276,14 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
-            simulatorManager.resetBoundary();
-            sceneManager.setupSceneConfig(simulatorManager);
+            sceneManager.setupSceneConfig();
         } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9 && (mods & GLFW_MOD_SHIFT)) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
             simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
-            sceneManager.setupSceneConfig(simulatorManager);
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
+            sceneManager.setupSceneConfig();
         } else if (key == GLFW_KEY_1 && (mods & GLFW_MOD_CONTROL)) {
             simulatorManager.setDiscretization(new BruteDiscretization(sceneManager.getViewWidth(), 
                 sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
@@ -299,8 +298,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             stepsToRun = 0;
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
             simulatorManager.changeSimulator(simulatorManager.getID(), sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), sceneManager.getParticleRadius());
-            sceneManager.setupSceneConfig(simulatorManager);
+                sceneManager.getViewHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
+            sceneManager.setupSceneConfig();
             glUseProgram(shaderProgram);
             glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 
                 0.f, sceneManager.getViewHeight(), -1.f, 1.f);

@@ -4,21 +4,16 @@
 
 class MullerSimulator : public Simulator {
 public:
-    MullerSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Muller", 1) {
+    MullerSimulator(float viewWidth, float viewHeight, float particleRadius, Boundary *boundary) : Simulator("Muller", 1) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
         this->kernel = new SolenthalerKernel(2 * particleRadius);
-        this->boundary = new PositionalBoundary();
-        this->boundary->resetBoundary(viewWidth, viewHeight);
+        this->boundary = boundary;
         this->discretization = new BruteDiscretization(viewWidth, viewHeight, kernel->getKernelRange());
         this->DT = 0.0007f;
     }
 
     void update(ConstVectorWrapper<Particle>) override;
-
-    void resetBoundary() override {
-        boundary->resetBoundary(this->viewWidth, this->viewHeight);
-    }
 
     float getKernelRange() override {
         return kernel->getKernelRange();

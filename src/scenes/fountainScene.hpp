@@ -4,14 +4,21 @@
 
 class FountainScene : public Scene {
 public:
-    FountainScene() : Scene(2400, 1800, "Fountain") {}
+    FountainScene() : Scene(2400, 1800, "Fountain") {
+        boundary = new PositionalBoundary();
+        boundary->setMinX(0.f);
+        boundary->setMaxX(viewWidth);
+        boundary->setMinY(0.f);
+        boundary->setMaxY(viewHeight);
+    }
+
     void createScene() override {
         Scene::createScene();
     }
-    void setupSceneConfig(SimulatorManager &simulatorManager) override {
-        FOUNTAIN_RATE_FRAMES = FOUNTAIN_RATE_SECONDS / simulatorManager.getTimeStep();
+    void setupSceneConfig() override {
+        FOUNTAIN_RATE_FRAMES = FOUNTAIN_RATE_SECONDS / 1.f;
     }
-    void update(SimulatorManager &simulatorManager) override;
+    void update() override;
 
     std::vector<Parameter> getParameters() override {
         return std::vector<Parameter> {
@@ -20,10 +27,14 @@ public:
         };
     }
 
-private:
-    const float FOUNTAIN_RATE_SECONDS = .05f;
+    Boundary *getBoundary() { return boundary; }
 
-    float INITIAL_FORCE = 1.f;
+private:
+    const float FOUNTAIN_RATE_SECONDS = 32.f;
+
+    float INITIAL_FORCE = 1500.f;
     float FOUNTAIN_RATE_FRAMES;
     int counter = 0;
+
+    PositionalBoundary *boundary;
 };
