@@ -16,8 +16,6 @@ public:
         boundary->addBoundary(positionalBoundary);
         rampBoundary = new LinearBoundary(0.1f, 1370.f, false, getViewWidth() - 20 * 2.f * particleRadius, getViewWidth() * 2.f);
         boundary->addBoundary(rampBoundary);
-        // rightUpwardBoundary = new LinearBoundary(16.1f, -37030.f, false, 2300.f, viewWidth);
-        // boundary->addBoundary(rightUpwardBoundary);
         rightUpwardBoundary = new VerticalBoundary(getViewWidth(), 0.f, 1590, true);
         boundary->addBoundary(rightUpwardBoundary);
     }
@@ -28,7 +26,8 @@ public:
 
     std::vector<Parameter> getParameters() override {
         return {
-            Parameter{"Inverse Water Rate", &WATER_SPAWN_RATE, 1.f, 1000.f},
+            Parameter{"Waterfall Particles", &WATER_SPAWN_AMT, 1.f, 10000.f},
+            Parameter{"Waterfall Height", &WATER_FALL_HEIGHT, 1.f, 100.f},
         };
     }
 
@@ -39,8 +38,8 @@ public:
     void spawnWater();
 
 private:
-    int counter = 0;
-    float WATER_SPAWN_RATE = 850.f;
+    float WATER_SPAWN_AMT = 1250.f;
+    float WATER_FALL_HEIGHT = 35.f;
 
     PositionalBoundary *positionalBoundary;
     LinearBoundary *rampBoundary;

@@ -14,8 +14,16 @@ public:
     void createScene() override;
     void update() override {}
     void setupSceneConfig() override {};
-    Boundary *getBoundary() { return boundary; }
+    Boundary *getBoundary() override { return boundary; }
+
+    std::vector<Parameter> getParameters() override {
+        return {
+            Parameter{"Initial Velocity", &initialVelocity, 0.f, 1000.f},
+        };
+    }
 
 private:
+    float initialVelocity = 100.f;
+
     PositionalBoundary *boundary;
 };

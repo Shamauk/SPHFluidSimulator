@@ -371,7 +371,9 @@ void renderUI(float fps) {
     }
 
     if (ImGui::CollapsingHeader("Simulator Parameters")) {
-        ImGui::BeginChildFrame(ImGui::GetID("SimulatorParametersFrame"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15));
+        float totalHeight = simulatorManager.getParameters().size() * 1.5f * ImGui::GetTextLineHeightWithSpacing();
+
+        ImGui::BeginChildFrame(ImGui::GetID("SimulatorParametersFrame"), ImVec2(0, totalHeight));
         for (auto& parameter : simulatorManager.getParameters()) {
             ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
         }
@@ -379,7 +381,9 @@ void renderUI(float fps) {
     }
 
     if (ImGui::CollapsingHeader("Scene Parameters")) {
-        ImGui::BeginChildFrame(ImGui::GetID("SceneParametersFrame"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15));
+        float totalHeight = sceneManager.getParameters().size() * 1.5f * ImGui::GetTextLineHeightWithSpacing();
+
+        ImGui::BeginChildFrame(ImGui::GetID("SceneParametersFrame"), ImVec2(0, totalHeight));
         for (auto& parameter : sceneManager.getParameters()) {
             ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
         }

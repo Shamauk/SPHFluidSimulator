@@ -15,7 +15,7 @@ public:
     void update() override;
     void setupSceneConfig() override;
 
-    Boundary *getBoundary() { return boundary; }
+    Boundary *getBoundary() override { return boundary; }
 private: 
     const int DAM_PARTICLES = 1000;
     const int TIME_STEP_COLLAPSE = 800;

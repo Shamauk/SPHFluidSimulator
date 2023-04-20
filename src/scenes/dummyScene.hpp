@@ -8,5 +8,5 @@ public:
     void createScene() override {};
     void update() override {};
     void setupSceneConfig() override {};
-    Boundary *getBoundary() { return nullptr; };
+    Boundary *getBoundary() override { return nullptr; };
 };

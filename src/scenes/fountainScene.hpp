@@ -27,7 +27,7 @@ public:
         };
     }
 
-    Boundary *getBoundary() { return boundary; }
+    Boundary *getBoundary() override { return boundary; }
 
 private:
     const float FOUNTAIN_RATE_SECONDS = 32.f;

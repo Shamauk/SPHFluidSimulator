@@ -27,7 +27,7 @@ public:
         };
     }
 
-    Boundary *getBoundary() { return boundary; }
+    Boundary *getBoundary() override { return boundary; }
 private:
     float RAIN_RATE = 200.f;
     float DENSITY_PERCENTAGE = .08f;
