@@ -23,6 +23,7 @@ mkdir build
 cd build
 cmake ..
 make
+```
 
 ## Run
 
@@ -39,4 +40,7 @@ make
 ## Issues Encountered
 
 - Wanted to have freetype but could not get it to work on M1 (so I halted development) using ImGui instead
+
+```
+
 ```
