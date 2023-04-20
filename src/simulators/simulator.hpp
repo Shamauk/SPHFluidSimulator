@@ -3,6 +3,7 @@
 #include <string>
 
 #include "../datastructures/particle.hpp"
+#include "../datastructures/parameter.hpp"
 #include "../utils/constVector.hpp"
 
 // Boundaries
@@ -13,12 +14,11 @@
 #include "../discretizations/gridDiscretization.hpp"
 #include "../discretizations/compactHashingDiscretization.hpp"
 
-struct Parameter {
-    std::string name;
-    float* value;
-    float min;
-    float max;
-};
+// Kernels
+#include "../kernels/solenthalerKernel.hpp"
+#include "../kernels/cubicSplineKernel.hpp"
+#include "../kernels/nonNormalizedCubicSplineKernel.hpp"
+
 
 class Simulator {
 public:
@@ -36,6 +36,10 @@ public:
 
     virtual std::vector<Parameter> getParameters() {
         return std::vector<Parameter>();
+    }
+
+    float getTimeStep() {
+        return DT;
     }
 
     virtual float getKernelRange() = 0;
@@ -68,6 +72,8 @@ private:
     std::string name = "Specimen 462";
 protected:
     short ID;
+    float DT = 0.0001;
+
     Boundary *boundary;
     Discretization *discretization;
 };

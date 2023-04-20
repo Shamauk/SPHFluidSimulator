@@ -25,7 +25,7 @@ public:
         return sizeof(Particle *) * v.capacity();
     }
 
-    size_t getMemoryUse() {
+    size_t getMemoryUse() override {
         size_t totalSize = sizeof(map);
         for (const auto &kv : map) {
             totalSize += sizeof(kv.first) + sizeof(kv.second) + getVectorSizeInBytes(kv.second);

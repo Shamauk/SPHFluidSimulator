@@ -12,12 +12,12 @@ void MullerSimulator::ComputeDensityPressure(ConstVectorWrapper<Particle> partic
 	for (auto &pi : particles)
 	{
         // Include yourself in density
-        pi.setDensity(MASS * kernel->poly6Kernel(glm::vec2(0.f)));
+		float density = kernel->poly6Kernel(glm::vec2(0.f));
 		for (auto *pj : pi.getNeigbors())
 		{
-            pi.setDensity(pi.getDensity() + MASS * 
-                kernel->poly6Kernel(pi.getPosition() - pj->getPosition()));
+			density += kernel->poly6Kernel(pi.getPosition() - pj->getPosition());
 		}
+		pi.setDensity(MASS * density);
         pi.setPressure(PRESSURE_STIFFNESS * (pi.getDensity() - REST_DENSITY));
 	}
 }
@@ -26,19 +26,21 @@ void MullerSimulator::ComputeForces(ConstVectorWrapper<Particle> particles)
 {
 	for (auto &pi : particles)
 	{
-        glm::vec2 fpress(0.f, 0.f);
-        glm::vec2 fvisc(0.f, 0.f);
+        glm::vec2 forcePressure(0.f, 0.f);
+        glm::vec2 forceViscosity(0.f, 0.f);
 		for (auto *pj : pi.getNeigbors())
 		{
             glm::vec2 rij = pi.getPosition() - pj->getPosition();
 
-			fpress += MASS * (pi.getPressure() + pj->getPressure()) 
+			forcePressure += (pi.getPressure() + pj->getPressure()) 
 				/ (2.f * pj->getDensity()) * kernel->gradientSpikyKernel(rij);
-			fvisc += VISCOSITY_FACTOR * MASS * (pj->getVelocity() - pi.getVelocity()) / pj->getDensity() 
+			forceViscosity += (pj->getVelocity() - pi.getVelocity()) / pj->getDensity() 
 				* kernel->laplacianViscosityKernel(rij);			
 		}
-        glm::vec2 fgrav = ACCELERATION_DUE_TO_GRAVITY * MASS / pi.getDensity();
-        glm::vec2 totalForce = fpress + fvisc + fgrav;
+		forcePressure *= MASS;
+		forceViscosity *= VISCOSITY_FACTOR * MASS;
+        glm::vec2 forceGravity = ACCELERATION_DUE_TO_GRAVITY * MASS;
+        glm::vec2 totalForce = forcePressure + forceViscosity + forceGravity;
         pi.setForce(totalForce.x, totalForce.y);
 	}
 }

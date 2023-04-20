@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glm/glm.hpp>
+#include <cmath>
+
 class Kernel {
 public:
     virtual float getKernelRange() = 0;

@@ -29,6 +29,9 @@ public:
     void reset() {
         activeScene->createScene();
     }
+    std::vector<Parameter> getParameters() {
+        return activeScene->getParameters();
+    }
     const std::string getName() {
         return activeScene->getName();
     }

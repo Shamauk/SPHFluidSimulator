@@ -1,8 +1,5 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <cmath>
-
 #include "kernel.hpp"
 
 class SolenthalerKernel : public Kernel {

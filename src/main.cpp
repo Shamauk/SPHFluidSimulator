@@ -340,22 +340,57 @@ void renderUI(float fps) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    ImVec4 helperTextColor = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+
     ImGui::Begin("Configuration");
-    if (enableDebug) {
-        ImGui::Text("FPS: %.1f", fps);
-        ImGui::Text("Discretization Memory Usage: %s", 
-            formatMemorySize(simulatorManager.getDiscretizationMemoryUsage()).c_str());
-    } else {
-        ImGui::Text("Press D to enable debugging");
+    if (ImGui::CollapsingHeader("Debug")) { 
+        if (enableDebug) {
+            ImGui::Text("FPS: %.1f", fps);
+            ImGui::Text("Discretization Memory Usage: %s", 
+                formatMemorySize(simulatorManager.getDiscretizationMemoryUsage()).c_str());
+            ImGui::TextColored(helperTextColor, "Press D to disable debugging");
+        } else {
+            ImGui::TextColored(helperTextColor, "Press D to enable debugging");
+        }
+        ImGui::Separator();
     }
 
-    ImGui::Text("Using Simulator: %s", simulatorManager.getName().c_str());
-    ImGui::Text("Using Discretization Method: %s", simulatorManager.getDiscretizationName().c_str());
+    if (ImGui::CollapsingHeader("Simulator Information")) {
+        ImGui::Text("Using Simulator: %s", simulatorManager.getName().c_str());
+        ImGui::TextColored(helperTextColor, "Press SHIFT + 1-9 to change simulator");
+        ImGui::Separator();
+        ImGui::Text("Using Discretization Method: %s", simulatorManager.getDiscretizationName().c_str());
+        ImGui::TextColored(helperTextColor, "Press CTRL + 1-9 to change discretization technique");
+        ImGui::Separator();
+    }
 
-    ImGui::Text("Running Scene: %s", sceneManager.getName().c_str());
+    if (ImGui::CollapsingHeader("Scene Information")) {
+        ImGui::Text("Running Scene: %s", sceneManager.getName().c_str());
+        ImGui::TextColored(helperTextColor, "Press 1-9 to change scenes");
+        ImGui::Separator();
+    }
 
-    for (auto& parameter : simulatorManager.getParameters()) {
-        ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
+    if (ImGui::CollapsingHeader("Simulator Parameters")) {
+        ImGui::BeginChildFrame(ImGui::GetID("SimulatorParametersFrame"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15));
+        for (auto& parameter : simulatorManager.getParameters()) {
+            ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
+        }
+        ImGui::EndChildFrame();
+    }
+
+    if (ImGui::CollapsingHeader("Scene Parameters")) {
+        ImGui::BeginChildFrame(ImGui::GetID("SceneParametersFrame"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15));
+        for (auto& parameter : sceneManager.getParameters()) {
+            ImGui::InputFloat(parameter.name.c_str(), parameter.value, parameter.min, parameter.max, "%.6f");
+        }
+        ImGui::EndChildFrame();
+    }
+
+    if (ImGui::CollapsingHeader("Additional Keyboard Controls")) {
+        ImGui::TextColored(helperTextColor, "SPACE - Play");
+        ImGui::TextColored(helperTextColor, "S - Run a single step");
+        ImGui::TextColored(helperTextColor, "R - Reset scene");
+        ImGui::TextColored(helperTextColor, "ESCAPE - Close simulation");
     }
 
     ImGui::End();

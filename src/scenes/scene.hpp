@@ -5,9 +5,9 @@
 #include <string>
 
 #include "../datastructures/particle.hpp"
+#include "../datastructures/parameter.hpp"
 #include "../managers/simulatorManager.hpp"
 #include "../utils/constVector.hpp"
-
 
 class Scene {
 public:
@@ -22,6 +22,10 @@ public:
     }
     virtual void setupSceneConfig(SimulatorManager &) = 0;
     virtual void update(SimulatorManager &) = 0;
+    virtual std::vector<Parameter> getParameters() {
+        return std::vector<Parameter>();
+    }
+
     ConstVectorWrapper<Particle> getParticles() {
         return ConstVectorWrapper(&this->particles);
     }

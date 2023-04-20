@@ -1,11 +1,11 @@
-# Empirical Evaluation and Optimization of Discretization Options in Smooth Particle Hydrodynamics for Fluid Dynamics Simulation and Benchmarking
+# Smooth Particle Hydrodynamics for Fluid Dynamics Simulation in 2D with Multiple Discretization Implementations
 
 ## Key Words
 
 - Smooth Particle Hydrodynamics (SPH)
 - Fluid Dynamics
-- Simulation
 - Two Dimensional
+- Discretization
 
 ## Requirements
 

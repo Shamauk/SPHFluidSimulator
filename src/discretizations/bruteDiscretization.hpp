@@ -7,7 +7,7 @@ public:
     BruteDiscretization(float viewWidth, float viewHeight, float kernelRange) 
         : Discretization(viewWidth, viewHeight, kernelRange, "Brute") {}
 
-    void getNeighbors(ConstVectorWrapper<Particle>);
+    void getNeighbors(ConstVectorWrapper<Particle>) override;
 
     size_t getMemoryUse() override {
         return 0;

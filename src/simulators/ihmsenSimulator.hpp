@@ -2,16 +2,16 @@
 
 #include "simulator.hpp"
 
-class MullerSimulator : public Simulator {
+class IhmsenSimulator : public Simulator {
 public:
-    MullerSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Muller", 1) {
+    IhmsenSimulator(float viewWidth, float viewHeight, float particleRadius) : Simulator("Ihmsen", 2) {
         this->viewWidth = viewWidth;
         this->viewHeight = viewHeight;
-        this->kernel = new SolenthalerKernel(2 * particleRadius);
+        this->kernel = new NonNormalizedCubicSplineKernel(2.5 * particleRadius);
         this->boundary = new PositionalBoundary();
         this->boundary->resetBoundary(viewWidth, viewHeight);
         this->discretization = new BruteDiscretization(viewWidth, viewHeight, kernel->getKernelRange());
-        this->DT = 0.0007f;
+        this->DT = 0.005f;	
     }
 
     void update(ConstVectorWrapper<Particle>) override;
@@ -21,7 +21,7 @@ public:
     }
 
     float getKernelRange() override {
-        return kernel->getKernelRange();
+       return kernel->getKernelRange();
     }
 
     std::vector<Parameter> getParameters() override {
@@ -35,22 +35,20 @@ public:
             Parameter{"Viscosity Coefficient", &this->VISCOSITY_FACTOR, 1.f, 3000.f},
         };
     }
+
+    void getDensities(ConstVectorWrapper<Particle>);
+    void computeForces(ConstVectorWrapper<Particle>);
+    void integrate(ConstVectorWrapper<Particle>);
 private:
     float viewWidth;
     float viewHeight;
 
-    // PARAMS
+    // Params
     glm::vec2 ACCELERATION_DUE_TO_GRAVITY = glm::vec2(0.0f, -9.81f);          
-    float REST_DENSITY = 300.f;          
-    float PRESSURE_STIFFNESS = 4000.f;          
-    float MASS = 2.5f;		           
+    float REST_DENSITY = 1.f;          
+    float PRESSURE_STIFFNESS = 400.f;  
+    float MASS = 256.f;	            
     float VISCOSITY_FACTOR = 200.f;	           
 
-    // Objects
-    SolenthalerKernel *kernel;
-
-    // METHODS
-    void Integrate(ConstVectorWrapper<Particle>);
-    void ComputeDensityPressure(ConstVectorWrapper<Particle>);
-    void ComputeForces(ConstVectorWrapper<Particle>);
+    NonNormalizedCubicSplineKernel *kernel;
 };

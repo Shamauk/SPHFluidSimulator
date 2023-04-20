@@ -11,13 +11,13 @@ void DamBreakScene::createScene() {
 }
 
 void DamBreakScene::createParticleDam() {
-    for (float y = particleRadius; y < this->viewHeight - particleRadius; y += particleRadius * 1.25)
+    for (float y = particleRadius; y < this->viewHeight - particleRadius; y += particleRadius * 2.0)
 	{
-		for (float x = particleRadius; x < this->viewWidth / 4; x += particleRadius * 1.25)
+		for (float x = particleRadius; x < this->viewWidth / 4; x += particleRadius * 2.0)
 		{
 			if (particles.size() < DAM_PARTICLES)
 			{
-				particles.push_back(Particle(x, y));
+				particles.push_back(Particle(x + (rand() % (int)(particleRadius)), y));
 			}
 			else
 			{
@@ -37,6 +37,7 @@ void createRightWall(SimulatorManager &simulatorManager, float xPos) {
 
 void DamBreakScene::update(SimulatorManager &simulatorManager) {
     if (!hasCollapsed && ++this->counter > this->TIME_STEP_COLLAPSE) {
+		std::cout << "Collapsing the wall" << std::endl;
         collapseRightWall(simulatorManager);
         hasCollapsed = true;
     }

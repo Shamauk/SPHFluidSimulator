@@ -6,6 +6,8 @@
 
 // Simulators
 #include "../simulators/mullerSimulator.hpp"
+#include "../simulators/ihmsenSimulator.hpp"
+#include "../simulators/stateSplitSimulator.hpp"
 
 class SimulatorManager {
 public:
@@ -25,6 +27,10 @@ public:
 
     float getKernelRange() {
         return activeSimulator->getKernelRange();
+    }
+
+    float getTimeStep() {
+        return activeSimulator->getTimeStep();
     }
 
     short getID() {
