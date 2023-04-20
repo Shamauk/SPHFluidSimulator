@@ -281,24 +281,24 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.reset();
-            simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
+            simulatorManager.changeSimulator(key - GLFW_KEY_1 + 1, sceneManager.getPlayWidth(), 
+                sceneManager.getPlayHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
             sceneManager.setupSceneConfig();
         } else if (key == GLFW_KEY_1 && (mods & GLFW_MOD_CONTROL)) {
-            simulatorManager.setDiscretization(new BruteDiscretization(sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
+            simulatorManager.setDiscretization(new BruteDiscretization(sceneManager.getPlayWidth(), 
+                sceneManager.getPlayHeight(), simulatorManager.getKernelRange()));
         } else if (key == GLFW_KEY_2 && (mods & GLFW_MOD_CONTROL)) {
-            simulatorManager.setDiscretization(new GridDiscretization(sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
+            simulatorManager.setDiscretization(new GridDiscretization(sceneManager.getPlayWidth(), 
+                sceneManager.getPlayHeight(), simulatorManager.getKernelRange()));
         } else if (key == GLFW_KEY_3 && (mods & GLFW_MOD_CONTROL)) {
-            simulatorManager.setDiscretization(new CompactHashingDiscretization(sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), simulatorManager.getKernelRange()));
+            simulatorManager.setDiscretization(new CompactHashingDiscretization(sceneManager.getPlayWidth(), 
+                sceneManager.getPlayHeight(), simulatorManager.getKernelRange()));
         } else if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
             runSimulation = false;
             stepsToRun = 0;
             sceneManager.changeScene(key - GLFW_KEY_1 + 1);
-            simulatorManager.changeSimulator(simulatorManager.getID(), sceneManager.getViewWidth(), 
-                sceneManager.getViewHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
+            simulatorManager.changeSimulator(simulatorManager.getID(), sceneManager.getPlayWidth(), 
+                sceneManager.getPlayHeight(), sceneManager.getParticleRadius(), sceneManager.getBoundary());
             sceneManager.setupSceneConfig();
             glUseProgram(shaderProgram);
             glm::mat4 projectionMatrix = glm::ortho(0.f, sceneManager.getViewWidth(), 
@@ -344,6 +344,7 @@ void renderUI(float fps) {
     ImGui::Begin("Configuration");
     if (ImGui::CollapsingHeader("Debug")) { 
         if (enableDebug) {
+            ImGui::Text("Currently running: %s", runSimulation ? "YES" : "NO");
             ImGui::Text("FPS: %.1f", fps);
             ImGui::Text("Discretization Memory Usage: %s", 
                 formatMemorySize(simulatorManager.getDiscretizationMemoryUsage()).c_str());

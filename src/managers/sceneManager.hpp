@@ -10,6 +10,7 @@
 #include "../scenes/damBreakScene.hpp"
 #include "../scenes/rainScene.hpp"
 #include "../scenes/fountainScene.hpp"
+#include "../scenes/waterfallScene.hpp"
 
 class SceneManager {
 public:
@@ -41,6 +42,12 @@ public:
     float getViewHeight() {
         return activeScene->getViewHeight();
     }
+    float getPlayWidth() {
+        return activeScene->getPlayWidth();
+    }
+    float getPlayHeight() {
+        return activeScene->getPlayHeight();
+    }
     Boundary *getBoundary() {
         return activeScene->getBoundary();
     }
@@ -48,7 +55,7 @@ private:
     static SceneManager sceneManager;
     Scene *activeScene = new DummyScene();
     std::vector<Scene *> availableScenes { new WaterCometScene(), new DamBreakScene(), 
-        new RainScene(), new FountainScene() };
+        new RainScene(), new FountainScene(), new WaterfallScene() };
 };
 
 #endif

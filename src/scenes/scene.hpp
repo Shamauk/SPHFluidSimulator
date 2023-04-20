@@ -11,13 +11,17 @@
 
 // Boundaries
 #include "../boundaries/positionalBoundary.hpp"
-#include "../boundaries/polyBoundary.hpp"
+#include "../boundaries/linearBoundary.hpp"
+#include "../boundaries/multiBoundary.hpp"
+#include "../boundaries/verticalBoundary.hpp"
 
 class Scene {
 public:
     Scene(float viewWidth, float viewHeight, std::string name) {
         this->viewWidth = viewWidth;
+        this->playWidth = viewWidth;
         this->viewHeight = viewHeight;
+        this->playHeight = viewHeight;
         this->name = name;
     }
 
@@ -45,6 +49,12 @@ public:
     float getViewHeight() {
         return viewHeight;
     }
+    float getPlayHeight() {
+        return playHeight;
+    }
+    float getPlayWidth() {
+        return playWidth;
+    }
 
     virtual Boundary *getBoundary() = 0;
 
@@ -52,6 +62,8 @@ protected:
     std::vector<Particle> particles;
     float viewWidth;
     float viewHeight;
+    float playWidth;
+    float playHeight;
     float particleRadius = 8.f;
     std::string name;
 };

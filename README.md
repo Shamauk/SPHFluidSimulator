@@ -27,7 +27,9 @@ make
 
 ## Run
 
-`./SPH`
+```bash
+./SPH
+```
 
 ## Note
 
