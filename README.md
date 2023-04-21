@@ -23,7 +23,7 @@ ImGui is used as an interface which allows you to quickly change and update the 
 - I have provided all the necessary libraries in lib folder
 - You must first compile each for your target distribution (note I have not included Windows .DLLs)
 
-###GLEW
+### GLEW
 
 ```bash
 cd lib/glew-2.1.0
@@ -31,7 +31,7 @@ make clean
 make
 ```
 
-###GLFW
+### GLFW
 
 ```bash
 cd lib/glfw-3.3.8
@@ -40,10 +40,12 @@ cd build
 make
 ```
 
-###GLM
+### GLM
+
 No compilation needed
 
-###ImGui
+### ImGui
+
 No compilation needed
 
 ## Install
