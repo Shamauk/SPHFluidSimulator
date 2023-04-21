@@ -6,7 +6,7 @@ void WaterCometScene::createScene() {
 	{
 		for (float x = viewWidth - particleRadius; x > viewWidth - particleRadius - 15.f*2.f*particleRadius; x -= 2.0*particleRadius)
 		{
-			Particle particle(x, y);
+			Particle particle(x + 0.25*(rand() % (int)particleRadius), y + 0.25*(rand() % (int)particleRadius));
 			particle.setVelocity(-initialVelocity, 0.f);
 			particles.push_back(particle);
 		}
