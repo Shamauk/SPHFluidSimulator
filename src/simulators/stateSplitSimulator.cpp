@@ -16,6 +16,7 @@ void StateSplitSimulator::getDensities(ConstVectorWrapper<Particle> particles) {
 			density += kernel->kernel(pi.getPosition() - pj->getPosition());
 		}
 		pi.setDensity(MASS * density);
+        pi.setDensityError(abs(pi.getDensity() - REST_DENSITY) / REST_DENSITY);
 	}
 }
 

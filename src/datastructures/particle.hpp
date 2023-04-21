@@ -20,15 +20,17 @@ public:
     const glm::vec2 &getVelocity() const;
     const glm::vec2 &getIntermVelocity() const;
     const glm::vec2 &getForce() const;
-    float getDensity();
-    float getIntermDensity();
-    float getPressure();
+    float getDensity() const;
+    float getDensityError() const;
+    float getIntermDensity() const;
+    float getPressure() const;
 
     void setForce(float x, float y);
     void setPosition(float x, float y);
     void setVelocity(float x, float y);
     void setIntermVelocity(float x, float y);
     void setDensity(float density);
+    void setDensityError(float densityError);
     void setIntermDensity(float density);
     void setPressure(float pressure);
 
@@ -38,7 +40,7 @@ public:
 
 private:
     glm::vec2 position, velocity, intermVelocity, force;
-    float density, intermDensity, pressure;
+    float density, densityError, intermDensity, pressure;
     std::vector<Particle*> neighbors;
 
 };

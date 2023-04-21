@@ -30,12 +30,23 @@ const int WINDOW_HEIGHT = 600;
 int stepsToRun = 0;
 bool runSimulation = false;
 bool enableDebug = true;
+bool enableErrorView = false;
 
 // Managers
 SceneManager sceneManager;
 SimulatorManager simulatorManager;
 
 GLuint shaderProgram;
+
+glm::vec3 waterColor = glm::vec3(0.0,0.1,1.0);
+glm::vec3 errorColor = glm::vec3(0.0,0.0,1.0);
+
+glm::vec3 minDensityColor = glm::vec3(0.f, 0.f, 1.0f);
+glm::vec3 maxDensityColor = glm::vec3(1.f, 0.f, 0.f);
+
+glm::vec3 lerpColor(float t) {
+    return minDensityColor * (1.0f - t) + maxDensityColor * t;
+}
 
 int main() {
     // Initialize GLFW
@@ -135,10 +146,9 @@ int main() {
     shaderProgram = createShaderProgram(vertexShaderSrc, fragmentShaderSrc);
     glUseProgram(shaderProgram);
 
-    glm::vec3 waterColor = glm::vec3(0.0,0.1,1.0);
+    
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-    glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(waterColor));
 
     glEnable(GL_DEPTH_TEST);
 
@@ -164,6 +174,14 @@ int main() {
             glm::dvec3 position3D(p.getPosition(), 0.0);
             glm::mat4 model = glm::translate(glm::mat<4,4,double>(1.0), position3D);
             glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+            if (enableErrorView) {
+                errorColor = lerpColor(p.getDensityError());
+                glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, 
+                    glm::value_ptr(errorColor));
+            } else {
+                glUniform3fv(glGetUniformLocation(shaderProgram, "objectColor"), 1, glm::value_ptr(waterColor));
+            }
 
             // Draw the circle
             glDrawElements(GL_TRIANGLES, circleIndices.size(), GL_UNSIGNED_INT, 0);
@@ -272,6 +290,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             stepsToRun++;
         else if (key == GLFW_KEY_D)
             enableDebug = !enableDebug;
+        else if (key == GLFW_KEY_E)
+            enableErrorView = !enableErrorView;
         else if (key == GLFW_KEY_R) {
             runSimulation = false;
             stepsToRun = 0;
@@ -345,6 +365,9 @@ void renderUI(float fps) {
     if (ImGui::CollapsingHeader("Debug")) { 
         if (enableDebug) {
             ImGui::Text("Currently running: %s", runSimulation ? "YES" : "NO");
+            ImGui::TextColored(helperTextColor, "Press SPACE to toggle");
+            ImGui::Text("Error view enabled: %s", enableErrorView ? "YES" : "NO");
+            ImGui::TextColored(helperTextColor, "Press E to toggle");
             ImGui::Text("FPS: %.1f", fps);
             ImGui::Text("Discretization Memory Usage: %s", 
                 formatMemorySize(simulatorManager.getDiscretizationMemoryUsage()).c_str());
@@ -391,7 +414,6 @@ void renderUI(float fps) {
     }
 
     if (ImGui::CollapsingHeader("Additional Keyboard Controls")) {
-        ImGui::TextColored(helperTextColor, "SPACE - Play");
         ImGui::TextColored(helperTextColor, "S - Run a single step");
         ImGui::TextColored(helperTextColor, "R - Reset scene");
         ImGui::TextColored(helperTextColor, "ESCAPE - Close simulation");

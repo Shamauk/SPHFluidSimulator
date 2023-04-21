@@ -15,6 +15,7 @@ void IhmsenSimulator::getDensities(ConstVectorWrapper<Particle> particles) {
 			density += kernel->kernel(pi.getPosition() - pj->getPosition());
 		}
 		pi.setDensity(MASS * density);
+        pi.setDensityError(abs(pi.getDensity() - REST_DENSITY) / REST_DENSITY);
 
         float tmp = pi.getDensity() / REST_DENSITY;
         pi.setPressure(PRESSURE_STIFFNESS * tmp*tmp*tmp*tmp*tmp*tmp*tmp - 1);

@@ -36,8 +36,8 @@ private:
 
     // PARAMS
     glm::vec2 ACCELERATION_DUE_TO_GRAVITY = glm::vec2(0.0f, -9.81f);          
-    float REST_DENSITY = 300.f;          
-    float PRESSURE_STIFFNESS = 4000.f;          
+    float REST_DENSITY = 0.01f;          
+    float PRESSURE_STIFFNESS = 50000000.f;          
     float MASS = 2.5f;		           
     float VISCOSITY_FACTOR = 200.f;	           
 

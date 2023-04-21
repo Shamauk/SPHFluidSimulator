@@ -16,15 +16,19 @@ const glm::vec2 &Particle::getForce() const {
     return this->force;
 }
 
-float Particle::getDensity() {
+float Particle::getDensity() const {
     return this->density;
 }
 
-float Particle::getIntermDensity() {
+float Particle::getDensityError() const {
+    return this->densityError;
+}
+
+float Particle::getIntermDensity() const {
     return this->intermDensity;
 }
 
-float Particle::getPressure() {
+float Particle::getPressure() const {
     return this->pressure;
 }
 
@@ -51,6 +55,10 @@ void Particle::setIntermVelocity(float x, float y) {
 
 void Particle::setDensity(float density) {
     this->density = density;
+}
+
+void Particle::setDensityError(float densityError) {
+    this->densityError = densityError;
 }
 
 void Particle::setIntermDensity(float density) {
